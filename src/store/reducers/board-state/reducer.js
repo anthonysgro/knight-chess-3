@@ -1,5 +1,8 @@
 // Import action types
-import { MOVE_PIECE } from "../../actions";
+import { START_GAME, MOVE_PIECE } from "../../actions";
+
+// Import Game Initializer
+import { init } from "../../../gameLogic";
 
 // Initial State
 const initialState = {
@@ -13,6 +16,8 @@ const initialState = {
         [{}, {}, {}, {}, {}, {}, {}, {}],
         [{}, {}, {}, {}, {}, {}, {}, {}],
     ],
+    whitePieces: [],
+    blackPieces: [],
     history: [],
     stepNumber: 0,
     whiteIsNext: true,
@@ -23,9 +28,11 @@ const initialState = {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
+        case START_GAME:
+            return (state = init());
         case MOVE_PIECE:
             return state;
         default:
-            return state;
+            return (state = init());
     }
 };
