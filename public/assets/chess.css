@@ -16,6 +16,7 @@ body {
 img {
     height: 100%;
     width: 100%;
+    cursor: pointer;
     /* display: block; */
     /* transform: rotate(0deg); */
 }
@@ -27,6 +28,7 @@ img {
     flex-direction: column;
     justify-content: start;
     align-items: center;
+    margin-top: 10vmin;
 }
 
 /* Main Chess App Styling */
@@ -34,9 +36,8 @@ img {
 #chess-app {
     position: relative;
     background-color: #facb5d;
-    border-radius: 10px;
-    padding: 2vh 2vh 2vh 2vh;
-    margin-top: 2vh;
+    border-radius: 1vmin;
+    padding: 2vmin;
     flex-direction: column;
     text-align: center;
     text-transform: uppercase;
@@ -45,9 +46,9 @@ img {
 
 #chessboard-backdrop {
     background-color: #ef476f;
-    border-radius: 0.4rem;
-    width: 80vmin;
-    height: 80vmin;
+    border-radius: 1vmin;
+    width: 65vmin;
+    height: 65vmin;
     display: flex;
     flex-direction: column;
     /* transform: rotate(0deg); */
@@ -80,17 +81,21 @@ img {
 }
 
 #a8 {
-    border-top-left-radius: 0.4rem;
+    border-top-left-radius: 1vmin;
 }
 
 #h8 {
-    border-top-right-radius: 0.4rem;
+    border-top-right-radius: 1vmin;
 }
 
 #a1 {
-    border-bottom-left-radius: 0.4rem;
+    border-bottom-left-radius: 1vmin;
 }
 
 #h1 {
-    border-bottom-right-radius: 0.4rem;
+    border-bottom-right-radius: 1vmin;
+}
+
+.preview-image {
+    transform: rotateX(90);
 }

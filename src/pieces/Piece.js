@@ -33,9 +33,9 @@ class Piece {
     updatePositionState(newNumCoords) {
         this.numberCoords = newNumCoords;
         this.chessCoords = convertNotation(newNumCoords);
-        this.flatChessCoords = `${this.chessCoords[0]}${this.chessCoords[1]}`;
+        this.strChessCoords = `${this.chessCoords[0]}${this.chessCoords[1]}`;
         this.id = `${
-            this.flatChessCoords +
+            this.strChessCoords +
             "_" +
             this.char.toUpperCase() +
             "_" +
