@@ -6,7 +6,7 @@ import {
     POPULATE_MOVES,
 } from "../../actions";
 
-// Piece Imports
+// Import Pieces (for promotion)
 import { Pawn, Rook, Knight, Bishop, Queen, King } from "../../../pieces";
 
 // Import Game Logic
@@ -15,6 +15,14 @@ import { init, chessMove, check, populateMoves } from "../../../gameLogic";
 // Import Scripts
 import { convertNotation, convertBoardState } from "../../../scripts";
 import { cloneDeep } from "lodash";
+
+// Import Sounds
+import {
+    playMoveSound,
+    playCaptureSound,
+    playOutOfBoundSound,
+    playNotifySound,
+} from "../../../sounds";
 
 // Initial State
 const initialState = {
@@ -54,6 +62,16 @@ export default (state = initialState, action) => {
             let piece = action.piece;
             let { id, validMoves } = piece;
 
+            // If it isn't your turn, dont do anything. Not even a sound.
+            if (piece.white !== state.whiteIsNext) {
+                return (state = {
+                    ...state,
+                    selectedPiece: null,
+                    isDragging: false,
+                    selectedPieceMoves: [],
+                });
+            }
+
             const previousBoard = state.boardConfig;
             const previousWhitePieces = cloneDeep(
                 state.whitePieces.filter((p) => p.id !== piece.id),
@@ -62,7 +80,7 @@ export default (state = initialState, action) => {
                 state.blackPieces.filter((p) => p.id !== piece.id),
             );
 
-            // See if the move was valid
+            // Cycle through pieces moves to see if this was a valid one
             let move = null;
             for (let i = 0; i < validMoves.length; i++) {
                 if (validMoves[i].to === to) {
@@ -71,7 +89,11 @@ export default (state = initialState, action) => {
             }
 
             // If invalid move or not your turn, return
-            if (!move || piece.white !== state.whiteIsNext) {
+            if (!move) {
+                // If you just set the piece back on it's original square, don't play the messup sound
+                if (to !== piece.strChessCoords) {
+                    playOutOfBoundSound();
+                }
                 return (state = {
                     ...state,
                     selectedPiece: null,
@@ -143,12 +165,15 @@ export default (state = initialState, action) => {
 
                 // If a piece was captured, remove it from piece collections
                 if (capturedPiece) {
+                    playCaptureSound();
                     newWhitePieces = newWhitePieces.filter(
                         (piece) => piece.id !== capturedPiece.id,
                     );
                     newBlackPieces = newBlackPieces.filter(
                         (piece) => piece.id !== capturedPiece.id,
                     );
+                } else if (!capturedPiece && !enPassantEvent) {
+                    playMoveSound();
                 }
 
                 // Move rook if castling
@@ -196,6 +221,7 @@ export default (state = initialState, action) => {
 
                 // Updates enPassant captures
                 if (enPassantEvent) {
+                    playCaptureSound();
                     if (piece.white) {
                         // Remove the pawn from piece collection
                         const takenPawn = cloneDeep(

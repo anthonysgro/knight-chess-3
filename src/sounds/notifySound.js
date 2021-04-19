@@ -1,4 +1,4 @@
-function playEndGameSound() {
+function playNotifySound() {
     let moveSound = new Audio("/sounds/GenericNotify.mp3");
     let playMove = moveSound.play();
     if (playMove !== undefined) {
@@ -10,4 +10,4 @@ function playEndGameSound() {
     }
 }
 
-export default playEndGameSound;
+export default playNotifySound;
