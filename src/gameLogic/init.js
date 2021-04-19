@@ -1,6 +1,9 @@
 // Piece Imports
 import { Pawn, Rook, Knight, Bishop, Queen, King } from "../pieces";
 
+//
+import { populateMoves } from "./index";
+
 function init() {
     // Remakes all pieces
     let R1 = new Rook("R", [0, 0]);
@@ -37,7 +40,7 @@ function init() {
     let p7 = new Pawn("p", [6, 6]);
     let p8 = new Pawn("p", [7, 6]);
 
-    // Initial board configuration, edit to experiment with positions
+    // Initial board configuration
     const boardConfig = [
         [r1, n1, b1, q1, k1, b2, n2, r2],
         [p1, p2, p3, p4, p5, p6, p7, p8],
@@ -49,29 +52,53 @@ function init() {
         [R1, N1, B1, Q1, K1, B2, N2, R2],
     ];
 
+    // Edit this and return it as board config to test any configuration
+    const testBoard = [
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+        [null, null, null, null, null, null, null, null],
+    ];
+
+    //prettier-ignore
+    const initWhiteGroup = [R1,N1,B1,Q1,K1,B2,N2,R2,P1,P2,P3,P4,P5,P6,P7,P8];
+
+    //prettier-ignore
+    const initBlackGroup = [r1,n1,b1,q1,k1,b2,n2,r2,p1,p2,p3,p4,p5,p6,p7,p8];
+
+    // All Pieces
+    const initAllGroup = [...initWhiteGroup, ...initBlackGroup];
+
+    const { newWhitePieces, newBlackPieces, newBoardConfig } = populateMoves(
+        initAllGroup,
+        boardConfig,
+    );
+
     // Tracks the board configuration over time
     const history = [
         {
             // This is our board representation
-            boardConfig,
+            boardConfig: newBoardConfig,
         },
     ];
 
-    //prettier-ignore
-    const whitePieces = [R1,N1,B1,Q1,K1,B2,N2,R2,P1,P2,P3,P4,P5,P6,P7,P8];
-
-    //prettier-ignore
-    const blackPieces = [r1,n1,b1,q1,k1,b2,n2,r2,p1,p2,p3,p4,p5,p6,p7,p8];
-
     return {
-        boardConfig,
-        whitePieces,
-        blackPieces,
+        boardConfig: newBoardConfig,
+        allPieces: [...newWhitePieces, ...newBlackPieces],
+        whitePieces: newWhitePieces,
+        blackPieces: newBlackPieces,
         history,
         stepNumber: 0,
         whiteIsNext: true,
         rotation: 0,
         endGame: false,
+        selectedPiece: null,
+        isDragging: false,
+        selectedPieceMoves: [],
     };
 }
 

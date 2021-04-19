@@ -23,6 +23,8 @@ function bishopLogic(target, origin, piece, boardConfig) {
         }
     }
 
+    if (!bishopDirection) return validMove;
+
     //use function to return valid moves in any direction
     let validBishopMoves = continuousPieceMovement(
         origin,

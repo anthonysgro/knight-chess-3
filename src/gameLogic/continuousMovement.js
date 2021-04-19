@@ -5,6 +5,7 @@ import { adjacentTile } from "../gameLogic";
 //returns array of valid moves
 function continuousPieceMovement(origin, direction, piece, boardConfig) {
     let validMoves = [];
+    if (!direction) return validMoves;
 
     //loop through all pieces in a direction to collect valid moves
     for (let i = 1; i <= 8; i++) {

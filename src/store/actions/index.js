@@ -2,6 +2,7 @@
 export const START_GAME = "START_GAME";
 export const PICK_UP_PIECE = "PICK_UP_PIECE";
 export const DROP_PIECE = "DROP_PIECE";
+export const POPULATE_MOVES = "POPULATE_MOVES";
 
 // Import Game Initializer
 import { init } from "../../gameLogic";
@@ -28,5 +29,11 @@ export const dropPiece = (piece, to) => {
         from: piece.strChessCoords,
         piece,
         to,
+    };
+};
+
+export const populateMoves = () => {
+    return {
+        type: POPULATE_MOVES,
     };
 };

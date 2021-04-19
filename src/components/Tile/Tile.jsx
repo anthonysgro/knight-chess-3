@@ -1,28 +1,39 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+
+// React-Redux Imports
+import { useSelector } from "react-redux";
 
 // Component Imports
 import TileFilter from "../TileFilter/TileFilter.jsx";
 
-class Tile extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: props.id,
-        };
-    }
-    render() {
-        const { id, color } = this.props;
+// Script Imports
+import { convertNotation, convertBoardState } from "../../scripts";
 
-        // Class Name maker
-        const tileColor = color ? "light-square" : "dark-square";
-        const className = "tile " + tileColor;
+function Tile({ id, color }) {
+    const tileColor = color ? "light-square" : "dark-square";
+    const [classList, setClassList] = useState(`tile ${tileColor}`);
+    const boardConfig = useSelector((state) => state.boardState.boardConfig);
+    const moveableSquares = useSelector(
+        (state) => state.boardState.selectedPieceMoves,
+    );
 
-        return (
-            <div id={id} className={className}>
-                <TileFilter idNum={id} />
-            </div>
-        );
-    }
+    useEffect(() => {
+        const idBS = convertBoardState(convertNotation(id));
+        const piece = boardConfig[idBS[0]][idBS[1]];
+        if (moveableSquares.includes(id) && piece) {
+            setClassList(
+                `tile ${tileColor} moveable-capturable-parent-${tileColor}`,
+            );
+        } else {
+            setClassList(`tile ${tileColor}`);
+        }
+    });
+
+    return (
+        <div id={id} className={classList}>
+            <TileFilter idNum={id} tileColor={tileColor} />
+        </div>
+    );
 }
 
 export default Tile;
