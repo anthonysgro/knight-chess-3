@@ -6,6 +6,9 @@ import {
     POPULATE_MOVES,
 } from "../../actions";
 
+// Piece Imports
+import { Pawn, Rook, Knight, Bishop, Queen, King } from "../../../pieces";
+
 // Import Game Logic
 import { init, chessMove, check, populateMoves } from "../../../gameLogic";
 
@@ -36,6 +39,7 @@ const initialState = {
     selectedPiece: null,
     isDragging: false,
     selectedPieceMoves: [],
+    pieceInCheck: null,
 };
 
 // Reducer
@@ -43,6 +47,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case START_GAME:
             return (state = init());
+
         case DROP_PIECE: {
             const to = action.to;
             const from = action.from;
@@ -65,8 +70,8 @@ export default (state = initialState, action) => {
                 }
             }
 
-            // If invalid move, return
-            if (!move) {
+            // If invalid move or not your turn, return
+            if (!move || piece.white !== state.whiteIsNext) {
                 return (state = {
                     ...state,
                     selectedPiece: null,
@@ -80,8 +85,6 @@ export default (state = initialState, action) => {
 
                 // Move data object
                 let {
-                    validMove,
-                    newBoardConfig,
                     pawnMovedTwo,
                     castleEvent,
                     enPassantEvent,
@@ -97,14 +100,8 @@ export default (state = initialState, action) => {
                 // Update piece position
                 piece.updatePositionState(idnTO);
 
-                // Update one-time move restrictions
-                if (piece.name === "King") {
-                    piece.castlingAvailable = false;
-                } else if (piece.name === "Pawn") {
-                    piece.moveTwoAvailable = false;
-                } else if (piece.name === "Rook") {
-                    piece.hasMoved = true;
-                }
+                // Get reference to captured piece (if doesn't exist, it is null)
+                const capturedPiece = newBoard[idxTO[0]][idxTO[1]];
 
                 // Update the new board
                 newBoard[idxTO[0]][idxTO[1]] = piece;
@@ -119,8 +116,127 @@ export default (state = initialState, action) => {
                     newBlackPieces = [...previousBlackPieces, piece];
                 }
 
-                // Detect check
-                // check(piece, newBoard);
+                // Update one-time move restrictions
+                if (piece.name === "King") {
+                    piece.castlingAvailable = false;
+                } else if (piece.name === "Pawn") {
+                    piece.moveTwoAvailable = false;
+                    if (pawnMovedTwo) {
+                        piece.vulnerableToEnPassant = true;
+                    }
+                } else if (piece.name === "Rook") {
+                    piece.hasMoved = true;
+                }
+
+                // Reset enPassant Vulnerability for all pieces
+                newWhitePieces.forEach((p) => {
+                    if (p.name === "Pawn" && p.id !== piece.id) {
+                        p.vulnerableToEnPassant = false;
+                    }
+                });
+
+                newBlackPieces.forEach((p) => {
+                    if (p.name === "Pawn" && p.id !== piece.id) {
+                        p.vulnerableToEnPassant = false;
+                    }
+                });
+
+                // If a piece was captured, remove it from piece collections
+                if (capturedPiece) {
+                    newWhitePieces = newWhitePieces.filter(
+                        (piece) => piece.id !== capturedPiece.id,
+                    );
+                    newBlackPieces = newBlackPieces.filter(
+                        (piece) => piece.id !== capturedPiece.id,
+                    );
+                }
+
+                // Move rook if castling
+                if (castleEvent.castleMove) {
+                    const { direction, type } = castleEvent;
+                    let rook = castleEvent.rookInvolved;
+
+                    // Remove rook from piece collection
+                    if (rook.white) {
+                        newWhitePieces = newWhitePieces.filter(
+                            (piece) => piece.id !== rook.id,
+                        );
+                    } else {
+                        newBlackPieces = newBlackPieces.filter(
+                            (piece) => piece.id !== rook.id,
+                        );
+                    }
+
+                    // Change rook position and attributes
+                    if (direction === "right" && type === "short") {
+                        newBoard[idxTO[0]][idxTO[1] - 1] = rook;
+                        newBoard[idxTO[0]][idxTO[1] + 1] = null;
+                        rook.updatePositionState([idnTO[0] - 1, idnTO[1]]);
+                    } else if (direction === "left" && type === "short") {
+                        newBoard[idxTO[0]][idxTO[1] - 1] = rook;
+                        newBoard[idxTO[0]][idxTO[1] + 1] = null;
+                        rook.updatePositionState([idnTO[0] - 1, idnTO[1]]);
+                    } else if (direction === "right" && type === "long") {
+                        newBoard[idxTO[0]][idxTO[1] + 1] = rook;
+                        newBoard[idxTO[0]][idxTO[1] - 2] = null;
+                        rook.updatePositionState([idnTO[0] + 1, idnTO[1]]);
+                    } else if (direction === "left" && type === "long") {
+                        newBoard[idxTO[0]][idxTO[1] + 1] = rook;
+                        newBoard[idxTO[0]][idxTO[1] - 2] = null;
+                        rook.updatePositionState([idnTO[0] + 1, idnTO[1]]);
+                    }
+
+                    // Add rook back
+                    if (rook.white) {
+                        newWhitePieces = [...newWhitePieces, rook];
+                    } else {
+                        newBlackPieces = [...newBlackPieces, rook];
+                    }
+                }
+
+                // Updates enPassant captures
+                if (enPassantEvent) {
+                    if (piece.white) {
+                        // Remove the pawn from piece collection
+                        const takenPawn = cloneDeep(
+                            newBoard[idxTO[0] + 1][idxTO[1]],
+                        );
+                        newBlackPieces = newBlackPieces.filter(
+                            (piece) => piece.id !== takenPawn.id,
+                        );
+
+                        // Update board
+                        newBoard[idxTO[0] + 1][idxTO[1]] = null;
+                    } else {
+                        // Remove the pawn from piece collection
+                        const takenPawn = cloneDeep(
+                            newBoard[idxTO[0] - 1][idxTO[1]],
+                        );
+                        newWhitePieces = newWhitePieces.filter(
+                            (piece) => piece.id !== capturedPiece.id,
+                        );
+
+                        // Update board
+                        newBoard[idxTO[0] - 1][idxTO[1]] = null;
+                    }
+                }
+
+                // Creates promoted piece
+                if (promotionEvent) {
+                    if (piece.white) {
+                        newWhitePieces = newWhitePieces.filter(
+                            (p) => p.id !== piece.id,
+                        );
+                        const Q2 = new Queen("Q", idnTO);
+                        newWhitePieces = [...newWhitePieces, Q2];
+                    } else {
+                        newBlackPieces = newBlackPieces.filter(
+                            (p) => p.id !== piece.id,
+                        );
+                        const q2 = new Queen("q", idnTO);
+                        newBlackPieces = [...newBlackPieces, q2];
+                    }
+                }
 
                 return (state = {
                     ...state,
@@ -151,7 +267,28 @@ export default (state = initialState, action) => {
                 ...cloneDeep(state.history).slice(0, state.history.length - 1),
                 { boardConfig: newBoardConfig },
             ];
-            // console.log(newHistory);
+
+            // Detect check
+            const allPieces = [...newWhitePieces, ...newBlackPieces];
+            const whiteKing = newWhitePieces.filter(
+                (p) => p.name === "King",
+            )[0];
+
+            const blackKing = newBlackPieces.filter(
+                (p) => p.name === "King",
+            )[0];
+
+            let pieceInCheck = null;
+
+            for (let p of allPieces) {
+                for (let move of p.validMoves) {
+                    if (move.to === whiteKing.strChessCoords) {
+                        pieceInCheck = whiteKing;
+                    } else if (move.to === blackKing.strChessCoords) {
+                        pieceInCheck = blackKing;
+                    }
+                }
+            }
 
             return (state = {
                 ...state,
@@ -160,31 +297,30 @@ export default (state = initialState, action) => {
                 blackPieces: newBlackPieces,
                 boardConfig: newBoardConfig,
                 history: newHistory,
+                pieceInCheck,
             });
         }
-        case PICK_UP_PIECE: {
-            const piece = action.piece;
-            const board = state.boardConfig;
-            let selectedPieceMoves = [];
-            for (let col = 0; col < 8; col++) {
-                for (let row = 0; row < 8; row++) {
-                    // Get reference to tile and test move
-                    const tile = convertNotation([col, row]).join("");
-                    let { validMove } = chessMove(
-                        tile,
-                        piece.strChessCoords,
-                        piece,
-                        board,
-                    );
 
-                    if (validMove) {
-                        selectedPieceMoves.push(tile);
-                    }
-                }
+        case PICK_UP_PIECE: {
+            const { piece } = action;
+            let selectedPieceMoves = [];
+
+            if (piece.white !== state.whiteIsNext) {
+                return (state = {
+                    ...state,
+                    selectedPiece: piece,
+                    selectedPieceMoves,
+                    isDragging: true,
+                });
             }
+
+            for (let i = 0; i < piece.validMoves.length; i++) {
+                selectedPieceMoves.push(piece.validMoves[i].to);
+            }
+
             return (state = {
                 ...state,
-                selectedPiece: action.piece,
+                selectedPiece: piece,
                 selectedPieceMoves,
                 isDragging: true,
             });

@@ -28,6 +28,9 @@ function pawnLogic(target, origin, piece, boardConfig) {
         case tileAhead:
             //see if a piece is present at the tile
             validMove = isEmptyTile(target, boardConfig);
+            if (validMove && (target[1] === "1" || target[1] === "8")) {
+                pawnPromotion = true;
+            }
             break;
         //moving up two (first move only)
         case twoTilesAhead:
@@ -49,6 +52,9 @@ function pawnLogic(target, origin, piece, boardConfig) {
             //if we are capturing an opponent's piece
             if (capturingOppPiece) {
                 validMove = true;
+                if (target[1] === "1" || target[1] === "8") {
+                    pawnPromotion = true;
+                }
                 //if we aren't, it could be enpassant
             } else if (!capturingPiece) {
                 //find enPassant square
@@ -84,6 +90,9 @@ function pawnLogic(target, origin, piece, boardConfig) {
             //if we are capturing an opponent's piece
             if (capturingOppPiece) {
                 validMove = true;
+                if (target[1] === "1" || target[1] === "8") {
+                    pawnPromotion = true;
+                }
             } else if (!capturingPiece) {
                 //find enPassant square
                 const enPassantSquare = adjacentTile(
@@ -116,15 +125,11 @@ function pawnLogic(target, origin, piece, boardConfig) {
             break;
     }
 
-    if (validMove && (target[1] === "1" || target[1] === "8")) {
-        pawnPromotion = true;
-    }
-
     return {
-        validMove: validMove,
-        pawnMovedTwo: pawnMovedTwo,
-        enPassantEvent: enPassantEvent,
-        pawnPromotionEvent: pawnPromotion,
+        validMove,
+        pawnMovedTwo,
+        enPassantEvent,
+        pawnPromotion,
     };
 }
 

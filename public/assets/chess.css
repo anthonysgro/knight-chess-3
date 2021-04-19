@@ -122,7 +122,7 @@ img {
     background-color: rgb(32, 183, 185);
 }
 
-.light-tile-check {
+.light-square-check {
     background: radial-gradient(
         35px circle at 30px 30px,
         rgba(202, 29, 6, 0.644) 33%,
@@ -130,7 +130,7 @@ img {
     );
 }
 
-.dark-tile-check {
+.dark-square-check {
     background: radial-gradient(
         35px circle at 30px 30px,
         rgba(202, 29, 6, 0.774) 49%,

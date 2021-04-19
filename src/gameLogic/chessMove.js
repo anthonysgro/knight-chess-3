@@ -1,35 +1,19 @@
-import { basicMove } from "./index";
+import { basicMove, checkFilter } from "./index";
 
 function chessMove(to, from, piece, boardConfig) {
     const basicResult = basicMove(to, from, piece, boardConfig);
-    return basicResult;
-    // console.log(basicResult);
-    // if (basicResult.validMove) {
-    //     let finalResult = checkFiltering(
-    //         to,
-    //         from,
-    //         piece,
-    //         boardConfig,
-    //         basicResult,
-    //     );
+    if (basicResult.validMove) {
+        const finalResult = checkFilter(
+            to,
+            from,
+            piece,
+            boardConfig,
+            basicResult,
+        );
 
-    //     return finalResult;
-    // } else {
-    //     return {
-    //         validMove: false,
-    //         finalBoardConfig: boardConfig,
-    //         pawnMovedTwo: false,
-    //         castleEvent: {
-    //             castleMove: false,
-    //             rookInvolved: {},
-    //             squaresInvolved: [],
-    //             type: "",
-    //             direction: "",
-    //         },
-    //         enPassantEvent: false,
-    //         promotionEvent: false,
-    //     };
-    // }
+        return finalResult;
+    }
+    return basicResult;
 }
 
 export default chessMove;

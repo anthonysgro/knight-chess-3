@@ -39,7 +39,7 @@ function basicMove(target, origin, piece, boardConfig) {
             validMove = pawnMoveObject.validMove;
             pawnMovedTwo = pawnMoveObject.pawnMovedTwo;
             enPassantEvent = pawnMoveObject.enPassantEvent;
-            pawnPromotion = pawnMoveObject.pawnPromotionEvent;
+            pawnPromotion = pawnMoveObject.pawnPromotion;
             break;
         case "Knight":
             validMove = knightLogic(target, origin, piece, boardConfig);

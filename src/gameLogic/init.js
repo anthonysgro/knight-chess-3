@@ -54,21 +54,23 @@ function init() {
 
     // Edit this and return it as board config to test any configuration
     const testBoard = [
+        [null, null, null, null, k1, null, null, null],
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
         [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
-        [null, null, null, null, null, null, null, null],
+        [P1, null, null, null, null, null, null, null],
+        [null, null, null, null, K1, null, null, null],
     ];
 
     //prettier-ignore
     const initWhiteGroup = [R1,N1,B1,Q1,K1,B2,N2,R2,P1,P2,P3,P4,P5,P6,P7,P8];
+    // const initWhiteGroup = [K1, P1];
 
     //prettier-ignore
     const initBlackGroup = [r1,n1,b1,q1,k1,b2,n2,r2,p1,p2,p3,p4,p5,p6,p7,p8];
+    // const initBlackGroup = [k1];
 
     // All Pieces
     const initAllGroup = [...initWhiteGroup, ...initBlackGroup];
@@ -76,6 +78,7 @@ function init() {
     const { newWhitePieces, newBlackPieces, newBoardConfig } = populateMoves(
         initAllGroup,
         boardConfig,
+        // testBoard,
     );
 
     // Tracks the board configuration over time

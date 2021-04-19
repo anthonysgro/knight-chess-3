@@ -60,6 +60,8 @@ function populateMoves(allPieces, boardConfig) {
         }
     }
 
+    // console.log(newBoardConfig);
+
     return { newWhitePieces, newBlackPieces, newBoardConfig };
 }
 

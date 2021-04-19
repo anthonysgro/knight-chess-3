@@ -18,7 +18,10 @@ import { useDrop } from "react-dnd";
 function TileFilter({ idNum, tileColor }) {
     const [piece, setPiece] = useState(null);
     const [classList, setClassList] = useState("tile-filter");
-    const boardConfig = useSelector((state) => state.boardState.boardConfig);
+    const [controlled, setControlled] = useState(false);
+    const { whiteIsNext, pieceInCheck, boardConfig } = useSelector(
+        (state) => state.boardState,
+    );
     const moveableSquares = useSelector(
         (state) => state.boardState.selectedPieceMoves,
     );
@@ -41,6 +44,12 @@ function TileFilter({ idNum, tileColor }) {
             } else {
                 setClassList("tile-filter moveable");
             }
+        } else if (pieceInCheck) {
+            if (pieceInCheck.strChessCoords === idNum) {
+                setClassList(`tile-filter ${tileColor}-check`);
+            } else {
+                setClassList("tile-filter");
+            }
         } else {
             setClassList("tile-filter");
         }
@@ -52,7 +61,9 @@ function TileFilter({ idNum, tileColor }) {
         drop: (item) => {
             // console.log(item.piece.strChessCoords, item.piece.name, id);
             dispatch(dropPiece(item.piece, idNum));
-            dispatch(populateMoves());
+            if (item.piece.white === whiteIsNext) {
+                dispatch(populateMoves());
+            }
             // const [fromPosition] = item.piece.id.split("_");
             // console.log(fromPosition);
             // props.onMove(boardConfig, item.id, fromPosition, chessCoordsConcat);
