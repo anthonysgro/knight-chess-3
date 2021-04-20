@@ -1,11 +1,11 @@
 import playMoveSound from "./moveSound";
 import playCaptureSound from "./captureSound";
-import playOutOfBoundSound from "./notifySound";
+import playOutOfBoundSound from "./outOfBoundSound";
 import playNotifySound from "./notifySound";
 
 export {
     playMoveSound,
     playCaptureSound,
-    playNotifySound,
     playOutOfBoundSound,
+    playNotifySound,
 };

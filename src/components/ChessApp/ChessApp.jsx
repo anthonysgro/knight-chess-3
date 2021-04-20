@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 // Components Import
 import Chessboard from "../Chessboard/Chessboard.jsx";
+import OpponentInterface from "../OpponentInterface/OpponentInterface.jsx";
+import UserInterface from "../UserInterface/UserInterface.jsx";
 
 // Redux Imports
 import { connect } from "react-redux";
@@ -21,8 +23,9 @@ class ChessApp extends Component {
         return (
             <div id="chess-app" className="major-comp">
                 <div id="interface-container" className="major-comp">
+                    <OpponentInterface />
                     <Chessboard />
-                    {/* <UserInterface /> */}
+                    <UserInterface />
                 </div>
             </div>
         );

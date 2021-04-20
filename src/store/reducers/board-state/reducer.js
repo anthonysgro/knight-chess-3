@@ -48,6 +48,8 @@ const initialState = {
     isDragging: false,
     selectedPieceMoves: [],
     pieceInCheck: null,
+    checkmate: false,
+    winningPlayer: undefined,
 };
 
 // Reducer
@@ -314,6 +316,10 @@ export default (state = initialState, action) => {
                         pieceInCheck = blackKing;
                     }
                 }
+            }
+
+            // Detect Checkmate
+            for (let p of allPieces) {
             }
 
             return (state = {

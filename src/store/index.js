@@ -4,10 +4,10 @@ import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 
 // Sub Reducers
-import { boardState, userMovement } from "./reducers";
+import { boardState, ui } from "./reducers";
 
 // Combined Reducer
-const reducer = combineReducers({ boardState, userMovement });
+const reducer = combineReducers({ boardState, ui });
 
 // Redux Middleware
 const middleware = applyMiddleware(

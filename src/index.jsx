@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDom from "react-dom";
 
 // Component Imports
-import { ChessApp } from "./components";
+import { ChessApp, Sidebar } from "./components";
 
 // Drag 'n Drop
 import { DndProvider } from "react-dnd";
@@ -15,6 +15,7 @@ import store from "./store";
 ReactDom.render(
     <Provider store={store}>
         <DndProvider backend={HTML5Backend}>
+            <Sidebar />
             <ChessApp />
         </DndProvider>
     </Provider>,

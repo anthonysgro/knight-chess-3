@@ -1,4 +1,4 @@
 import boardState from "./board-state/reducer";
-import userMovement from "./user-movement/reducer";
+import ui from "./ui/reducer";
 
-export { boardState, userMovement };
+export { boardState, ui };

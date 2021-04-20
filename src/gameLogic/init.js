@@ -102,6 +102,9 @@ function init() {
         selectedPiece: null,
         isDragging: false,
         selectedPieceMoves: [],
+        pieceInCheck: null,
+        checkmate: false,
+        winningPlayer: undefined,
     };
 }
 
