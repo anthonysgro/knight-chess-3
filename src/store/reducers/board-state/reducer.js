@@ -61,6 +61,7 @@ export default (state = initialState, action) => {
         case DROP_PIECE: {
             const to = action.to;
             const from = action.from;
+            const rotated = action.rotated;
             let piece = action.piece;
             let { id, validMoves } = piece;
 
@@ -225,27 +226,27 @@ export default (state = initialState, action) => {
                 if (enPassantEvent) {
                     playCaptureSound();
                     if (piece.white) {
-                        // Remove the pawn from piece collection
                         const takenPawn = cloneDeep(
                             newBoard[idxTO[0] + 1][idxTO[1]],
                         );
+                        // Update board
+                        newBoard[idxTO[0] + 1][idxTO[1]] = null;
+
+                        // Remove the pawn from piece collection
                         newBlackPieces = newBlackPieces.filter(
                             (piece) => piece.id !== takenPawn.id,
                         );
-
-                        // Update board
-                        newBoard[idxTO[0] + 1][idxTO[1]] = null;
                     } else {
-                        // Remove the pawn from piece collection
                         const takenPawn = cloneDeep(
                             newBoard[idxTO[0] - 1][idxTO[1]],
                         );
-                        newWhitePieces = newWhitePieces.filter(
-                            (piece) => piece.id !== capturedPiece.id,
-                        );
-
                         // Update board
                         newBoard[idxTO[0] - 1][idxTO[1]] = null;
+
+                        // Remove the pawn from piece collection
+                        newWhitePieces = newWhitePieces.filter(
+                            (piece) => piece.id !== takenPawn.id,
+                        );
                     }
                 }
 
