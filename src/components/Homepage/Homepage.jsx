@@ -41,7 +41,7 @@ class Homepage extends Component {
                         Play chess against friends from the comfort of your own
                         home
                     </h1>
-                    <a id="opening-button" href="/game">
+                    <a id="opening-button" href="/#/game">
                         play
                     </a>
                 </div>
