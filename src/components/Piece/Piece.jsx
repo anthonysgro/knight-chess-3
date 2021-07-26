@@ -30,10 +30,9 @@ function Piece({ piece }) {
     };
 
     // Rotation styling based on total board orientation
-    useEffect(() => {
-        if (rotated && rotation === 0) setRotation(180);
-        if (!rotated && rotation === 180) setRotation(0);
-    });
+    if (rotated && rotation === 0) setRotation(180);
+    if (!rotated && rotation === 180) setRotation(0);
+
     const rotateStyle = {
         transform: `rotate(${rotation}deg)`,
     };

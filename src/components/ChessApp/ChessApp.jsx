@@ -23,7 +23,7 @@ class ChessApp extends Component {
         return (
             <div id="chess-app" className="major-comp">
                 <div id="interface-container" className="major-comp">
-                    <OpponentInterface />
+                    {/* <OpponentInterface /> */}
                     <Chessboard />
                     <UserInterface />
                 </div>

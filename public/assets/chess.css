@@ -4,8 +4,9 @@ html {
 }
 
 body {
-    background-color: #073b4c;
+    background-color: #083b4c;
     color: #f1faee;
+    margin: 0;
     /* display: flex;
     justify-content: center;
     align-items: start;
@@ -20,6 +21,16 @@ img {
     transform: rotate(0deg);
 }
 
+/* Homepage */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 4rem 5rem 5rem 5rem;
+}
+
+/* Chess App */
 #app {
     width: 100%;
     height: 100%;
@@ -27,16 +38,24 @@ img {
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    margin-top: 4vmin;
+    /* margin-top: 4vmin; */
+}
+
+.main-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Main Chess App Styling */
 
 #chess-app {
+    margin-top: 2rem;
     position: relative;
     background-color: #facb5d;
     border-radius: 1vmin;
-    padding: 2vmin;
+    padding: 3vmin;
     flex-direction: column;
     text-align: center;
     text-transform: uppercase;
@@ -45,7 +64,6 @@ img {
 
 #interface-container {
     flex-direction: column;
-    align-content: center;
 }
 
 #chessboard-backdrop {
