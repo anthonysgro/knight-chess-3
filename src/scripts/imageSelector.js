@@ -18,27 +18,27 @@ function imageSelector(pieceStr) {
 
     let color;
     if (pieceIsWhite) {
-        color = "white";
+        color = "w";
     } else {
-        color = "black";
+        color = "b";
     }
 
     let piece;
     if (pieceIsPawn) {
-        piece = "pawn";
+        piece = "P";
     } else if (pieceIsRook) {
-        piece = "rook";
+        piece = "R";
     } else if (pieceIsKnight) {
-        piece = "knight";
+        piece = "N";
     } else if (pieceIsBishop) {
-        piece = "bishop";
+        piece = "B";
     } else if (pieceIsQueen) {
-        piece = "queen";
+        piece = "Q";
     } else if (pieceIsKing) {
-        piece = "king";
+        piece = "K";
     }
 
-    return `../images/${color}-${piece}.png`;
+    return `../images/pieces/alpha/${color}${charCap}.svg`;
 }
 
 export default imageSelector;

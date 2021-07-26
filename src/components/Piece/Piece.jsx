@@ -39,7 +39,10 @@ function Piece({ piece }) {
 
     return (
         <React.Fragment>
-            <DragPreviewImage connect={preview} src={imageFile} />
+            {/* <DragPreviewImage
+                connect={preview}
+                src={imageFile}
+            /> */}
             <img
                 style={{ ...opacityStyle, ...rotateStyle }}
                 ref={drag}

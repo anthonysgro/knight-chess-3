@@ -4,7 +4,7 @@ html {
 }
 
 body {
-    background-color: #083b4c;
+    background-color: #151930;
     color: #f1faee;
     margin: 0;
     /* display: flex;
@@ -23,11 +23,26 @@ img {
 
 /* Homepage */
 main {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 4rem 5rem 5rem 5rem;
+    /* align-items: center;
+    justify-content: center; */
+}
+
+#main-h1-container {
+    padding: 4em 3em 0em 3em;
+    font-size: 1.8rem;
+    line-height: 1;
+    text-align: center;
+}
+
+#main-h1-container > h1 {
+    font-weight: 600;
+    line-height: 1.1;
+    padding: 0 14rem;
 }
 
 /* Chess App */
@@ -35,9 +50,9 @@ main {
     width: 100%;
     height: 100%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* align-items: flex-start; */
     /* margin-top: 4vmin; */
 }
 
@@ -51,8 +66,9 @@ main {
 /* Main Chess App Styling */
 
 #chess-app {
-    margin-top: 2rem;
+    /* width: 30%; */
     position: relative;
+    margin-top: 1rem;
     background-color: #facb5d;
     border-radius: 1vmin;
     padding: 3vmin;
@@ -278,7 +294,7 @@ main {
 .sidebar {
     border-radius: 10px;
     position: absolute;
-    top: 7vmin;
+    top: 25vh;
     left: 0px;
     background: #047758;
     min-height: 70vmin;
@@ -375,4 +391,228 @@ main {
 
 #submit-resign {
     margin-left: 0.5rem;
+}
+
+/* Header */
+
+header {
+    align-self: center;
+    padding: 2.4rem 2.8rem;
+    line-height: 1.3;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 92%;
+    /* position: sticky; */
+    right: 0;
+    top: 0;
+    z-index: 5;
+    box-shadow: 0px -12px 9px 5px rgba(0, 0, 0, 0);
+    transition: 0.2s ease-in-out;
+}
+
+#main-logo-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#main-logo {
+    width: 5vw;
+    height: auto;
+}
+
+#logo-text {
+    display: inline-block;
+    outline: 0;
+    color: inherit;
+    text-decoration: none;
+    font-size: 1.5vw;
+    font-weight: 600;
+}
+
+#opening-button {
+    position: relative;
+    top: 2rem;
+    font-size: 60%;
+    text-decoration: none;
+    color: white;
+    border: 2px solid #ffffff;
+    padding: 1rem 1.4rem;
+    border-radius: 3rem;
+    background-color: #ffffff00;
+    box-shadow: inset 0 0 0 1px #fff;
+    transition: border 0.1s ease-in-out, color 0.3s ease-in-out,
+        background-color 0.3s ease-in-out, box-shadow 0.3s ease,
+        padding 0.1s ease;
+}
+
+#opening-button:hover {
+    padding: 0rem, 0rem;
+    border: 0px solid #ffffff00;
+    color: black;
+    background-color: white;
+    transition: border 0.1s ease, color 0.3s ease, background-color 0.3s ease,
+        box-shadow 0.3s, padding 0.3s ease;
+}
+
+#falling-chess-pieces {
+    position: absolute;
+    z-index: 100;
+    width: 100vw;
+    height: 100vh;
+    top: 100%;
+    left: 100%;
+    pointer-events: none;
+    -webkit-transform: translate3d(-100%, -100%, 0);
+    transform: translate3d(-100%, -100%, 0);
+    display: flex;
+    flex-direction: row;
+}
+
+@media (max-width: 767px) {
+    #falling-chess-pieces {
+        /* width: 10rem;
+        height: 10rem; */
+    }
+}
+
+.card {
+    z-index: 1000000;
+    height: 10rem;
+    width: 10rem;
+    border-radius: 1rem;
+    color: #000;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    position: absolute;
+    overflow: hidden;
+}
+
+.card:before {
+    border-radius: 0.8rem;
+    -webkit-transition: -webkit-transform 0.2s ease;
+    transition: -webkit-transform 0.2s ease;
+    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+}
+
+.card:after,
+.card:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    will-change: transform;
+    pointer-events: none;
+}
+.card:after {
+    -webkit-transition: -webkit-transform 0.3s ease;
+    transition: -webkit-transform 0.3s ease;
+    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, -webkit-transform 0.3s ease;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scaleX(0.4) scaleY(0.4);
+    /* height: 5rem; */
+    /* width: auto; */
+}
+.card .card-text {
+    position: absolute;
+    top: 8%;
+    left: 8%;
+    right: 8%;
+    bottom: 8%;
+    font-size: 0.9rem;
+    line-height: 1;
+}
+@media (max-width: 767px) {
+    .card .card-text {
+        font-size: 0.5rem;
+    }
+}
+.card.king:before {
+    background-color: #00a4ff;
+}
+.card.king:after {
+    background-image: url(../images/pieces/alpha/bK.svg);
+}
+.card.king .card-text:after {
+    content: "King";
+    font-size: 80%;
+}
+
+.card.queen:before {
+    background-color: #ffabb5;
+}
+
+.card.queen:after {
+    background-image: url(../images/pieces/alpha/bQ.svg);
+}
+.card.queen .card-text:after {
+    content: "Queen";
+    font-size: 80%;
+}
+
+.card.bishop:before {
+    background-color: #f7cd21;
+}
+
+.card.bishop:after {
+    background-image: url(../images/pieces/alpha/bB.svg);
+}
+
+.card.bishop .card-text:after {
+    content: "Bishop";
+    font-size: 80%;
+}
+
+.card.rook:before {
+    background-color: #740032;
+}
+.card.rook:after {
+    background-image: url(../images/pieces/alpha/bR.svg);
+}
+.card.rook .card-text:after {
+    content: "Rook";
+    font-size: 80%;
+}
+.card.knight:before {
+    background-color: #785eea;
+}
+.card.knight:after {
+    background-image: url(../images/pieces/alpha/bN.svg);
+}
+.card.knight .card-text:after {
+    content: "Knight";
+    font-size: 80%;
+}
+
+.card.pawn:before {
+    background-color: #ff4f00;
+}
+.card.pawn:after {
+    background-image: url(../images/pieces/alpha/bP.svg);
+}
+.card.pawn .card-text:after {
+    content: "Pawn";
+    font-size: 80%;
+}
+
+@media (max-width: 767px) {
+    .card {
+        padding: 0.3rem;
+    }
+    .card,
+    .card:before {
+        border-radius: 0.5rem;
+    }
 }

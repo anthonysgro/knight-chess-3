@@ -14,6 +14,7 @@ class Gamepage extends Component {
             <React.Fragment>
                 <Sidebar />
                 <ChessApp />
+                <p>Online Multiplayer</p>
             </React.Fragment>
         );
     }
