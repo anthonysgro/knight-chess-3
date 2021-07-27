@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 // Component Imports
-import Row from "../Row/Row.jsx";
+import Row from "./Row.jsx";
 
 class Chessboard extends Component {
     constructor(props) {

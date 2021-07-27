@@ -1,42 +1,27 @@
 import React, { useState, useEffect } from "react";
-
+import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-
-// Component Imports
-import { renderCards, removeCards } from "./card";
+import { renderCardBackground } from "../../store/actions";
 
 const Homepage = () => {
-    const [pageLoaded, setPageLoaded] = useState(false);
-    const [cards, setCards] = useState(false);
-    const { pathname } = useLocation();
+    const dispatch = useDispatch();
+    const cardBackgroundRendered = useSelector(
+        (state) => state.ui.cardsFalling,
+    );
 
     useEffect(() => {
-        if (pageLoaded === false && cards === false) {
-            renderCards();
-            setCards(true);
-            setPageLoaded(true);
+        if (!cardBackgroundRendered) {
+            dispatch(renderCardBackground());
         }
     });
 
     return (
         <React.Fragment>
-            <div id="falling-chess-pieces">
-                <div className="card">
-                    <div className="card-text"></div>
-                </div>
-            </div>
             <div id="main-h1-container">
                 <h1>
                     Play chess against friends from the comfort of your own home
                 </h1>
-                <a
-                    id="opening-button"
-                    href="/#/game"
-                    onClick={() => {
-                        setCards(false);
-                        removeCards();
-                    }}
-                >
+                <a id="opening-button" href="/#/lobby">
                     play
                 </a>
             </div>

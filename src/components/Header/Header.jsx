@@ -38,19 +38,19 @@ const Header = () => {
             <section className="drawer-list">
                 <ul>
                     <li>
-                        <a href="#">local multiplayer</a>
+                        <a href="/#/game">local multiplayer</a>
                     </li>
                     <li>
-                        <a href="#">online multiplayer</a>
+                        <a href="/#/lobby">online multiplayer</a>
                     </li>
                     <li>
-                        <a href="#">play my bot</a>
+                        <a href="/#/bot">play my bot</a>
                     </li>
                     <li>
                         <a href="#">sandbox</a>
                     </li>
                     <li>
-                        <a href="#">about</a>
+                        <a href="/#/about">about</a>
                     </li>
                 </ul>
             </section>

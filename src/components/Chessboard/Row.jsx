@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 // Component Imports
-import Tile from "../Tile/Tile.jsx";
+import Tile from "./Tile.jsx";
 
 class Row extends Component {
     constructor(props) {

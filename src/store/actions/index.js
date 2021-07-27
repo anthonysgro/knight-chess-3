@@ -13,7 +13,12 @@ import {
     rotateBoard,
 } from "./gameActions";
 
-import { CHANGE_CARD_FALL_RENDER, changeCardFallRender } from "./ui.js";
+import {
+    RENDER_CARD_BACKGROUND,
+    REMOVE_CARD_BACKGROUND,
+    renderCardBackground,
+    removeCardBackground,
+} from "./ui.js";
 
 export {
     START_GAME,
@@ -22,12 +27,14 @@ export {
     POPULATE_MOVES,
     TOGGLE_SIDEBAR,
     ROTATE_BOARD,
-    CHANGE_CARD_FALL_RENDER,
+    RENDER_CARD_BACKGROUND,
+    REMOVE_CARD_BACKGROUND,
     startGame,
     pickUpPiece,
     dropPiece,
     populateMoves,
     toggleSidebar,
     rotateBoard,
-    changeCardFallRender,
+    renderCardBackground,
+    removeCardBackground,
 };

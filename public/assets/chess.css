@@ -296,7 +296,7 @@ main {
 .sidebar {
     border-radius: 10px;
     position: absolute;
-    top: 25vh;
+    top: 15vh;
     left: 0px;
     background: #047758;
     min-height: 70vmin;
@@ -461,240 +461,20 @@ header {
         box-shadow 0.3s, padding 0.3s ease;
 }
 
-#falling-chess-pieces {
-    overflow: hidden;
-    position: absolute;
-    z-index: -2;
-    width: 100vw;
-    height: 100vh;
-    top: 100%;
-    left: 100%;
-    pointer-events: none;
-    -webkit-transform: translate3d(-100%, -100%, 0);
-    transform: translate3d(-100%, -100%, 0);
-    display: flex;
-    flex-direction: row;
-}
-
-@media (max-width: 767px) {
-    #falling-chess-pieces {
-        /* width: 10rem;
-        height: 10rem; */
-    }
-}
-
-.card {
-    position: absolute;
-    top: -100vh;
-    z-index: 0;
-    height: 10rem;
-    width: 10rem;
+#lobby-greeting {
+    padding: 1rem 2rem;
     border-radius: 1rem;
-    color: #000;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    position: absolute;
-    overflow: hidden;
+    background-color: #f5f1f1e0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-.card:before {
-    border-radius: 0.8rem;
-    -webkit-transition: -webkit-transform 0.2s ease;
-    transition: -webkit-transform 0.2s ease;
-    transition: transform 0.2s ease;
-    transition: transform 0.2s ease, -webkit-transform 0.2s ease;
-}
-
-.card:after,
-.card:before {
-    z-index: -3;
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    will-change: transform;
-    pointer-events: none;
-}
-.card:after {
-    -webkit-transition: -webkit-transform 0.3s ease;
-    transition: -webkit-transform 0.3s ease;
-    transition: transform 0.3s ease;
-    transition: transform 0.3s ease, -webkit-transform 0.3s ease;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: 50%;
-    transform: scaleX(0.4) scaleY(0.4);
-    /* height: 5rem; */
-    /* width: auto; */
-}
-.card .card-text {
-    position: absolute;
-    top: 8%;
-    left: 8%;
-    right: 8%;
-    bottom: 8%;
-    font-size: 0.9rem;
-    line-height: 1;
-}
-@media (max-width: 767px) {
-    .card .card-text {
-        font-size: 0.5rem;
-    }
-}
-.card.bK:before {
-    background-color: #00a4ff;
-}
-.card.bK:after {
-    background-image: url(../images/pieces/alpha/bK.svg);
-}
-.card.bK .card-text:after {
-    content: "King";
-    font-size: 80%;
-}
-
-.card.bQ:before {
-    background-color: #ffabb5;
-}
-
-.card.bQ:after {
-    background-image: url(../images/pieces/alpha/bQ.svg);
-}
-
-.card.bQ .card-text:after {
-    content: "Queen";
-    font-size: 80%;
-}
-
-.card.bB:before {
-    background-color: #f7cd21;
-}
-
-.card.bB:after {
-    background-image: url(../images/pieces/alpha/bB.svg);
-}
-
-.card.bB .card-text:after {
-    content: "Bishop";
-    font-size: 80%;
-}
-
-.card.bR:before {
-    background-color: #740032;
-}
-
-.card.bR:after {
-    background-image: url(../images/pieces/alpha/bR.svg);
-}
-
-.card.bR .card-text:after {
-    content: "Rook";
-    font-size: 80%;
-}
-
-.card.bN:before {
-    background-color: #785eea;
-}
-.card.bN:after {
-    background-image: url(../images/pieces/alpha/bN.svg);
-}
-.card.bN .card-text:after {
-    content: "Knight";
-    font-size: 80%;
-}
-
-.card.bP:before {
-    background-color: #ff4f00;
-}
-
-.card.bP:after {
-    background-image: url(../images/pieces/alpha/bP.svg);
-}
-
-.card.bP .card-text:after {
-    content: "Pawn";
-    font-size: 80%;
-}
-
-@media (max-width: 767px) {
-    .card {
-        padding: 0.3rem;
-    }
-    .card,
-    .card:before {
-        border-radius: 0.5rem;
-    }
-}
-
-.card.wK:before {
-    background-color: #00a4ff;
-}
-.card.wK:after {
-    background-image: url(../images/pieces/alpha/wK.svg);
-}
-
-.card.wK .card-text:after {
-    content: "King";
-    font-size: 80%;
-}
-
-.card.wQ:before {
-    background-color: #ffabb5;
-}
-
-.card.wQ:after {
-    background-image: url(../images/pieces/alpha/wQ.svg);
-}
-.card.wQ .card-text:after {
-    content: "Queen";
-    font-size: 80%;
-}
-
-.card.wB:before {
-    background-color: #f7cd21;
-}
-
-.card.wB:after {
-    background-image: url(../images/pieces/alpha/wB.svg);
-}
-
-.card.wB .card-text:after {
-    content: "Bishop";
-    font-size: 80%;
-}
-
-.card.wR:before {
-    background-color: #740032;
-}
-.card.wR:after {
-    background-image: url(../images/pieces/alpha/wR.svg);
-}
-.card.wR .card-text:after {
-    content: "Rook";
-    font-size: 80%;
-}
-.card.wN:before {
-    background-color: #785eea;
-}
-.card.wN:after {
-    background-image: url(../images/pieces/alpha/wN.svg);
-}
-.card.wN .card-text:after {
-    content: "Knight";
-    font-size: 80%;
-}
-
-.card.wP:before {
-    background-color: #ff4f00;
-}
-.card.wP:after {
-    background-image: url(../images/pieces/alpha/wP.svg);
-}
-.card.wP .card-text:after {
-    content: "Pawn";
-    font-size: 80%;
+#start-new-game {
+    color: white;
+    text-decoration: none;
+    padding: 3px 6px;
+    background-color: #19bc9c;
+    border-radius: 0.5rem;
 }

@@ -1,7 +1,14 @@
-export const CHANGE_CARD_FALL_RENDER = "CHANGE_CARD_FALL_RENDER";
+export const RENDER_CARD_BACKGROUND = "RENDER_CARD_BACKGROUND";
+export const REMOVE_CARD_BACKGROUND = "REMOVE_CARD_BACKGROUND";
 
-export const changeCardFallRender = () => {
+export const renderCardBackground = () => {
     return {
-        type: CHANGE_CARD_FALL_RENDER,
+        type: RENDER_CARD_BACKGROUND,
+    };
+};
+
+export const removeCardBackground = () => {
+    return {
+        type: REMOVE_CARD_BACKGROUND,
     };
 };

@@ -1,0 +1,51 @@
+.create-join-title {
+    color: #151930;
+    text-decoration: underline;
+}
+
+#new-game {
+    color: #151930;
+    text-decoration: none;
+    padding: 0.3rem 0.5rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    border: 1px solid #151930;
+}
+
+.enter-game-label {
+    color: #151930;
+}
+
+.game-code {
+    display: block;
+    /* margin: 2em auto; */
+    border: none;
+    padding: 0;
+    width: 10.5ch;
+    background: repeating-linear-gradient(
+            90deg,
+            dimgrey 0,
+            dimgrey 1ch,
+            transparent 0,
+            transparent 1.5ch
+        )
+        0 100%/ 10ch 2px no-repeat;
+    font: 2ch "Space Mono", "Roboto Mono", monospace;
+    letter-spacing: 0.5ch;
+    color: #151930;
+    position: relative;
+    left: 3px;
+}
+
+.game-code:focus {
+    outline: none;
+    color: #5f679c;
+}
+
+.game-code-container {
+    border: 1px solid #151930;
+    box-shadow: inset 0px 0px 12px -11px #000000;
+    border-radius: 0.5rem;
+    background-color: white;
+    padding: 0.3rem 0.5rem;
+}

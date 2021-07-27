@@ -1,6 +1,6 @@
 import random from "random/dist/cjs";
 
-const cards = [];
+let cards = [];
 const classNames = [
     "bK",
     "bQ",
@@ -30,6 +30,8 @@ let resetPosition = false;
 let enableAnimations = false;
 let reduceMotionQuery = matchMedia("(prefers-reduced-motion)");
 
+let off = true;
+
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
@@ -48,10 +50,6 @@ function Card(element, speed, xPos, yPos, angle, angularMomentum) {
     // declare variables used for card's motion
     this.counter = 0;
     this.sign = Math.random() < 0.5 ? 1 : -1;
-
-    // declare variables used for cards's motion
-    this.counter = 0;
-    this.sign = Math.random() < 0.5 ? 1 : -1;
 }
 
 // Update instance function
@@ -61,16 +59,25 @@ Card.prototype.update = function () {
     // this.xPos += (this.sign * this.speed * Math.cos(this.counter)) / 40;
     this.yPos += Math.sin(this.counter) / 40 + this.speed / 30;
     this.scale = 0.5 + Math.abs((10 * Math.cos(this.counter)) / 20);
-    this.angle = this.angle + this.angularMomentum;
+    this.angle = this.angle + this.angularMomentum * this.sign;
 
     // if card goes below the browser window, move it back to the top
-    if (this.yPos > browserHeight * 2) {
-        this.yPos = 400;
-        // this.xPos = Math.random() * (browserWidth * 2 - 200);
-        this.xPos = random.uniformInt(0, browserWidth * 2 - 200)();
-        this.speed = 30 + Math.random() * 60;
-        this.angle = Math.random() * 360;
-        this.angularMomentum = 0.1 + Math.random() * 0.5;
+    if (this.yPos > browserHeight * 2 + 50) {
+        if (off) {
+            this.element.remove();
+        } else {
+            this.yPos = 400;
+            // this.xPos = Math.random() * (browserWidth * 2 - 200);
+            this.xPos = random.uniformInt(0, browserWidth * 2 - 200)();
+            this.speed = 30 + Math.random() * 60;
+            this.angle = Math.random() * 360;
+            this.angularMomentum = 0.1 + Math.random() * 0.5;
+        }
+    } else {
+        if (off) {
+            this.speed = this.speed + 5;
+            this.angularMomentum = this.angularMomentum + 0.04;
+        }
     }
 
     // setting our card's position
@@ -85,6 +92,26 @@ function setTransform(xPos, yPos, angle, el) {
 // Finds position of the card
 function getPosition(offset, size) {
     return Math.round(-1 * offset + Math.random() * (size + 2 * offset));
+}
+
+// Stops animating the cards
+function stopAnimatingCards() {
+    for (const card of cards) {
+        card.element.style.transform = "";
+    }
+
+    window.removeEventListener("DOMContentLoaded", generateCards);
+    const clonedCards = document.querySelectorAll(".cloned");
+    clonedCards.forEach((card) => card.remove());
+    const fallingCardContainer = document.querySelector(
+        "#falling-chess-pieces",
+    );
+    const newOriginalCard = document.createElement("div");
+    const newOriginalCardText = document.createElement("div");
+    newOriginalCard.classList.add("card");
+    newOriginalCardText.classList.add("card-text");
+    fallingCardContainer.appendChild(newOriginalCard);
+    newOriginalCard.appendChild(newOriginalCardText);
 }
 
 // Responsible for moving each card by calling its update function
@@ -108,7 +135,15 @@ function moveCards() {
         resetPosition = false;
     }
 
-    requestAnimationFrame(moveCards);
+    // if (!off) {
+    if ([...document.querySelectorAll(".card")].length > 1) {
+        // console.log([...document.querySelectorAll(".card")]);
+        requestAnimationFrame(moveCards);
+    } else {
+        stopAnimatingCards();
+    }
+
+    // }
 }
 
 // Generates the cards
@@ -128,7 +163,7 @@ function generateCards() {
     for (let i = 0; i < numberOfCards; i++) {
         // clone our original card and add it to cardContainer
         const cardClone = originalCard.cloneNode(true);
-
+        cardClone.classList.add("cloned");
         cardClone.classList.add(classNames[i]);
 
         cardClone.style.zIndex = "-1";
@@ -137,7 +172,7 @@ function generateCards() {
         // set our card's initial position and related properties
         const initialXPos = random.uniformInt(0, browserWidth * 2 - 200)();
         // const initialXPos = Math.random() * (browserWidth * 2 - 200);
-        const initialYPos = 100 + Math.random() * 400;
+        const initialYPos = 200 + Math.random() * 300;
         const speed = 30 + Math.random() * 60;
         const initialAngle = Math.random() * 360;
         const angularMomentum = 0.1 + Math.random() * 0.5;
@@ -158,6 +193,7 @@ function generateCards() {
     // remove the original card because we no longer need it visible
     cardContainer.removeChild(originalCard);
 
+    off = false;
     moveCards();
 }
 
@@ -192,11 +228,7 @@ function renderCards() {
 }
 
 function removeCards() {
-    window.removeEventListener("DOMContentLoaded", generateCards);
-    for (const card of cards) {
-        console.log(card.element);
-        card.element.remove();
-    }
+    off = true;
 }
 
 export { renderCards, removeCards };

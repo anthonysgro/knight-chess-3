@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 // Component Imports
-import TileFilter from "../TileFilter/TileFilter.jsx";
+import TileFilter from "./TileFilter.jsx";
 
 // Script Imports
 import { convertNotation, convertBoardState } from "../../scripts";

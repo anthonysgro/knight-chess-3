@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDom from "react-dom";
 
 // Component Imports
-import { Gamepage, Homepage, Header } from "./components";
+import { Gamepage, Homepage, Header, Lobby } from "./components";
 
 // Drag 'n Drop
 import { DndProvider } from "react-dnd";
@@ -19,10 +19,16 @@ ReactDom.render(
     <Provider store={store}>
         <DndProvider backend={HTML5Backend}>
             <Router>
+                <div id="falling-chess-pieces">
+                    <div className="card">
+                        <div className="card-text"></div>
+                    </div>
+                </div>
                 <Header />
                 <main>
                     <Switch>
                         <Route exact path="/" component={Homepage} />
+                        <Route exact path="/lobby" component={Lobby} />
                         <Route path="/game" component={Gamepage} />
                     </Switch>
                 </main>

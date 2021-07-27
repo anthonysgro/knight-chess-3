@@ -3,5 +3,6 @@ import Sidebar from "./Sidebar/Sidebar.jsx";
 import Gamepage from "./Gamepage/Gamepage.jsx";
 import Homepage from "./Homepage/Homepage.jsx";
 import Header from "./Header/Header.jsx";
+import Lobby from "./LobbyPage.jsx";
 
-export { ChessApp, Sidebar, Gamepage, Homepage, Header };
+export { ChessApp, Sidebar, Gamepage, Homepage, Header, Lobby };

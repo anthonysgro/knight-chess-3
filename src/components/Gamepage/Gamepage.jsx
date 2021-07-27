@@ -1,23 +1,28 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { removeCardBackground } from "../../store/actions";
 
 // Component Imports
 import { ChessApp, Sidebar } from "../index";
 
-class Gamepage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+const Gamepage = () => {
+    const dispatch = useDispatch();
+    const cardBackgroundRendered = useSelector(
+        (state) => state.ui.cardsFalling,
+    );
 
-    render() {
-        return (
-            <React.Fragment>
-                <Sidebar />
-                <ChessApp />
-                <p>Online Multiplayer</p>
-            </React.Fragment>
-        );
-    }
-}
+    useEffect(() => {
+        if (cardBackgroundRendered) {
+            dispatch(removeCardBackground());
+        }
+    });
+
+    return (
+        <React.Fragment>
+            <Sidebar />
+            <ChessApp />
+        </React.Fragment>
+    );
+};
 
 export default Gamepage;
