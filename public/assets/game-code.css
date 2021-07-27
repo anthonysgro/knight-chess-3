@@ -7,9 +7,13 @@
     color: #151930;
     text-decoration: none;
     padding: 0.3rem 0.5rem;
-    background-color: white;
+    background-color: #ffabb5;
     border-radius: 0.5rem;
     border: 1px solid #151930;
+}
+
+#new-game:hover {
+    background-color: #eb8c97;
 }
 
 .enter-game-label {
@@ -35,6 +39,7 @@
     color: #151930;
     position: relative;
     left: 3px;
+    text-decoration: none;
 }
 
 .game-code:focus {
@@ -45,7 +50,25 @@
 .game-code-container {
     border: 1px solid #151930;
     box-shadow: inset 0px 0px 12px -11px #000000;
-    border-radius: 0.5rem;
+    /* border-radius: 0.5rem; */
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
     background-color: white;
     padding: 0.3rem 0.5rem;
+}
+
+#game-code-form {
+    display: flex;
+    flex-direction: row;
+}
+
+#game-code-form button {
+    font-size: 100%;
+    border: 1px solid #151930;
+    border-left: hidden;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    outline: none;
+    font-family: "Poppins";
+    padding: 0.3rem 0.7rem;
 }

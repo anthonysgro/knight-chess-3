@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 const LobbyPage = () => {
+    const [gamecode, setGamecode] = useState(() => "");
+    const [hoverSubmitCode, setHoverSubmitCode] = useState(() => false);
+
+    const editGamecode = (event) => {
+        setGamecode(event.target.value);
+    };
+
     return (
         <div id="lobby-greeting">
             <h2 className="create-join-title">Create/Join Game</h2>
@@ -11,13 +18,33 @@ const LobbyPage = () => {
             <label htmlFor="game-code" className="enter-game-label">
                 Enter Game Code
             </label>
-            <div className="game-code-container">
-                <input
-                    className="game-code"
-                    name="game-code"
-                    maxlength="7"
-                    value="8371922"
-                />
+            <div id="game-code-form">
+                <div className="game-code-container">
+                    <input
+                        className="game-code"
+                        name="game-code"
+                        maxLength="7"
+                        value={gamecode}
+                        onChange={editGamecode}
+                    />
+                </div>
+                <button
+                    disabled={gamecode.length !== 7}
+                    onMouseEnter={() => setHoverSubmitCode(true)}
+                    onMouseLeave={() => setHoverSubmitCode(false)}
+                    style={
+                        gamecode.length !== 7
+                            ? {
+                                  backgroundColor: "#cacacab7",
+                                  cursor: "default",
+                              }
+                            : hoverSubmitCode
+                            ? { backgroundColor: "#eb8c97", cursor: "pointer" }
+                            : { backgroundColor: "#ffabb5" }
+                    }
+                >
+                    Go
+                </button>
             </div>
         </div>
     );
