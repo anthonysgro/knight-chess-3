@@ -7,6 +7,11 @@ const webpackConfig = {
         path: path.join(__dirname, "./public/bundle"),
         filename: "main.js",
     },
+    resolve: {
+        fallback: {
+            os: require.resolve("os-browserify/browser"),
+        },
+    },
     module: {
         rules: [
             {

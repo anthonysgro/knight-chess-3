@@ -1,53 +1,47 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+
+import { useLocation } from "react-router-dom";
 
 // Component Imports
-import renderCards from "./Card";
+import { renderCards, removeCards } from "./card";
 
-class Homepage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+const Homepage = () => {
+    const [pageLoaded, setPageLoaded] = useState(false);
+    const [cards, setCards] = useState(false);
+    const { pathname } = useLocation();
 
-    componentDidMount() {
-        renderCards();
-    }
+    useEffect(() => {
+        if (pageLoaded === false && cards === false) {
+            renderCards();
+            setCards(true);
+            setPageLoaded(true);
+        }
+    });
 
-    render() {
-        return (
-            <React.Fragment>
-                <div id="falling-chess-pieces">
-                    <div className="card">
-                        <div className="card-text"></div>
-                    </div>
-                    {/* <div class="card queen">
-                        <div class="card-text"></div>
-                    </div>
-                    <div class="card bishop">
-                        <div class="card-text"></div>
-                    </div>
-                    <div class="card rook">
-                        <div class="card-text"></div>
-                    </div>
-                    <div class="card knight">
-                        <div class="card-text"></div>
-                    </div>
-                    <div class="card pawn">
-                        <div class="card-text"></div>
-                    </div> */}
+    return (
+        <React.Fragment>
+            <div id="falling-chess-pieces">
+                <div className="card">
+                    <div className="card-text"></div>
                 </div>
-                <div id="main-h1-container">
-                    <h1>
-                        Play chess against friends from the comfort of your own
-                        home
-                    </h1>
-                    <a id="opening-button" href="/#/game">
-                        play
-                    </a>
-                </div>
-            </React.Fragment>
-        );
-    }
-}
+            </div>
+            <div id="main-h1-container">
+                <h1>
+                    Play chess against friends from the comfort of your own home
+                </h1>
+                <a
+                    id="opening-button"
+                    href="/#/game"
+                    onClick={() => {
+                        setCards(false);
+                        removeCards();
+                    }}
+                >
+                    play
+                </a>
+            </div>
+        </React.Fragment>
+    );
+};
 
 export default Homepage;
