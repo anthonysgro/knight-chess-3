@@ -7,7 +7,7 @@ import UserInterface from "../UserInterface/UserInterface.jsx";
 
 // Redux Imports
 import { connect } from "react-redux";
-import { startGame } from "../../store/actions";
+import { startGame, toggleSidebar } from "../../store/actions";
 
 class ChessApp extends Component {
     constructor(props) {

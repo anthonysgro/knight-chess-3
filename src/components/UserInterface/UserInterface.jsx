@@ -93,8 +93,8 @@ class UserInterface extends Component {
                         <button
                             id="newGame-btn"
                             className="btn greenBtn second-row-fdbck"
-                            // style={}
-                            // onClick={}
+                            style={{ visibility: "hidden" }}
+                            onClick={() => this.props.restartGame()}
                         >
                             New Game
                         </button>

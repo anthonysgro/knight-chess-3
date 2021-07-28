@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 9000;
 const morgan = require("morgan");
 const app = express();
 const io = require("socket.io");
-const { handleNewGame } = require("./game");
+const { handleNewGame, handleJoinGame } = require("./game");
 
 // Logging middleware
 app.use(morgan("dev"));
@@ -43,4 +43,7 @@ socketServer.on("connection", (socket) => {
     const state = {};
     const clientRooms = {};
     socket.on("newGame", () => handleNewGame(socket, clientRooms));
+    socket.on("joinGame", (gameCode) =>
+        handleJoinGame(gameCode, socket, clientRooms),
+    );
 });

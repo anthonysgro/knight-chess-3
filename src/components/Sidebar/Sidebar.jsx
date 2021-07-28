@@ -14,13 +14,20 @@ class Sidebar extends Component {
     }
 
     render() {
-        const { sidebarOpen } = this.props;
+        const { sidebarOpen, gamecode } = this.props;
         const sidebarClassList = sidebarOpen ? "sidebar show" : "sidebar";
 
         return (
             <div id="sidebar" className={sidebarClassList}>
                 <div className="settings-container" id="chat-container">
-                    <h2 id="chat-title">Chat</h2>
+                    {/* <h2 id="chat-title">Chat</h2> */}
+                    <label
+                        htmlFor="chat"
+                        id="chat-label"
+                        className="sidebar-label"
+                    >
+                        Chat
+                    </label>
                     <div className="chat-element" id="chat-history">
                         <div className="message">
                             <p className="internal-msg">
@@ -98,6 +105,17 @@ class Sidebar extends Component {
                         <option value="B">Bishop</option>
                     </select>
                 </div>
+                <div className="settings-container" id="endGame-btn-container">
+                    <label
+                        htmlFor="gamecode"
+                        id="gamecode-label"
+                        className="sidebar-label"
+                        style={{ marginBottom: ".5rem" }}
+                    >
+                        Game code:
+                    </label>
+                    <p style={{ fontSize: "80%", margin: "0" }}>{gamecode}</p>
+                </div>
             </div>
         );
     }
@@ -106,6 +124,7 @@ class Sidebar extends Component {
 function mapStateToProps(state) {
     return {
         sidebarOpen: state.ui.sidebarOpen,
+        gamecode: state.boardState.gameCode,
     };
 }
 
