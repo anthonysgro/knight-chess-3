@@ -105,6 +105,9 @@ function init() {
         pieceInCheck: null,
         checkmate: false,
         winningPlayer: undefined,
+        player1: "",
+        player2: "",
+        gameCode: "",
     };
 }
 

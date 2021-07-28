@@ -40,8 +40,6 @@ const socketServer = new io.Server(server);
 
 // Handle socket connection request from a web client
 socketServer.on("connection", (socket) => {
-    // socket.emit("init", { data: "hello world" });
-
     const state = {};
     const clientRooms = {};
     socket.on("newGame", () => handleNewGame(socket, clientRooms));

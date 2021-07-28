@@ -6,6 +6,7 @@ import {
     TOGGLE_SIDEBAR,
     ROTATE_BOARD,
     CREATE_GAME_CODE,
+    ADD_USER_TO_GAME,
     startGame,
     pickUpPiece,
     dropPiece,
@@ -13,6 +14,7 @@ import {
     toggleSidebar,
     rotateBoard,
     createGameCode,
+    addUserToGame,
 } from "./gameActions";
 
 import {
@@ -32,6 +34,7 @@ export {
     RENDER_CARD_BACKGROUND,
     REMOVE_CARD_BACKGROUND,
     CREATE_GAME_CODE,
+    ADD_USER_TO_GAME,
     startGame,
     pickUpPiece,
     dropPiece,
@@ -41,4 +44,5 @@ export {
     renderCardBackground,
     removeCardBackground,
     createGameCode,
+    addUserToGame,
 };

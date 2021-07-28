@@ -6,6 +6,7 @@ export const POPULATE_MOVES = "POPULATE_MOVES";
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const ROTATE_BOARD = "ROTATE_BOARD";
 export const CREATE_GAME_CODE = "CREATE_GAME_CODE";
+export const ADD_USER_TO_GAME = "ADD_USER_TO_GAME";
 
 // Import Game Initializer
 import { init } from "../../gameLogic";
@@ -57,5 +58,12 @@ export const createGameCode = (gameCode) => {
     return {
         type: CREATE_GAME_CODE,
         gameCode,
+    };
+};
+
+export const addUserToGame = (socketId) => {
+    return {
+        type: ADD_USER_TO_GAME,
+        socketId,
     };
 };
