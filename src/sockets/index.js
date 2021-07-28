@@ -3,6 +3,7 @@ import {
     createGameCode,
     addUserToGame,
     stopLobbyLoading,
+    joinGame,
 } from "../store/actions";
 
 function enableSocketListeners() {
@@ -18,7 +19,9 @@ function enableSocketListeners() {
         store.dispatch(addUserToGame(clientId));
     });
 
-    window.socket.on("joinGame", () => {});
+    window.socket.on("joinGame", (gameState, roomCode) => {
+        store.dispatch(joinGame(JSON.parse(gameState), roomCode));
+    });
 
     // If a game you are trying to join does not exist
     window.socket.on("unknownGame", () => {

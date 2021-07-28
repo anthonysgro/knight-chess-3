@@ -46,10 +46,10 @@ const clientRooms = {};
 
 // Handle socket connection request from a web client
 socketServer.on("connection", (socket) => {
-    socket.on("newGame", () => handleNewGame(socket, clientRooms));
+    socket.on("newGame", () => handleNewGame(socket, clientRooms, roomStates));
 
     socket.on("createInitGameState", (gameCode, initState) =>
-        createInitGameState(gameCode, initState, roomStates),
+        createInitGameState(gameCode, JSON.parse(initState), roomStates),
     );
 
     socket.on("joinGame", (gameCode) =>

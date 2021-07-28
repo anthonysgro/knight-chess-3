@@ -6,6 +6,7 @@ import {
     REMOVE_CARD_BACKGROUND,
     SET_LOBBY_LOADING,
     STOP_LOBBY_LOADING,
+    JOIN_GAME,
 } from "../../actions";
 
 import { renderCards, removeCards } from "../../../card";
@@ -16,6 +17,7 @@ const initialState = {
     cardsFalling: false,
     lobbyLoading: false,
     lobbyMsg: "",
+    joinSuccessful: false,
 };
 
 export default (state = initialState, action) => {
@@ -53,6 +55,12 @@ export default (state = initialState, action) => {
                 ...state,
                 lobbyLoading: false,
                 lobbyMsg: action.msg || "",
+            });
+        case JOIN_GAME:
+            return (state = {
+                ...state,
+                joinSuccessful: true,
+                lobbyLoading: false,
             });
         default:
             return state;

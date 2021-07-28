@@ -21,9 +21,11 @@ export const startGame = () => {
     };
 };
 
-export const joinGame = () => {
+export const joinGame = (gameState, roomCode) => {
     return {
         type: JOIN_GAME,
+        payload: gameState,
+        gameCode: roomCode,
     };
 };
 

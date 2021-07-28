@@ -17,6 +17,13 @@ const LobbyPage = () => {
     const [hoverSubmitCode, setHoverSubmitCode] = useState(() => false);
     const loading = useSelector((state) => state.ui.lobbyLoading);
     const lobbyMsg = useSelector((state) => state.ui.lobbyMsg);
+    const joinSuccessful = useSelector((state) => state.ui.joinSuccessful);
+
+    useEffect(() => {
+        if (joinSuccessful) {
+            history.push("/game");
+        }
+    });
 
     const editGamecode = (event) => {
         setGamecode(event.target.value);
@@ -28,11 +35,9 @@ const LobbyPage = () => {
     };
 
     const joinGame = () => {
+        // Ask the server join the game, and start loading. Wait for server response
         window.socket.emit("joinGame", gamecode);
         dispatch(setLobbyLoading());
-        // setLoading(true);
-        // dispatch(joinGame());
-        // history.push("/#/game");
     };
 
     return (

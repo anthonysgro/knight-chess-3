@@ -33,6 +33,7 @@ export default (state = initialState, action) => {
             return (state = {
                 ...state,
                 player2: window.socket.id,
+                gameCode: action.gameCode,
             });
         }
 

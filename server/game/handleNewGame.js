@@ -1,6 +1,6 @@
 const generateGameCode = require("./generateGameCode");
 
-function handleNewGame(client, clientRooms) {
+function handleNewGame(client, clientRooms, roomStates) {
     const roomName = generateGameCode(7);
 
     clientRooms[client.id] = roomName;

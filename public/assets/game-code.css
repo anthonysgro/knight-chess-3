@@ -55,6 +55,7 @@
     border-bottom-left-radius: 0.5rem;
     background-color: white;
     padding: 0.3rem 0.5rem;
+    display: flex;
 }
 
 #game-code-form {

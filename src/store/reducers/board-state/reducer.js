@@ -4,6 +4,7 @@ import {
     DROP_PIECE,
     PICK_UP_PIECE,
     POPULATE_MOVES,
+    JOIN_GAME,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -56,7 +57,8 @@ export default (state = initialState, action) => {
     switch (action.type) {
         case START_GAME:
             return (state = action.payload);
-
+        case JOIN_GAME:
+            return (state = action.payload);
         case DROP_PIECE: {
             const to = action.to;
             const from = action.from;
