@@ -4,6 +4,7 @@ import {
     DROP_PIECE,
     PICK_UP_PIECE,
     POPULATE_MOVES,
+    CREATE_GAME_CODE,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -50,6 +51,7 @@ const initialState = {
     pieceInCheck: null,
     checkmate: false,
     winningPlayer: undefined,
+    gameCode: "",
 };
 
 // Reducer
@@ -285,11 +287,8 @@ export default (state = initialState, action) => {
 
         case POPULATE_MOVES: {
             // Create deep copy of all pieces with updated moves for new board position
-            const {
-                newWhitePieces,
-                newBlackPieces,
-                newBoardConfig,
-            } = populateMoves(state.allPieces, state.boardConfig);
+            const { newWhitePieces, newBlackPieces, newBoardConfig } =
+                populateMoves(state.allPieces, state.boardConfig);
 
             // Update history immutably with up-to-date pieces
             const newHistory = [
@@ -359,6 +358,12 @@ export default (state = initialState, action) => {
             });
         }
 
+        case CREATE_GAME_CODE: {
+            return (state = {
+                ...state,
+                gameCode: action.gameCode,
+            });
+        }
         default:
             return state;
     }

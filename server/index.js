@@ -1,8 +1,10 @@
 const express = require("express");
 const path = require("path");
+const PORT = process.env.PORT || 9000;
 const morgan = require("morgan");
 const app = express();
-const PORT = process.env.PORT || 9000;
+const io = require("socket.io");
+const { handleNewGame } = require("./game");
 
 // Logging middleware
 app.use(morgan("dev"));
@@ -25,7 +27,7 @@ app.use((err, req, res, next) => {
     res.send(err.message || "Internal server error");
 });
 
-app.listen(PORT, () =>
+const server = app.listen(PORT, () =>
     console.log(`
 
   Listening on port ${PORT}
@@ -33,3 +35,14 @@ app.listen(PORT, () =>
 
 `),
 );
+
+const socketServer = new io.Server(server);
+
+// Handle socket connection request from a web client
+socketServer.on("connection", (socket) => {
+    // socket.emit("init", { data: "hello world" });
+
+    const state = {};
+    const clientRooms = {};
+    socket.on("newGame", () => handleNewGame(socket, clientRooms));
+});

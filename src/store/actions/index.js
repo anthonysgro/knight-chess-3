@@ -5,12 +5,14 @@ import {
     POPULATE_MOVES,
     TOGGLE_SIDEBAR,
     ROTATE_BOARD,
+    CREATE_GAME_CODE,
     startGame,
     pickUpPiece,
     dropPiece,
     populateMoves,
     toggleSidebar,
     rotateBoard,
+    createGameCode,
 } from "./gameActions";
 
 import {
@@ -29,6 +31,7 @@ export {
     ROTATE_BOARD,
     RENDER_CARD_BACKGROUND,
     REMOVE_CARD_BACKGROUND,
+    CREATE_GAME_CODE,
     startGame,
     pickUpPiece,
     dropPiece,
@@ -37,4 +40,5 @@ export {
     rotateBoard,
     renderCardBackground,
     removeCardBackground,
+    createGameCode,
 };

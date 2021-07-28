@@ -5,6 +5,7 @@ export const DROP_PIECE = "DROP_PIECE";
 export const POPULATE_MOVES = "POPULATE_MOVES";
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const ROTATE_BOARD = "ROTATE_BOARD";
+export const CREATE_GAME_CODE = "CREATE_GAME_CODE";
 
 // Import Game Initializer
 import { init } from "../../gameLogic";
@@ -49,5 +50,12 @@ export const toggleSidebar = () => {
 export const rotateBoard = () => {
     return {
         type: ROTATE_BOARD,
+    };
+};
+
+export const createGameCode = (gameCode) => {
+    return {
+        type: CREATE_GAME_CODE,
+        gameCode,
     };
 };

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 const LobbyPage = () => {
+    const history = useHistory();
     const [gamecode, setGamecode] = useState(() => "");
     const [hoverSubmitCode, setHoverSubmitCode] = useState(() => false);
 
@@ -8,10 +10,19 @@ const LobbyPage = () => {
         setGamecode(event.target.value);
     };
 
+    const newGame = () => {
+        window.socket.emit("newGame");
+        // history.push("/#/game");
+    };
+
+    const joinGame = () => {
+        window.socket.emit("joinGame", gamecode);
+    };
+
     return (
         <div id="lobby-greeting">
             <h2 className="create-join-title">Create/Join Game</h2>
-            <a href="/#/game" id="new-game">
+            <a href="/#/game" id="new-game" onClick={newGame}>
                 Start New Game
             </a>
             <p style={{ color: "#151930" }}>-OR-</p>
@@ -42,6 +53,7 @@ const LobbyPage = () => {
                             ? { backgroundColor: "#eb8c97", cursor: "pointer" }
                             : { backgroundColor: "#ffabb5" }
                     }
+                    onClick={joinGame}
                 >
                     Go
                 </button>

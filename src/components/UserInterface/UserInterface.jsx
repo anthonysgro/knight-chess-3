@@ -10,13 +10,8 @@ class UserInterface extends Component {
         this.state = {};
     }
     render() {
-        const {
-            checkmate,
-            winningPlayer,
-            pieceInCheck,
-            whiteIsNext,
-            endGame,
-        } = this.props;
+        const { checkmate, winningPlayer, pieceInCheck, whiteIsNext, endGame } =
+            this.props;
 
         const turnMsg = whiteIsNext ? "White's Turn" : "Black's Turn";
 
@@ -98,8 +93,8 @@ class UserInterface extends Component {
                         <button
                             id="newGame-btn"
                             className="btn greenBtn second-row-fdbck"
-                            style={{ visibility: "hidden" }}
-                            onClick={() => this.props.restartGame()}
+                            // style={}
+                            // onClick={}
                         >
                             New Game
                         </button>

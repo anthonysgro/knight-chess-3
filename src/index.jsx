@@ -15,6 +15,10 @@ import store from "./store";
 // React Router Imports
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
+// Instantiate Socket Listeners
+import enableSocketListeners from "./sockets";
+enableSocketListeners();
+
 ReactDom.render(
     <Provider store={store}>
         <DndProvider backend={HTML5Backend}>
