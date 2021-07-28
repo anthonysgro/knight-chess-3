@@ -1,5 +1,6 @@
 // Action Types
 export const START_GAME = "START_GAME";
+export const JOIN_GAME = "JOIN_GAME";
 export const PICK_UP_PIECE = "PICK_UP_PIECE";
 export const DROP_PIECE = "DROP_PIECE";
 export const POPULATE_MOVES = "POPULATE_MOVES";
@@ -17,6 +18,12 @@ export const startGame = () => {
     return {
         type: START_GAME,
         payload,
+    };
+};
+
+export const joinGame = () => {
+    return {
+        type: JOIN_GAME,
     };
 };
 

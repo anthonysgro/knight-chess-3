@@ -1,0 +1,52 @@
+/* Loading and 404 */
+.loading-screen,
+.not-found-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1vh;
+}
+
+.not-found-container {
+    border: 4px solid black;
+    border-radius: 2rem;
+    padding: 3vh 0vh 1vh 0vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+}
+
+.not-found-container > img {
+    width: 80%;
+    height: auto;
+}
+
+.not-found-title {
+    font-size: 400%;
+    margin-bottom: 0vh;
+    padding-bottom: 0vh;
+}
+
+.not-found-subtitle {
+    margin-top: 1vh;
+}
+
+.loading-fade-in {
+    animation: fade 5s ease-out;
+    animation-delay: 5s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -4,6 +4,8 @@ import {
     ROTATE_BOARD,
     RENDER_CARD_BACKGROUND,
     REMOVE_CARD_BACKGROUND,
+    SET_LOBBY_LOADING,
+    STOP_LOBBY_LOADING,
 } from "../../actions";
 
 import { renderCards, removeCards } from "../../../card";
@@ -12,6 +14,8 @@ const initialState = {
     sidebarOpen: false,
     rotated: false,
     cardsFalling: false,
+    lobbyLoading: false,
+    lobbyMsg: "",
 };
 
 export default (state = initialState, action) => {
@@ -37,6 +41,18 @@ export default (state = initialState, action) => {
             return (state = {
                 ...state,
                 cardsFalling: false,
+            });
+        case SET_LOBBY_LOADING:
+            return (state = {
+                ...state,
+                lobbyLoading: true,
+                lobbyMsg: "",
+            });
+        case STOP_LOBBY_LOADING:
+            return (state = {
+                ...state,
+                lobbyLoading: false,
+                lobbyMsg: action.msg || "",
             });
         default:
             return state;

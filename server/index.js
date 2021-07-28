@@ -4,7 +4,11 @@ const PORT = process.env.PORT || 9000;
 const morgan = require("morgan");
 const app = express();
 const io = require("socket.io");
-const { handleNewGame, handleJoinGame } = require("./game");
+const {
+    handleNewGame,
+    handleJoinGame,
+    createInitGameState,
+} = require("./game");
 
 // Logging middleware
 app.use(morgan("dev"));
@@ -37,13 +41,18 @@ const server = app.listen(PORT, () =>
 );
 
 const socketServer = new io.Server(server);
+const roomStates = {};
+const clientRooms = {};
 
 // Handle socket connection request from a web client
 socketServer.on("connection", (socket) => {
-    const state = {};
-    const clientRooms = {};
     socket.on("newGame", () => handleNewGame(socket, clientRooms));
+
+    socket.on("createInitGameState", (gameCode, initState) =>
+        createInitGameState(gameCode, initState, roomStates),
+    );
+
     socket.on("joinGame", (gameCode) =>
-        handleJoinGame(gameCode, socket, clientRooms),
+        handleJoinGame(gameCode, socket, socketServer, clientRooms, roomStates),
     );
 });

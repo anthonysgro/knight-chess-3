@@ -4,8 +4,6 @@ import {
     DROP_PIECE,
     PICK_UP_PIECE,
     POPULATE_MOVES,
-    CREATE_GAME_CODE,
-    ADD_USER_TO_GAME,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -51,17 +49,13 @@ const initialState = {
     selectedPieceMoves: [],
     pieceInCheck: null,
     checkmate: false,
-    winningPlayer: undefined,
-    player1: "",
-    player2: "",
-    gameCode: "",
 };
 
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
         case START_GAME:
-            return (state = init());
+            return (state = action.payload);
 
         case DROP_PIECE: {
             const to = action.to;
@@ -361,26 +355,6 @@ export default (state = initialState, action) => {
             });
         }
 
-        case CREATE_GAME_CODE: {
-            return (state = {
-                ...state,
-                gameCode: action.gameCode,
-            });
-        }
-
-        case ADD_USER_TO_GAME: {
-            if (!state.player1) {
-                return (state = {
-                    ...state,
-                    player1: action.socketId,
-                });
-            } else if (!state.player2) {
-                return (state = {
-                    ...state,
-                    player2: action.socketId,
-                });
-            }
-        }
         default:
             return state;
     }

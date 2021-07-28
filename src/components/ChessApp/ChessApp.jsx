@@ -16,7 +16,29 @@ class ChessApp extends Component {
     }
 
     componentDidMount() {
-        this.props.initGame();
+        const { player1, player2, gameCode } = this.props.gameInfo;
+        if (player1 && !player2) {
+        }
+    }
+
+    componentDidUpdate(prevState, prevProps) {
+        // const { player1, player2, gameCode } = this.props.gameInfo;
+        // if (player1 && !player2) {
+        // }
+
+        // if player initialized the game and there is no room name
+        if (this.props.gameInfo.player1 === window.socket.id) {
+            // Tells the server what our initial board state is for the next player to join
+            if (prevProps.roomName !== this.props.roomName) {
+                window.socket.emit(
+                    "createInitGameState",
+                    this.props.roomName,
+                    JSON.stringify(this.props.initBoardState),
+                );
+            }
+        } else if (this.props.gameInfo.player2 === window.socket.id) {
+        }
+        // When we get our roomName back from the server, tell it we have an initial game state
     }
 
     render() {
@@ -32,10 +54,16 @@ class ChessApp extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        initBoardState: state.boardState,
+        gameInfo: state.gameInfo,
+    };
+}
 function mapDispatchToProps(dispatch) {
     return {
         initGame: () => dispatch(startGame()),
     };
 }
 
-export default connect(null, mapDispatchToProps)(ChessApp);
+export default connect(mapStateToProps, mapDispatchToProps)(ChessApp);

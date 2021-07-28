@@ -124,7 +124,7 @@ class Sidebar extends Component {
 function mapStateToProps(state) {
     return {
         sidebarOpen: state.ui.sidebarOpen,
-        gamecode: state.boardState.gameCode,
+        gamecode: state.gameInfo.gameCode,
     };
 }
 

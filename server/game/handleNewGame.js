@@ -6,8 +6,9 @@ function handleNewGame(client, clientRooms) {
     clientRooms[client.id] = roomName;
 
     client.emit("gameCode", roomName);
-    client.emit("addUserToGame", client.id);
+    // client.emit("addUserToGame", client.id);
 
+    client.playerNumber = 1;
     client.join(roomName);
 }
 

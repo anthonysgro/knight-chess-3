@@ -1,5 +1,6 @@
 import {
     START_GAME,
+    JOIN_GAME,
     PICK_UP_PIECE,
     DROP_PIECE,
     POPULATE_MOVES,
@@ -8,6 +9,7 @@ import {
     CREATE_GAME_CODE,
     ADD_USER_TO_GAME,
     startGame,
+    joinGame,
     pickUpPiece,
     dropPiece,
     populateMoves,
@@ -20,12 +22,17 @@ import {
 import {
     RENDER_CARD_BACKGROUND,
     REMOVE_CARD_BACKGROUND,
+    SET_LOBBY_LOADING,
+    STOP_LOBBY_LOADING,
     renderCardBackground,
     removeCardBackground,
+    setLobbyLoading,
+    stopLobbyLoading,
 } from "./ui.js";
 
 export {
     START_GAME,
+    JOIN_GAME,
     PICK_UP_PIECE,
     DROP_PIECE,
     POPULATE_MOVES,
@@ -33,9 +40,12 @@ export {
     ROTATE_BOARD,
     RENDER_CARD_BACKGROUND,
     REMOVE_CARD_BACKGROUND,
+    SET_LOBBY_LOADING,
+    STOP_LOBBY_LOADING,
     CREATE_GAME_CODE,
     ADD_USER_TO_GAME,
     startGame,
+    joinGame,
     pickUpPiece,
     dropPiece,
     populateMoves,
@@ -45,4 +55,6 @@ export {
     removeCardBackground,
     createGameCode,
     addUserToGame,
+    setLobbyLoading,
+    stopLobbyLoading,
 };
