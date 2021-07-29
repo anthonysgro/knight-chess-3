@@ -30,8 +30,12 @@ const LobbyPage = () => {
     };
 
     const newGame = () => {
+        const randomVal = Math.floor(Math.random() * 2);
+        const playerIsWhite = !!randomVal;
+
+        console.log(playerIsWhite, randomVal);
         window.socket.emit("newGame");
-        dispatch(startGame());
+        dispatch(startGame(playerIsWhite));
     };
 
     const joinGame = () => {

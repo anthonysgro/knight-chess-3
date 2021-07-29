@@ -1,7 +1,6 @@
 function generateGameCode(length) {
     let result = "";
-    const CHARACTERS =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     for (let i = 0; i < length; i++) {
         result += CHARACTERS.charAt(
             Math.floor(Math.random() * CHARACTERS.length),

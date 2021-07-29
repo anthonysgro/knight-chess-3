@@ -7,6 +7,7 @@ import {
     SET_LOBBY_LOADING,
     STOP_LOBBY_LOADING,
     JOIN_GAME,
+    RESET_ROTATION,
 } from "../../actions";
 
 import { renderCards, removeCards } from "../../../card";
@@ -31,6 +32,11 @@ export default (state = initialState, action) => {
             return (state = {
                 ...state,
                 rotated: !state.rotated,
+            });
+        case RESET_ROTATION:
+            return (state = {
+                ...state,
+                rotated: false,
             });
         case RENDER_CARD_BACKGROUND:
             renderCards();

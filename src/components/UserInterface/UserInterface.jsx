@@ -10,19 +10,31 @@ class UserInterface extends Component {
         this.state = {};
     }
     render() {
-        const { checkmate, winningPlayer, pieceInCheck, whiteIsNext, endGame } =
-            this.props;
+        const {
+            checkmate,
+            whiteWins,
+            blackWins,
+            pieceInCheck,
+            whiteIsNext,
+            endGame,
+        } = this.props.endGameInfo;
+
+        const { player1, player2, gameCode } = this.props.gameInfo;
 
         const turnMsg = whiteIsNext ? "White's Turn" : "Black's Turn";
 
         let mainMsg = "";
-        if (checkmate) {
-            mainMsg = `${winningPlayer} won, checkmate!`;
-        } else if (endGame) {
-            mainMsg = `Draw by --insert draw reason--!`;
-        } else if (pieceInCheck) {
-            const possessive = pieceInCheck.white ? "White's" : "Black's";
-            mainMsg = `${possessive} ${pieceInCheck.name} is in check!`;
+        if (!player2) {
+            mainMsg = `Waiting for player to join. Game code: ${gameCode}`;
+        } else {
+            if (checkmate) {
+                mainMsg = `${whiteWins ? "White" : "Black"} won, checkmate!`;
+            } else if (endGame) {
+                mainMsg = `Draw by --insert draw reason--!`;
+            } else if (pieceInCheck) {
+                const possessive = pieceInCheck.white ? "White's" : "Black's";
+                mainMsg = `${possessive} ${pieceInCheck.name} is in check!`;
+            }
         }
 
         return (
@@ -86,14 +98,20 @@ class UserInterface extends Component {
                             className="multi-line-important-text second-row-fdbck"
                             id="user-feedback"
                         >
-                            {mainMsg}
+                            <span style={{ padding: "0 .5rem" }}>
+                                {mainMsg}
+                            </span>
                         </div>
                     </div>
                     <div className="row-2-element">
                         <button
                             id="newGame-btn"
                             className="btn greenBtn second-row-fdbck"
-                            style={{ visibility: "hidden" }}
+                            style={
+                                !endGame
+                                    ? { visibility: "hidden" }
+                                    : { visibility: "visible" }
+                            }
                             onClick={() => this.props.restartGame()}
                         >
                             New Game
@@ -106,11 +124,8 @@ class UserInterface extends Component {
 }
 function mapStateToProps(state) {
     return {
-        checkmate: state.boardState.checkmate,
-        winningPlayer: state.boardState.winningPlayer,
-        pieceInCheck: state.boardState.pieceInCheck,
-        whiteIsNext: state.boardState.whiteIsNext,
-        endGame: state.boardState.endGame,
+        endGameInfo: state.boardState.endGameInfo,
+        gameInfo: state.gameInfo,
     };
 }
 

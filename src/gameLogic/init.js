@@ -97,13 +97,22 @@ function init() {
         history,
         stepNumber: 0,
         whiteIsNext: true,
+        whiteHasPlayer: false,
+        blackHasPlayer: false,
         rotation: 0,
-        endGame: false,
         selectedPiece: null,
         isDragging: false,
         selectedPieceMoves: [],
         pieceInCheck: null,
-        checkmate: false,
+        endGameInfo: {
+            checkmate: false,
+            stalemate: false,
+            whiteWins: false,
+            blackWins: false,
+            draw: false,
+            insufficientMaterial: false,
+            endGame: false,
+        },
     };
 }
 

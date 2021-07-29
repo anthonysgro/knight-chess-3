@@ -74,6 +74,7 @@ function parseState(state) {
         for (let j = 0; j < boardConfig[i].length; j++) {
             let thisPiece = boardConfig[i][j];
             if (thisPiece && thisPiece.hasOwnProperty("char")) {
+                // Check if king to see if we need to parse the rook on a castle move
                 if (thisPiece.name === "King") {
                     let newValidMoves = [];
                     for (const validMove of thisPiece.validMoves) {
@@ -94,7 +95,7 @@ function parseState(state) {
                     }
                     thisPiece.validMoves = newValidMoves;
                 }
-                // Check if king to see if we need to parse the rook on a castle move
+                // Parse the piece
                 row.push(parsePiece(thisPiece));
             } else {
                 row.push(null);

@@ -6,6 +6,7 @@ export const DROP_PIECE = "DROP_PIECE";
 export const POPULATE_MOVES = "POPULATE_MOVES";
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const ROTATE_BOARD = "ROTATE_BOARD";
+export const RESET_ROTATION = "RESET_ROTATION";
 export const CREATE_GAME_CODE = "CREATE_GAME_CODE";
 export const ADD_USER_TO_GAME = "ADD_USER_TO_GAME";
 export const PLAYER_2_JOINED = "PLAYER_2_JOINED";
@@ -15,11 +16,12 @@ export const OPPONENT_MOVED = "OPPONENT_MOVED";
 import { init } from "../../gameLogic";
 
 // Action Creators
-export const startGame = () => {
+export const startGame = (playerIsWhite) => {
     const payload = init();
     return {
         type: START_GAME,
         payload,
+        playerIsWhite,
     };
 };
 
@@ -39,14 +41,15 @@ export const player2Joined = (player2) => {
     };
 };
 
-export const pickUpPiece = (piece) => {
+export const pickUpPiece = (piece, thisPlayerWhite) => {
     return {
         type: PICK_UP_PIECE,
         piece,
+        thisPlayerWhite,
     };
 };
 
-export const dropPiece = (piece, to, gameCode, playerId) => {
+export const dropPiece = (piece, to, gameCode, playerId, thisPlayerWhite) => {
     return {
         type: DROP_PIECE,
         from: piece.strChessCoords,
@@ -54,6 +57,7 @@ export const dropPiece = (piece, to, gameCode, playerId) => {
         to,
         gameCode,
         playerId,
+        thisPlayerWhite,
     };
 };
 
@@ -81,6 +85,12 @@ export const toggleSidebar = () => {
 export const rotateBoard = () => {
     return {
         type: ROTATE_BOARD,
+    };
+};
+
+export const resetRotation = () => {
+    return {
+        type: RESET_ROTATION,
     };
 };
 

@@ -10,6 +10,7 @@ const initialState = {
     winningPlayer: undefined,
     player1: "",
     player2: "",
+    thisPlayerWhite: false,
     gameCode: "",
 };
 
@@ -27,15 +28,19 @@ export default (state = initialState, action) => {
             return (state = {
                 ...state,
                 player1: window.socket.id,
+                thisPlayerWhite: action.playerIsWhite,
             });
         }
 
         case JOIN_GAME: {
+            const otherPlayerWhite = action.payload.whiteHasPlayer;
+
             return (state = {
                 ...state,
                 player1: action.player1,
                 player2: window.socket.id,
                 gameCode: action.gameCode,
+                thisPlayerWhite: !otherPlayerWhite,
             });
         }
 

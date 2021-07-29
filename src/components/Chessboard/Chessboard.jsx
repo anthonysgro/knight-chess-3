@@ -12,12 +12,20 @@ class Chessboard extends Component {
         this.state = {};
     }
     render() {
-        const { rotated } = this.props;
+        const { rotated, endGame } = this.props;
         const rotation = rotated ? 180 : 0;
+
         return (
             <div
                 id="chessboard-backdrop"
-                style={{ transform: `rotate(${rotation}deg)` }}
+                style={
+                    endGame
+                        ? {
+                              transform: `rotate(${rotation}deg)`,
+                              filter: "grayscale(100%)",
+                          }
+                        : { transform: `rotate(${rotation}deg)` }
+                }
             >
                 <Row id="row-8" startColor={true} />
                 <Row id="row-7" startColor={false} />
@@ -34,6 +42,7 @@ class Chessboard extends Component {
 function mapStateToProps(state) {
     return {
         rotated: state.ui.rotated,
+        endGame: state.boardState.endGameInfo.endGame,
     };
 }
 export default connect(mapStateToProps)(Chessboard);

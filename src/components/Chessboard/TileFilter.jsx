@@ -19,10 +19,16 @@ function TileFilter({ idNum, tileColor }) {
     const [piece, setPiece] = useState(null);
     const [classList, setClassList] = useState("tile-filter");
     const [controlled, setControlled] = useState(false);
-    const { whiteIsNext, pieceInCheck, boardConfig } = useSelector(
-        (state) => state.boardState,
+    const {
+        whiteIsNext,
+        pieceInCheck,
+        boardConfig,
+        whiteHasPlayer,
+        blackHasPlayer,
+    } = useSelector((state) => state.boardState);
+    const { gameCode, thisPlayerWhite } = useSelector(
+        (state) => state.gameInfo,
     );
-    const { gameCode } = useSelector((state) => state.gameInfo);
     const moveableSquares = useSelector(
         (state) => state.boardState.selectedPieceMoves,
     );
@@ -60,13 +66,26 @@ function TileFilter({ idNum, tileColor }) {
     const [, drop] = useDrop({
         accept: "piece",
         drop: (item) => {
-            // console.log(item.piece.strChessCoords, item.piece.name, id);
-            dispatch(dropPiece(item.piece, idNum, gameCode, window.socket.id));
-            if (item.piece.white === whiteIsNext) {
+            dispatch(
+                dropPiece(
+                    item.piece,
+                    idNum,
+                    gameCode,
+                    window.socket.id,
+                    thisPlayerWhite,
+                ),
+            );
+            // In order to move, it must be your turn, both players must be in the lobby, and
+            // it must be your color piece
+            if (
+                item.piece.white === whiteIsNext &&
+                thisPlayerWhite === item.piece.white &&
+                whiteHasPlayer &&
+                blackHasPlayer
+            ) {
                 dispatch(populateMoves(gameCode, window.socket.id));
             }
             // const [fromPosition] = item.piece.id.split("_");
-            // console.log(fromPosition);
             // props.onMove(boardConfig, item.id, fromPosition, chessCoordsConcat);
         },
     });

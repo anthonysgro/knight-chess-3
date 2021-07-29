@@ -7,7 +7,12 @@ import UserInterface from "../UserInterface/UserInterface.jsx";
 
 // Redux Imports
 import { connect } from "react-redux";
-import { startGame, toggleSidebar } from "../../store/actions";
+import {
+    startGame,
+    toggleSidebar,
+    rotateBoard,
+    resetRotation,
+} from "../../store/actions";
 
 class ChessApp extends Component {
     constructor(props) {
@@ -16,7 +21,10 @@ class ChessApp extends Component {
     }
 
     componentDidMount() {
-        const { player1, player2, gameCode } = this.props.gameInfo;
+        this.props.resetRotation();
+
+        const { player1, player2, gameCode, thisPlayerWhite } =
+            this.props.gameInfo;
 
         // If you are the player that started the session, update server with the initial position
         if (player1 && !player2) {
@@ -26,25 +34,11 @@ class ChessApp extends Component {
                 JSON.stringify(this.props.initBoardState),
             );
         }
-    }
 
-    componentDidUpdate(prevState, prevProps) {
-        // const { player1, player2, gameCode } = this.props.gameInfo;
-        // if (player1 && !player2) {
-        // }
-        // if player initialized the game and there is no room name
-        // if (this.props.gameInfo.player1 === window.socket.id) {
-        //     // Tells the server what our initial board state is for the next player to join
-        //     if (prevProps.roomName !== this.props.roomName) {
-        //         window.socket.emit(
-        //             "createInitGameState",
-        //             this.props.roomName,
-        //             JSON.stringify(this.props.initBoardState),
-        //         );
-        //     }
-        // } else if (this.props.gameInfo.player2 === window.socket.id) {
-        // }
-        // When we get our roomName back from the server, tell it we have an initial game state
+        // If you are black, rotate the board
+        if (!thisPlayerWhite) {
+            this.props.rotateBoard();
+        }
     }
 
     render() {
@@ -69,6 +63,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         initGame: () => dispatch(startGame()),
+        rotateBoard: () => dispatch(rotateBoard()),
+        resetRotation: () => dispatch(resetRotation()),
     };
 }
 

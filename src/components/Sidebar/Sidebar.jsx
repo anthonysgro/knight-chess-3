@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 // React Redux imports
 import { connect } from "react-redux";
+import { toggleSidebar } from "../../store/actions";
 
 class Sidebar extends Component {
     constructor() {
@@ -14,11 +15,22 @@ class Sidebar extends Component {
     }
 
     render() {
-        const { sidebarOpen, gamecode } = this.props;
+        const { sidebarOpen, gamecode, toggleSidebar } = this.props;
         const sidebarClassList = sidebarOpen ? "sidebar show" : "sidebar";
 
         return (
             <div id="sidebar" className={sidebarClassList}>
+                <button
+                    className="redbtn"
+                    style={{
+                        fontSize: "35%",
+                        boxShadow: "none",
+                        padding: ".1rem .4rem",
+                    }}
+                    onClick={toggleSidebar}
+                >
+                    Close
+                </button>
                 <div className="settings-container" id="chat-container">
                     {/* <h2 id="chat-title">Chat</h2> */}
                     <label
@@ -129,7 +141,9 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {};
+    return {
+        toggleSidebar: () => dispatch(toggleSidebar()),
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

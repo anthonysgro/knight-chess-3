@@ -6,6 +6,7 @@ import {
     POPULATE_MOVES,
     JOIN_GAME,
     OPPONENT_MOVED,
+    PLAYER_2_JOINED,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -45,27 +46,50 @@ const initialState = {
     stepNumber: 0,
     whiteIsNext: true,
     rotation: 0,
-    endGame: false,
     selectedPiece: null,
     isDragging: false,
     selectedPieceMoves: [],
     pieceInCheck: null,
-    checkmate: false,
+    whiteHasPlayer: false,
+    blackHasPlayer: false,
+    endGameInfo: {
+        checkmate: false,
+        stalemate: false,
+        whiteWins: false,
+        blackWins: false,
+        draw: false,
+        insufficientMaterial: false,
+        endGame: false,
+    },
 };
 
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
         case START_GAME:
-            return (state = action.payload);
+            return (state = {
+                ...action.payload,
+                whiteHasPlayer: action.playerIsWhite,
+                blackHasPlayer: !action.playerIsWhite,
+            });
         case JOIN_GAME:
-            return (state = action.payload);
+            return (state = {
+                ...action.payload,
+                whiteHasPlayer: true,
+                blackHasPlayer: true,
+            });
+        case PLAYER_2_JOINED:
+            // Play sound when the 2nd player has joined
+            playNotifySound();
+            return (state = {
+                ...state,
+                whiteHasPlayer: true,
+                blackHasPlayer: true,
+            });
         case OPPONENT_MOVED:
             return (state = action.newState);
         case DROP_PIECE: {
-            const to = action.to;
-            const from = action.from;
-            const rotated = action.rotated;
+            const { to, from, rotated, thisPlayerWhite } = action;
             let piece = action.piece;
             let { id, validMoves } = piece;
 
@@ -76,6 +100,26 @@ export default (state = initialState, action) => {
                     selectedPiece: null,
                     isDragging: false,
                     selectedPieceMoves: [],
+                });
+            }
+
+            // If both players aren't in the lobby, don't do anything
+            if (!state.whiteHasPlayer || !state.blackHasPlayer) {
+                return (state = {
+                    ...state,
+                    selectedPiece: null,
+                    isDragging: false,
+                    selectedPieceMoves: [],
+                });
+            }
+
+            // If you grab a piece that isn't your color, don't do anything either
+            if (piece.white !== thisPlayerWhite) {
+                return (state = {
+                    ...state,
+                    selectedPiece: piece,
+                    selectedPieceMoves: [],
+                    isDragging: true,
                 });
             }
 
@@ -311,7 +355,6 @@ export default (state = initialState, action) => {
             )[0];
 
             let pieceInCheck = null;
-
             for (let p of allPieces) {
                 for (let move of p.validMoves) {
                     if (move.to === whiteKing.strChessCoords) {
@@ -322,9 +365,32 @@ export default (state = initialState, action) => {
                 }
             }
 
-            // Detect Checkmate
-            for (let p of allPieces) {
+            // Detect Checkmate && Stalemate
+            let noMoves = true;
+            if (state.whiteIsNext) {
+                for (const piece of newWhitePieces) {
+                    if (piece.validMoves.length > 0) {
+                        noMoves = false;
+                        break;
+                    }
+                }
+            } else {
+                for (const piece of newBlackPieces) {
+                    if (piece.validMoves.length > 0) {
+                        noMoves = false;
+                        break;
+                    }
+                }
             }
+            const checkmate = noMoves && !!pieceInCheck;
+            const stalemate = noMoves && !pieceInCheck;
+
+            // Detect draw by insufficient material
+            const insufficientMaterial = false;
+
+            const draw = stalemate || insufficientMaterial;
+
+            if (draw || checkmate) playNotifySound();
 
             const newState = {
                 ...state,
@@ -334,6 +400,15 @@ export default (state = initialState, action) => {
                 boardConfig: newBoardConfig,
                 history: newHistory,
                 pieceInCheck,
+                endGameInfo: {
+                    checkmate,
+                    stalemate,
+                    whiteWins: checkmate && !state.whiteIsNext,
+                    blackWins: checkmate && state.whiteIsNext,
+                    draw,
+                    insufficientMaterial,
+                    endGame: draw || checkmate,
+                },
             };
 
             // Emits successful move to the server to tell opponent
@@ -348,9 +423,30 @@ export default (state = initialState, action) => {
         }
 
         case PICK_UP_PIECE: {
-            const { piece } = action;
-            let selectedPieceMoves = [];
+            const { piece, thisPlayerWhite } = action;
+            const selectedPieceMoves = [];
 
+            // If it isn't a full lobby, picking up a piece does nothing
+            if (!state.whiteHasPlayer || !state.blackHasPlayer) {
+                return (state = {
+                    ...state,
+                    selectedPiece: piece,
+                    selectedPieceMoves,
+                    isDragging: true,
+                });
+            }
+
+            // If you grab a piece that isn't your color, don't do anything either
+            if (piece.white !== thisPlayerWhite) {
+                return (state = {
+                    ...state,
+                    selectedPiece: piece,
+                    selectedPieceMoves,
+                    isDragging: true,
+                });
+            }
+
+            // if it isn't your turn, don't populate the valid moves
             if (piece.white !== state.whiteIsNext) {
                 return (state = {
                     ...state,
