@@ -8,6 +8,7 @@ const {
     handleNewGame,
     handleJoinGame,
     createInitGameState,
+    handleMove,
 } = require("./game");
 
 // Logging middleware
@@ -49,10 +50,14 @@ socketServer.on("connection", (socket) => {
     socket.on("newGame", () => handleNewGame(socket, clientRooms, roomStates));
 
     socket.on("createInitGameState", (gameCode, initState) =>
-        createInitGameState(gameCode, JSON.parse(initState), roomStates),
+        createInitGameState(gameCode, initState, roomStates),
     );
 
     socket.on("joinGame", (gameCode) =>
         handleJoinGame(gameCode, socket, socketServer, clientRooms, roomStates),
+    );
+
+    socket.on("movePiece", (newState, gameCode, playerId) =>
+        handleMove(newState, gameCode, playerId, roomStates, socketServer),
     );
 });

@@ -1,6 +1,8 @@
 // Script Imports
-const { convertNotation, imageSelector } = require("../scripts");
+const convertNotation = require("./convertNotation");
+const imageSelector = require("./imageSelector");
 
+// Piece class to preserve inherited complex object during JSON parsing from client
 class Piece {
     constructor(char, coords) {
         //init char
@@ -44,7 +46,7 @@ class Piece {
     }
 
     render() {
-        return <img src={this.imageFile}></img>;
+        return `<img src=${this.imageFile}></img>`;
     }
 }
 

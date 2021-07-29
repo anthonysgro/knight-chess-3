@@ -10,11 +10,17 @@ function handleJoinGame(code, client, server, clientRooms, roomStates) {
         return;
     }
 
+    let player1 = "";
+    for (const player of room.values()) {
+        player1 = player;
+    }
+
     clientRooms[client.id] = code;
     client.join(code);
     client.playerNumber = 2;
 
-    client.emit("joinGame", JSON.stringify(roomStates[code]), code);
+    client.emit("joinGame", JSON.stringify(roomStates[code]), code, player1);
+    server.to(code).emit("player2Joined", client.id);
 }
 
 module.exports = handleJoinGame;

@@ -4,7 +4,10 @@ import {
     addUserToGame,
     stopLobbyLoading,
     joinGame,
+    player2Joined,
+    opponentMoved,
 } from "../store/actions";
+import { parseState } from "../scripts";
 
 function enableSocketListeners() {
     window.socket = io();
@@ -19,8 +22,18 @@ function enableSocketListeners() {
         store.dispatch(addUserToGame(clientId));
     });
 
-    window.socket.on("joinGame", (gameState, roomCode) => {
-        store.dispatch(joinGame(JSON.parse(gameState), roomCode));
+    window.socket.on("joinGame", (gameState, roomCode, player1) => {
+        store.dispatch(joinGame(parseState(gameState), roomCode, player1));
+    });
+
+    window.socket.on("player2Joined", (player2) => {
+        store.dispatch(player2Joined(player2));
+    });
+
+    window.socket.on("playerMoved", (newState, playerId) => {
+        if (window.socket.id !== playerId) {
+            store.dispatch(opponentMoved(parseState(newState)));
+        }
     });
 
     // If a game you are trying to join does not exist

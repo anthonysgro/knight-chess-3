@@ -1,5 +1,6 @@
+const parseState = require("./parseState");
 function createInitGameState(gameCode, initState, roomStates) {
-    roomStates[gameCode] = initState;
+    roomStates[gameCode] = parseState(initState);
 }
 
 module.exports = createInitGameState;

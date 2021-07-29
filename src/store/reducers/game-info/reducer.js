@@ -3,6 +3,7 @@ import {
     ADD_USER_TO_GAME,
     START_GAME,
     JOIN_GAME,
+    PLAYER_2_JOINED,
 } from "../../actions";
 
 const initialState = {
@@ -32,8 +33,16 @@ export default (state = initialState, action) => {
         case JOIN_GAME: {
             return (state = {
                 ...state,
+                player1: action.player1,
                 player2: window.socket.id,
                 gameCode: action.gameCode,
+            });
+        }
+
+        case PLAYER_2_JOINED: {
+            return (state = {
+                ...state,
+                player2: action.player2,
             });
         }
 

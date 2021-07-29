@@ -1,6 +1,7 @@
 import convertNotation from "./convertNotation";
 import imageSelector from "./imageSelector";
 import convertBoardState from "./convertBoardState";
+import parseState from "./parseState";
 import { getPieceWithDom, getPieceWithCoords } from "./getPieceWithDom";
 
 export {
@@ -9,4 +10,5 @@ export {
     imageSelector,
     getPieceWithDom,
     getPieceWithCoords,
+    parseState,
 };

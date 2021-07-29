@@ -5,6 +5,7 @@ import {
     PICK_UP_PIECE,
     POPULATE_MOVES,
     JOIN_GAME,
+    OPPONENT_MOVED,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -59,6 +60,8 @@ export default (state = initialState, action) => {
             return (state = action.payload);
         case JOIN_GAME:
             return (state = action.payload);
+        case OPPONENT_MOVED:
+            return (state = action.newState);
         case DROP_PIECE: {
             const to = action.to;
             const from = action.from;
@@ -268,7 +271,7 @@ export default (state = initialState, action) => {
                     }
                 }
 
-                return (state = {
+                const newState = {
                     ...state,
                     stepNumber: state.stepNumber++,
                     whiteIsNext: !state.whiteIsNext,
@@ -280,7 +283,17 @@ export default (state = initialState, action) => {
                     selectedPiece: null,
                     isDragging: false,
                     selectedPieceMoves: [],
-                });
+                };
+
+                // Emits successful move to the server to tell opponent
+                window.socket.emit(
+                    "movePiece",
+                    JSON.stringify(newState),
+                    action.gameCode,
+                    action.playerId,
+                );
+
+                return (state = newState);
             }
         }
 

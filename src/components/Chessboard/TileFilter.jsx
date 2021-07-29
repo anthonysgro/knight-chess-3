@@ -22,6 +22,7 @@ function TileFilter({ idNum, tileColor }) {
     const { whiteIsNext, pieceInCheck, boardConfig } = useSelector(
         (state) => state.boardState,
     );
+    const { gameCode } = useSelector((state) => state.gameInfo);
     const moveableSquares = useSelector(
         (state) => state.boardState.selectedPieceMoves,
     );
@@ -59,8 +60,9 @@ function TileFilter({ idNum, tileColor }) {
     const [, drop] = useDrop({
         accept: "piece",
         drop: (item) => {
+            console.log(item);
             // console.log(item.piece.strChessCoords, item.piece.name, id);
-            dispatch(dropPiece(item.piece, idNum));
+            dispatch(dropPiece(item.piece, idNum, gameCode, window.socket.id));
             if (item.piece.white === whiteIsNext) {
                 dispatch(populateMoves());
             }

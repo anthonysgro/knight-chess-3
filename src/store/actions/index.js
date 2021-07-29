@@ -8,6 +8,8 @@ import {
     ROTATE_BOARD,
     CREATE_GAME_CODE,
     ADD_USER_TO_GAME,
+    PLAYER_2_JOINED,
+    OPPONENT_MOVED,
     startGame,
     joinGame,
     pickUpPiece,
@@ -17,6 +19,8 @@ import {
     rotateBoard,
     createGameCode,
     addUserToGame,
+    player2Joined,
+    opponentMoved,
 } from "./gameActions";
 
 import {
@@ -44,6 +48,8 @@ export {
     STOP_LOBBY_LOADING,
     CREATE_GAME_CODE,
     ADD_USER_TO_GAME,
+    PLAYER_2_JOINED,
+    OPPONENT_MOVED,
     startGame,
     joinGame,
     pickUpPiece,
@@ -57,4 +63,6 @@ export {
     addUserToGame,
     setLobbyLoading,
     stopLobbyLoading,
+    player2Joined,
+    opponentMoved,
 };
