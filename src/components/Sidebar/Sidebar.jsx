@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 // React Redux imports
 import { connect } from "react-redux";
-import { toggleSidebar, setAutoRotate } from "../../store/actions";
+import { toggleSidebar, setAutoRotate, resign } from "../../store/actions";
 
 class Sidebar extends Component {
     constructor(props) {
@@ -15,7 +15,8 @@ class Sidebar extends Component {
     }
 
     render() {
-        const { sidebarOpen, gamecode, toggleSidebar } = this.props;
+        const { sidebarOpen, gamecode, toggleSidebar, thisPlayerWhite } =
+            this.props;
         const { onlineMultiplayer, localMultiplayer } = this.props.gameModes;
         const sidebarClassList = sidebarOpen ? "sidebar show" : "sidebar";
 
@@ -104,7 +105,13 @@ class Sidebar extends Component {
                         <button
                             className="redbtn"
                             id="submit-resign"
-                            // onClick={() => this.props.resign(event)}
+                            onClick={() =>
+                                this.props.resign(
+                                    gamecode,
+                                    onlineMultiplayer,
+                                    thisPlayerWhite,
+                                )
+                            }
                         >
                             Resign
                         </button>
@@ -185,6 +192,7 @@ function mapStateToProps(state) {
         gamecode: state.gameInfo.gameCode,
         gameModes: state.gameModes,
         autoRotate: state.ui.autoRotate,
+        thisPlayerWhite: state.gameInfo.thisPlayerWhite,
     };
 }
 
@@ -192,6 +200,8 @@ function mapDispatchToProps(dispatch) {
     return {
         toggleSidebar: () => dispatch(toggleSidebar()),
         setAutoRotate: () => dispatch(setAutoRotate()),
+        resign: (gameCode, online, thisPlayerWhite) =>
+            dispatch(resign(gameCode, online, thisPlayerWhite)),
     };
 }
 

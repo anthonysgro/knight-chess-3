@@ -66,8 +66,11 @@ function enableSocketListeners() {
     });
 
     // Handling resigning and draw offers
-    window.socket.on("opponentResigns", () => {
-        store.dispatch(opponentResigns());
+    window.socket.on("opponentResigns", (playerId) => {
+        const { thisPlayerWhite } = store.getState().gameInfo;
+        if (playerId !== window.socket.id) {
+            store.dispatch(opponentResigns(thisPlayerWhite));
+        }
     });
 
     window.socket.on("opponentOffersDraw", () => {

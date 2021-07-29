@@ -75,7 +75,7 @@ socketServer.on("connection", (socket) => {
 
     // Resigning
     socket.on("resign", (gameCode) => {
-        socketServer.to(gameCode).emit("opponentResigns");
+        socketServer.to(gameCode).emit("opponentResigns", socket.id);
     });
 
     // Drawing

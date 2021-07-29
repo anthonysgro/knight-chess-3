@@ -112,6 +112,7 @@ function init() {
             draw: false,
             insufficientMaterial: false,
             endGame: false,
+            resigns: false,
         },
     };
 }

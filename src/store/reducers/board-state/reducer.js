@@ -12,8 +12,8 @@ import {
     PLAYER_2_JOINED,
     ACCEPT_REMATCH,
     REMATCH_ACCEPTED,
-    forceRotation,
-    resetRotation,
+    RESIGN,
+    OPPONENT_RESIGNS,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -67,6 +67,7 @@ const initialState = {
         draw: false,
         insufficientMaterial: false,
         endGame: false,
+        resigns: false,
     },
 };
 
@@ -407,6 +408,7 @@ export default (state = initialState, action) => {
                     }
                 }
             }
+
             const checkmate = noMoves && !!pieceInCheck;
             const stalemate = noMoves && !pieceInCheck;
 
@@ -502,6 +504,38 @@ export default (state = initialState, action) => {
             });
         }
 
+        case RESIGN:
+            playNotifySound();
+            const whiteWins = action.online
+                ? !action.thisPlayerWhite
+                : !state.whiteIsNext;
+
+            console.log(whiteWins);
+            console.log(action.thisPlayerWhite);
+
+            return (state = {
+                ...state,
+                endGameInfo: {
+                    ...state.endGameInfo,
+                    whiteWins: whiteWins,
+                    blackWins: !whiteWins,
+                    endGame: true,
+                    resigns: true,
+                },
+            });
+
+        case OPPONENT_RESIGNS:
+            playNotifySound();
+            return (state = {
+                ...state,
+                endGameInfo: {
+                    ...state.endGameInfo,
+                    whiteWins: action.thisPlayerWhite,
+                    blackWins: !action.thisPlayerWhite,
+                    endGame: true,
+                    resigns: true,
+                },
+            });
         default:
             return state;
     }

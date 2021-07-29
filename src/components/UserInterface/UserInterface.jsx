@@ -23,6 +23,7 @@ class UserInterface extends Component {
             pieceInCheck,
             whiteIsNext,
             endGame,
+            resigns,
         } = this.props.endGameInfo;
         const { player1, player2, gameCode } = this.props.gameInfo;
         const { pendingRematch, playerProposedRematch } = this.props.ui;
@@ -40,6 +41,10 @@ class UserInterface extends Component {
                     mainMsg = `${
                         whiteWins ? "White" : "Black"
                     } won, checkmate!`;
+                } else if (resigns) {
+                    mainMsg = `${whiteWins ? "Black" : "White"} resigned! ${
+                        whiteWins ? "White" : "Black"
+                    } wins.`;
                 } else if (endGame) {
                     mainMsg = `Draw by --insert draw reason--!`;
                 } else if (pieceInCheck) {
@@ -58,11 +63,12 @@ class UserInterface extends Component {
         } else if (localMultiplayer) {
             if (checkmate) {
                 mainMsg = `${whiteWins ? "White" : "Black"} won, checkmate!`;
+            } else if (resigns) {
+                mainMsg = `${whiteWins ? "Black" : "White"} resigned! ${
+                    whiteWins ? "White" : "Black"
+                } wins.`;
             } else if (endGame) {
                 mainMsg = `Draw by --insert draw reason--!`;
-            } else if (pieceInCheck) {
-                const possessive = pieceInCheck.white ? "White's" : "Black's";
-                mainMsg = `${possessive} ${pieceInCheck.name} is in check!`;
             } else {
                 mainMsg = "Local Multiplayer Mode";
             }

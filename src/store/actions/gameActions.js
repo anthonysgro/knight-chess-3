@@ -181,19 +181,22 @@ export const rematchAccepted = (gameState) => {
     };
 };
 
-export const resign = (gameCode, online) => {
+export const resign = (gameCode, online, thisPlayerWhite) => {
     if (online) {
         window.socket.emit("resign", gameCode);
     }
 
     return {
         type: RESIGN,
+        online,
+        thisPlayerWhite,
     };
 };
 
-export const opponentResigns = () => {
+export const opponentResigns = (thisPlayerWhite) => {
     return {
         type: OPPONENT_RESIGNS,
+        thisPlayerWhite,
     };
 };
 
