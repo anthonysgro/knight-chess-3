@@ -44,6 +44,17 @@ import {
     stopLobbyLoading,
 } from "./ui.js";
 
+import {
+    START_ONLINE_MULTIPLAYER,
+    START_LOCAL_MULTIPLAYER,
+    START_BOT_BATTLE,
+    START_SANDBOX,
+    startOnlineMultiplayer,
+    startLocalMultiplayer,
+    startBotBattle,
+    startSandbox,
+} from "./game-modes";
+
 export {
     START_GAME,
     JOIN_GAME,
@@ -65,6 +76,10 @@ export {
     ACCEPT_REMATCH,
     REMATCH_PROPOSED,
     REMATCH_ACCEPTED,
+    START_ONLINE_MULTIPLAYER,
+    START_LOCAL_MULTIPLAYER,
+    START_BOT_BATTLE,
+    START_SANDBOX,
     startGame,
     joinGame,
     pickUpPiece,
@@ -85,4 +100,8 @@ export {
     acceptRematch,
     rematchProposed,
     rematchAccepted,
+    startOnlineMultiplayer,
+    startLocalMultiplayer,
+    startBotBattle,
+    startSandbox,
 };

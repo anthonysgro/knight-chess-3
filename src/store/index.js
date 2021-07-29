@@ -4,10 +4,10 @@ import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 
 // Sub Reducers
-import { boardState, ui, gameInfo } from "./reducers";
+import { boardState, ui, gameInfo, gameModes } from "./reducers";
 
 // Combined Reducer
-const reducer = combineReducers({ boardState, ui, gameInfo });
+const reducer = combineReducers({ boardState, ui, gameInfo, gameModes });
 
 // Redux Middleware
 const middleware = applyMiddleware(
