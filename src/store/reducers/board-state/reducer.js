@@ -285,14 +285,6 @@ export default (state = initialState, action) => {
                     selectedPieceMoves: [],
                 };
 
-                // Emits successful move to the server to tell opponent
-                window.socket.emit(
-                    "movePiece",
-                    JSON.stringify(newState),
-                    action.gameCode,
-                    action.playerId,
-                );
-
                 return (state = newState);
             }
         }
@@ -334,7 +326,7 @@ export default (state = initialState, action) => {
             for (let p of allPieces) {
             }
 
-            return (state = {
+            const newState = {
                 ...state,
                 allPieces: [...newWhitePieces, ...newBlackPieces],
                 whitePieces: newWhitePieces,
@@ -342,7 +334,17 @@ export default (state = initialState, action) => {
                 boardConfig: newBoardConfig,
                 history: newHistory,
                 pieceInCheck,
-            });
+            };
+
+            // Emits successful move to the server to tell opponent
+            window.socket.emit(
+                "movePiece",
+                JSON.stringify(newState),
+                action.gameCode,
+                action.playerId,
+            );
+
+            return (state = newState);
         }
 
         case PICK_UP_PIECE: {

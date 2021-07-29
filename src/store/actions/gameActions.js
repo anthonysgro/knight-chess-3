@@ -64,9 +64,11 @@ export const opponentMoved = (newState) => {
     };
 };
 
-export const populateMoves = () => {
+export const populateMoves = (gameCode, playerId) => {
     return {
         type: POPULATE_MOVES,
+        gameCode,
+        playerId,
     };
 };
 

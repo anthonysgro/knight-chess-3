@@ -60,11 +60,10 @@ function TileFilter({ idNum, tileColor }) {
     const [, drop] = useDrop({
         accept: "piece",
         drop: (item) => {
-            console.log(item);
             // console.log(item.piece.strChessCoords, item.piece.name, id);
             dispatch(dropPiece(item.piece, idNum, gameCode, window.socket.id));
             if (item.piece.white === whiteIsNext) {
-                dispatch(populateMoves());
+                dispatch(populateMoves(gameCode, window.socket.id));
             }
             // const [fromPosition] = item.piece.id.split("_");
             // console.log(fromPosition);

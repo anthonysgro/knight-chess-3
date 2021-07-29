@@ -33,10 +33,6 @@ function parsePiece(piece) {
         );
     }
 
-    // return Object.assign(
-    //     new Piece(newPiece.char, newPiece.numberCoords),
-    //     newPiece,
-    // );
     return newPiece;
 }
 
@@ -76,8 +72,30 @@ function parseState(state) {
     for (let i = 0; i < boardConfig.length; i++) {
         const row = [];
         for (let j = 0; j < boardConfig[i].length; j++) {
-            if (boardConfig[i][j] && boardConfig[i][j].hasOwnProperty("char")) {
-                row.push(parsePiece(boardConfig[i][j]));
+            let thisPiece = boardConfig[i][j];
+            if (thisPiece && thisPiece.hasOwnProperty("char")) {
+                if (thisPiece.name === "King") {
+                    let newValidMoves = [];
+                    for (const validMove of thisPiece.validMoves) {
+                        if (validMove.castleEvent.castleMove) {
+                            const newValidMove = {
+                                ...validMove,
+                                castleEvent: {
+                                    ...validMove.castleEvent,
+                                    rookInvolved: parsePiece(
+                                        validMove.castleEvent.rookInvolved,
+                                    ),
+                                },
+                            };
+                            newValidMoves.push(newValidMove);
+                        } else {
+                            newValidMoves.push(validMove);
+                        }
+                    }
+                    thisPiece.validMoves = newValidMoves;
+                }
+                // Check if king to see if we need to parse the rook on a castle move
+                row.push(parsePiece(thisPiece));
             } else {
                 row.push(null);
             }
