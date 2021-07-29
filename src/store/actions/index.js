@@ -11,6 +11,10 @@ import {
     PLAYER_2_JOINED,
     OPPONENT_MOVED,
     RESET_ROTATION,
+    PROPOSE_REMATCH,
+    ACCEPT_REMATCH,
+    REMATCH_PROPOSED,
+    REMATCH_ACCEPTED,
     startGame,
     joinGame,
     pickUpPiece,
@@ -23,6 +27,10 @@ import {
     addUserToGame,
     player2Joined,
     opponentMoved,
+    proposeRematch,
+    acceptRematch,
+    rematchProposed,
+    rematchAccepted,
 } from "./gameActions";
 
 import {
@@ -53,6 +61,10 @@ export {
     ADD_USER_TO_GAME,
     PLAYER_2_JOINED,
     OPPONENT_MOVED,
+    PROPOSE_REMATCH,
+    ACCEPT_REMATCH,
+    REMATCH_PROPOSED,
+    REMATCH_ACCEPTED,
     startGame,
     joinGame,
     pickUpPiece,
@@ -69,4 +81,8 @@ export {
     stopLobbyLoading,
     player2Joined,
     opponentMoved,
+    proposeRematch,
+    acceptRematch,
+    rematchProposed,
+    rematchAccepted,
 };

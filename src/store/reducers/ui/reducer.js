@@ -8,6 +8,10 @@ import {
     STOP_LOBBY_LOADING,
     JOIN_GAME,
     RESET_ROTATION,
+    PROPOSE_REMATCH,
+    ACCEPT_REMATCH,
+    REMATCH_PROPOSED,
+    REMATCH_ACCEPTED,
 } from "../../actions";
 
 import { renderCards, removeCards } from "../../../card";
@@ -19,6 +23,8 @@ const initialState = {
     lobbyLoading: false,
     lobbyMsg: "",
     joinSuccessful: false,
+    pendingRematch: false,
+    playerProposedRematch: false,
 };
 
 export default (state = initialState, action) => {
@@ -67,6 +73,28 @@ export default (state = initialState, action) => {
                 ...state,
                 joinSuccessful: true,
                 lobbyLoading: false,
+            });
+        case PROPOSE_REMATCH:
+            return (state = {
+                ...state,
+                pendingRematch: true,
+                playerProposedRematch: true,
+            });
+        case ACCEPT_REMATCH:
+            return (state = {
+                ...state,
+                pendingRematch: false,
+            });
+        case REMATCH_PROPOSED:
+            return (state = {
+                ...state,
+                pendingRematch: true,
+            });
+        case REMATCH_ACCEPTED:
+            return (state = {
+                ...state,
+                pendingRematch: false,
+                playerProposedRematch: false,
             });
         default:
             return state;

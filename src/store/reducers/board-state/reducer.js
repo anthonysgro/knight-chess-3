@@ -7,6 +7,8 @@ import {
     JOIN_GAME,
     OPPONENT_MOVED,
     PLAYER_2_JOINED,
+    ACCEPT_REMATCH,
+    REMATCH_ACCEPTED,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -86,6 +88,10 @@ export default (state = initialState, action) => {
                 whiteHasPlayer: true,
                 blackHasPlayer: true,
             });
+        case ACCEPT_REMATCH:
+            return (state = action.payload);
+        case REMATCH_ACCEPTED:
+            return (state = action.payload);
         case OPPONENT_MOVED:
             return (state = action.newState);
         case DROP_PIECE: {

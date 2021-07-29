@@ -2,7 +2,12 @@ import React, { Component } from "react";
 
 // React-Redux Imports
 import { connect } from "react-redux";
-import { startGame, toggleSidebar, rotateBoard } from "../../store/actions";
+import {
+    acceptRematch,
+    proposeRematch,
+    toggleSidebar,
+    rotateBoard,
+} from "../../store/actions";
 
 class UserInterface extends Component {
     constructor(props) {
@@ -18,8 +23,8 @@ class UserInterface extends Component {
             whiteIsNext,
             endGame,
         } = this.props.endGameInfo;
-
         const { player1, player2, gameCode } = this.props.gameInfo;
+        const { pendingRematch, playerProposedRematch } = this.props.ui;
 
         const turnMsg = whiteIsNext ? "White's Turn" : "Black's Turn";
 
@@ -35,6 +40,12 @@ class UserInterface extends Component {
                 const possessive = pieceInCheck.white ? "White's" : "Black's";
                 mainMsg = `${possessive} ${pieceInCheck.name} is in check!`;
             }
+        }
+
+        if (playerProposedRematch) {
+            mainMsg = "Please wait for opponent's response.";
+        } else if (pendingRematch) {
+            mainMsg = "Opponent offered rematch";
         }
 
         return (
@@ -107,14 +118,19 @@ class UserInterface extends Component {
                         <button
                             id="newGame-btn"
                             className="btn greenBtn second-row-fdbck"
+                            disabled={playerProposedRematch}
                             style={
                                 !endGame
                                     ? { visibility: "hidden" }
                                     : { visibility: "visible" }
                             }
-                            onClick={() => this.props.restartGame()}
+                            onClick={
+                                pendingRematch
+                                    ? () => this.props.acceptRematch(gameCode)
+                                    : () => this.props.proposeRematch(gameCode)
+                            }
                         >
-                            New Game
+                            {playerProposedRematch ? "Wait" : "New Game"}
                         </button>
                     </div>
                 </div>
@@ -126,13 +142,15 @@ function mapStateToProps(state) {
     return {
         endGameInfo: state.boardState.endGameInfo,
         gameInfo: state.gameInfo,
+        ui: state.ui,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         toggleSidebar: () => dispatch(toggleSidebar()),
-        restartGame: () => dispatch(startGame()),
+        acceptRematch: (gameCode) => dispatch(acceptRematch(gameCode)),
+        proposeRematch: (gameCode) => dispatch(proposeRematch(gameCode)),
         rotateBoard: () => dispatch(rotateBoard()),
     };
 }

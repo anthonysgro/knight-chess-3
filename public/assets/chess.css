@@ -33,8 +33,9 @@ main {
 }
 
 #main-h1-container {
-    padding: 4em 3em 0em 3em;
-    font-size: 1.8rem;
+    padding: 10vh 3em 0em 3em;
+    /* font-size: 1.8rem; */
+    font-size: 2vw;
     line-height: 1;
     text-align: center;
     z-index: 1;
@@ -43,7 +44,7 @@ main {
 #main-h1-container > h1 {
     font-weight: 600;
     line-height: 1.1;
-    padding: 0 14rem;
+    padding: 0 15vw;
     z-index: 2;
 }
 
@@ -426,7 +427,7 @@ header {
 }
 
 #main-logo {
-    width: 5vw;
+    width: 4rem;
     height: auto;
 }
 
@@ -435,15 +436,24 @@ header {
     outline: 0;
     color: inherit;
     text-decoration: none;
-    font-size: 1.5vw;
+    font-size: 1.3rem;
     font-weight: 600;
+}
+
+@media (max-width: 700px) {
+    #main-logo {
+        width: 3rem;
+    }
+    #logo-text {
+        font-size: 1rem;
+    }
 }
 
 #opening-button {
     font-weight: 500;
     position: relative;
     top: 2rem;
-    font-size: 60%;
+    font-size: 14.4px;
     text-decoration: none;
     color: white;
     border: 2px solid #ffffff;
@@ -455,7 +465,6 @@ header {
         background-color 0.2s ease-in-out, box-shadow 0.3s ease,
         padding 0.1s ease;
 }
-
 #opening-button:hover {
     padding: 0rem, 0rem;
     border: 0px solid #ffffff00;

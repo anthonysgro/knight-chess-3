@@ -11,6 +11,10 @@ export const CREATE_GAME_CODE = "CREATE_GAME_CODE";
 export const ADD_USER_TO_GAME = "ADD_USER_TO_GAME";
 export const PLAYER_2_JOINED = "PLAYER_2_JOINED";
 export const OPPONENT_MOVED = "OPPONENT_MOVED";
+export const PROPOSE_REMATCH = "PROPOSE_REMATCH";
+export const REMATCH_PROPOSED = "REMATCH_PROPOSED";
+export const ACCEPT_REMATCH = "ACCEPT_REMATCH";
+export const REMATCH_ACCEPTED = "REMATCH_ACCEPTED";
 
 // Import Game Initializer
 import { init } from "../../gameLogic";
@@ -105,5 +109,41 @@ export const addUserToGame = (socketId) => {
     return {
         type: ADD_USER_TO_GAME,
         socketId,
+    };
+};
+
+export const proposeRematch = (gameCode) => {
+    window.socket.emit("proposeRematch", gameCode);
+
+    return {
+        type: PROPOSE_REMATCH,
+    };
+};
+
+export const acceptRematch = (gameCode) => {
+    const payload = {
+        ...init(),
+        whiteHasPlayer: true,
+        blackHasPlayer: true,
+    };
+
+    window.socket.emit("acceptRematch", gameCode, JSON.stringify(payload));
+
+    return {
+        type: ACCEPT_REMATCH,
+        payload,
+    };
+};
+
+export const rematchProposed = () => {
+    return {
+        type: REMATCH_PROPOSED,
+    };
+};
+
+export const rematchAccepted = (gameState) => {
+    return {
+        type: REMATCH_ACCEPTED,
+        payload: gameState,
     };
 };

@@ -6,6 +6,8 @@ import {
     joinGame,
     player2Joined,
     opponentMoved,
+    rematchProposed,
+    rematchAccepted,
 } from "../store/actions";
 import { parseState } from "../scripts";
 
@@ -44,6 +46,17 @@ function enableSocketListeners() {
     // If a game you are trying to join has too many players
     window.socket.on("tooManyPlayers", () => {
         store.dispatch(stopLobbyLoading("This game is full"));
+    });
+
+    // Handling rematches
+    window.socket.on("rematchProposed", () => {
+        if (!store.getState().ui.playerProposedRematch) {
+            store.dispatch(rematchProposed());
+        }
+    });
+
+    window.socket.on("rematchAccepted", (gameState) => {
+        store.dispatch(rematchAccepted(parseState(gameState)));
     });
 }
 

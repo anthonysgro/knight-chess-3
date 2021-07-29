@@ -60,4 +60,13 @@ socketServer.on("connection", (socket) => {
     socket.on("movePiece", (newState, gameCode, playerId) =>
         handleMove(newState, gameCode, playerId, roomStates, socketServer),
     );
+
+    socket.on("proposeRematch", (gameCode) => {
+        socketServer.to(gameCode).emit("rematchProposed");
+    });
+
+    socket.on("acceptRematch", (gameCode, initState) => {
+        roomStates[gameCode] = initState;
+        socketServer.to(gameCode).emit("rematchAccepted", roomStates[gameCode]);
+    });
 });
