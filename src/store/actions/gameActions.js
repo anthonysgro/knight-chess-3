@@ -7,6 +7,7 @@ export const POPULATE_MOVES = "POPULATE_MOVES";
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 export const ROTATE_BOARD = "ROTATE_BOARD";
 export const RESET_ROTATION = "RESET_ROTATION";
+export const FORCE_ROTATION = "FORCE_ROTATION";
 export const CREATE_GAME_CODE = "CREATE_GAME_CODE";
 export const ADD_USER_TO_GAME = "ADD_USER_TO_GAME";
 export const PLAYER_2_JOINED = "PLAYER_2_JOINED";
@@ -15,6 +16,15 @@ export const PROPOSE_REMATCH = "PROPOSE_REMATCH";
 export const REMATCH_PROPOSED = "REMATCH_PROPOSED";
 export const ACCEPT_REMATCH = "ACCEPT_REMATCH";
 export const REMATCH_ACCEPTED = "REMATCH_ACCEPTED";
+export const START_LOCAL_GAME = "START_LOCAL_GAME";
+export const RESIGN = "RESIGN";
+export const OPPONENT_RESIGNS = "OPPONENT_RESIGNS";
+export const OFFER_DRAW = "OFFER_DRAW";
+export const OPPONENT_OFFERS_DRAW = "OPPONENT_OFFERS_DRAW";
+export const OPPONENT_DECLINES_DRAW = "OPPONENT_DECLINES_DRAW";
+export const OPPONENT_ACCEPTS_DRAW = "OPPONENT_ACCEPTS_DRAW";
+export const DECLINE_DRAW = "DECLINE_DRAW";
+export const ACCEPT_DRAW = "ACCEPT_DRAW";
 
 // Import Game Initializer
 import { init } from "../../gameLogic";
@@ -26,6 +36,14 @@ export const startGame = (playerIsWhite) => {
         type: START_GAME,
         payload,
         playerIsWhite,
+    };
+};
+
+export const startLocalGame = () => {
+    const payload = init();
+    return {
+        type: START_LOCAL_GAME,
+        payload,
     };
 };
 
@@ -45,15 +63,23 @@ export const player2Joined = (player2) => {
     };
 };
 
-export const pickUpPiece = (piece, thisPlayerWhite) => {
+export const pickUpPiece = (piece, thisPlayerWhite, gameModes) => {
     return {
         type: PICK_UP_PIECE,
         piece,
         thisPlayerWhite,
+        gameModes,
     };
 };
 
-export const dropPiece = (piece, to, gameCode, playerId, thisPlayerWhite) => {
+export const dropPiece = (
+    piece,
+    to,
+    gameCode,
+    playerId,
+    thisPlayerWhite,
+    gameModes,
+) => {
     return {
         type: DROP_PIECE,
         from: piece.strChessCoords,
@@ -62,6 +88,7 @@ export const dropPiece = (piece, to, gameCode, playerId, thisPlayerWhite) => {
         gameCode,
         playerId,
         thisPlayerWhite,
+        gameModes,
     };
 };
 
@@ -95,6 +122,12 @@ export const rotateBoard = () => {
 export const resetRotation = () => {
     return {
         type: RESET_ROTATION,
+    };
+};
+
+export const forceRotation = () => {
+    return {
+        type: FORCE_ROTATION,
     };
 };
 
@@ -145,5 +178,61 @@ export const rematchAccepted = (gameState) => {
     return {
         type: REMATCH_ACCEPTED,
         payload: gameState,
+    };
+};
+
+export const resign = (gameCode, online) => {
+    if (online) {
+        window.socket.emit("resign", gameCode);
+    }
+
+    return {
+        type: RESIGN,
+    };
+};
+
+export const opponentResigns = () => {
+    return {
+        type: OPPONENT_RESIGNS,
+    };
+};
+
+export const offerDraw = (gameCode) => {
+    window.socket.emit("offerDraw", gameCode);
+
+    return {
+        type: OFFER_DRAW,
+    };
+};
+
+export const opponentOffersDraw = () => {
+    return {
+        type: OPPONENT_OFFERS_DRAW,
+    };
+};
+
+export const declineDraw = (gameCode) => {
+    window.socket.emit("declineDraw", gameCode);
+    return {
+        type: DECLINE_DRAW,
+    };
+};
+
+export const opponentDeclinesDraw = () => {
+    return {
+        type: OPPONENT_DECLINES_DRAW,
+    };
+};
+
+export const acceptDraw = () => {
+    window.socket.emit("acceptDraw", gameCode);
+    return {
+        type: ACCEPT_DRAW,
+    };
+};
+
+export const opponentAcceptsDraw = () => {
+    return {
+        type: OPPONENT_ACCEPTS_DRAW,
     };
 };

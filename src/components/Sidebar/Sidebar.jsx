@@ -2,11 +2,11 @@ import React, { Component } from "react";
 
 // React Redux imports
 import { connect } from "react-redux";
-import { toggleSidebar } from "../../store/actions";
+import { toggleSidebar, setAutoRotate } from "../../store/actions";
 
 class Sidebar extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.sendChat = this.sendChat.bind(this);
     }
 
@@ -16,6 +16,7 @@ class Sidebar extends Component {
 
     render() {
         const { sidebarOpen, gamecode, toggleSidebar } = this.props;
+        const { onlineMultiplayer, localMultiplayer } = this.props.gameModes;
         const sidebarClassList = sidebarOpen ? "sidebar show" : "sidebar";
 
         return (
@@ -31,44 +32,55 @@ class Sidebar extends Component {
                 >
                     Close
                 </button>
-                <div className="settings-container" id="chat-container">
-                    {/* <h2 id="chat-title">Chat</h2> */}
-                    <label
-                        htmlFor="chat"
-                        id="chat-label"
-                        className="sidebar-label"
-                    >
-                        Chat
-                    </label>
-                    <div className="chat-element" id="chat-history">
-                        <div className="message">
-                            <p className="internal-msg">
-                                <span className="chat-name">Username: </span>
-                                <span className="chat-msg">
-                                    Text goes here!
-                                </span>
-                            </p>
+                {onlineMultiplayer ? (
+                    <div className="settings-container" id="chat-container">
+                        {/* <h2 id="chat-title">Chat</h2> */}
+                        <label
+                            htmlFor="chat"
+                            id="chat-label"
+                            className="sidebar-label"
+                        >
+                            Chat
+                        </label>
+                        <div className="chat-element" id="chat-history">
+                            <div className="message">
+                                <p className="internal-msg">
+                                    <span className="chat-name">
+                                        Username:{" "}
+                                    </span>
+                                    <span className="chat-msg">
+                                        Text goes here!
+                                    </span>
+                                </p>
+                            </div>
                         </div>
+                        <form
+                            action="#"
+                            className="chat-element"
+                            id="chat-form"
+                        >
+                            <div className="chat-element" id="msg-container">
+                                <textarea
+                                    name="msg"
+                                    id="msg"
+                                    cols="60"
+                                    rows="1"
+                                    placeholder="Type message..."
+                                ></textarea>
+                                <button
+                                    className="redbtn"
+                                    id="submit-msg"
+                                    onClick={this.sendChat}
+                                >
+                                    Send
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <form action="#" className="chat-element" id="chat-form">
-                        <div className="chat-element" id="msg-container">
-                            <textarea
-                                name="msg"
-                                id="msg"
-                                cols="60"
-                                rows="1"
-                                placeholder="Type message..."
-                            ></textarea>
-                            <button
-                                className="redbtn"
-                                id="submit-msg"
-                                onClick={this.sendChat}
-                            >
-                                Send
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                ) : (
+                    ""
+                )}
+
                 <div className="settings-container" id="endGame-btn-container">
                     <label
                         htmlFor="underpromotion"
@@ -78,13 +90,17 @@ class Sidebar extends Component {
                         End Game Options:
                     </label>
                     <div id="btn-container">
-                        <button
-                            className="redbtn"
-                            id="submit-draw"
-                            // onClick={() => this.props.offerDraw(event)}
-                        >
-                            Offer Draw
-                        </button>
+                        {onlineMultiplayer ? (
+                            <button
+                                className="redbtn"
+                                id="submit-draw"
+                                // onClick={() => this.props.offerDraw(event)}
+                            >
+                                Offer Draw
+                            </button>
+                        ) : (
+                            ""
+                        )}
                         <button
                             className="redbtn"
                             id="submit-resign"
@@ -117,17 +133,47 @@ class Sidebar extends Component {
                         <option value="B">Bishop</option>
                     </select>
                 </div>
-                <div className="settings-container" id="endGame-btn-container">
-                    <label
-                        htmlFor="gamecode"
-                        id="gamecode-label"
-                        className="sidebar-label"
-                        style={{ marginBottom: ".5rem" }}
+                {onlineMultiplayer ? (
+                    <div
+                        className="settings-container"
+                        id="endGame-btn-container"
                     >
-                        Game code:
-                    </label>
-                    <p style={{ fontSize: "80%", margin: "0" }}>{gamecode}</p>
-                </div>
+                        <label
+                            htmlFor="gamecode"
+                            id="gamecode-label"
+                            className="sidebar-label"
+                            style={{ marginBottom: ".5rem" }}
+                        >
+                            Game code:
+                        </label>
+                        <p style={{ fontSize: "80%", margin: "0" }}>
+                            {gamecode}
+                        </p>
+                    </div>
+                ) : localMultiplayer ? (
+                    <div
+                        className="settings-container"
+                        id="endGame-btn-container"
+                    >
+                        <label
+                            htmlFor="auto-rotate"
+                            id="autorotate-label"
+                            className="sidebar-label"
+                            style={{ marginBottom: ".5rem" }}
+                        >
+                            Auto-Rotate
+                        </label>
+                        <input
+                            type="checkbox"
+                            id="auto-rotate"
+                            name="auto-rotate"
+                            checked={this.props.autoRotate}
+                            onChange={this.props.setAutoRotate}
+                        />
+                    </div>
+                ) : (
+                    ""
+                )}
             </div>
         );
     }
@@ -137,12 +183,15 @@ function mapStateToProps(state) {
     return {
         sidebarOpen: state.ui.sidebarOpen,
         gamecode: state.gameInfo.gameCode,
+        gameModes: state.gameModes,
+        autoRotate: state.ui.autoRotate,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         toggleSidebar: () => dispatch(toggleSidebar()),
+        setAutoRotate: () => dispatch(setAutoRotate()),
     };
 }
 

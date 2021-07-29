@@ -13,6 +13,7 @@ function Piece({ piece }) {
     const [rotation, setRotation] = useState(0);
     const { rotated } = useSelector((state) => state.ui);
     const { thisPlayerWhite } = useSelector((state) => state.gameInfo);
+    const gameModes = useSelector((state) => state.gameModes);
 
     const dispatch = useDispatch();
 
@@ -49,7 +50,7 @@ function Piece({ piece }) {
                 ref={drag}
                 src={imageFile}
                 onDragStart={() =>
-                    dispatch(pickUpPiece(piece, thisPlayerWhite))
+                    dispatch(pickUpPiece(piece, thisPlayerWhite, gameModes))
                 }
                 // onDragEnd={}
             />

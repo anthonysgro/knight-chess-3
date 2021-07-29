@@ -8,6 +8,11 @@ import {
     opponentMoved,
     rematchProposed,
     rematchAccepted,
+    startOnlineMultiplayer,
+    opponentOffersDraw,
+    opponentAcceptsDraw,
+    opponentDeclinesDraw,
+    opponentResigns,
 } from "../store/actions";
 import { parseState } from "../scripts";
 
@@ -25,6 +30,7 @@ function enableSocketListeners() {
     });
 
     window.socket.on("joinGame", (gameState, roomCode, player1) => {
+        store.dispatch(startOnlineMultiplayer());
         store.dispatch(joinGame(parseState(gameState), roomCode, player1));
     });
 
@@ -57,6 +63,23 @@ function enableSocketListeners() {
 
     window.socket.on("rematchAccepted", (gameState) => {
         store.dispatch(rematchAccepted(parseState(gameState)));
+    });
+
+    // Handling resigning and draw offers
+    window.socket.on("opponentResigns", () => {
+        store.dispatch(opponentResigns());
+    });
+
+    window.socket.on("opponentOffersDraw", () => {
+        store.dispatch(opponentOffersDraw());
+    });
+
+    window.socket.on("opponentAcceptsDraw", () => {
+        store.dispatch(opponentAcceptsDraw());
+    });
+
+    window.socket.on("opponentDeclinesDraw", () => {
+        store.dispatch(opponentDeclinesDraw());
     });
 }
 

@@ -32,6 +32,7 @@ function TileFilter({ idNum, tileColor }) {
     const moveableSquares = useSelector(
         (state) => state.boardState.selectedPieceMoves,
     );
+    const gameModes = useSelector((state) => state.gameModes);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -73,20 +74,35 @@ function TileFilter({ idNum, tileColor }) {
                     gameCode,
                     window.socket.id,
                     thisPlayerWhite,
+                    gameModes,
                 ),
             );
-            // In order to move, it must be your turn, both players must be in the lobby, and
-            // it must be your color piece
-            if (
-                item.piece.white === whiteIsNext &&
-                thisPlayerWhite === item.piece.white &&
-                whiteHasPlayer &&
-                blackHasPlayer
-            ) {
-                dispatch(populateMoves(gameCode, window.socket.id));
+
+            if (gameModes.onlineMultiplayer) {
+                // In order to move, it must be your turn, both players must be in the lobby, and
+                // it must be your color piece
+                if (
+                    item.piece.white === whiteIsNext &&
+                    thisPlayerWhite === item.piece.white &&
+                    whiteHasPlayer &&
+                    blackHasPlayer
+                ) {
+                    dispatch(populateMoves(gameCode, window.socket.id));
+                }
+            } else if (gameModes.localMultiplayer) {
+                // In order to move, it must the correct turn
+                if (item.piece.white === whiteIsNext) {
+                    dispatch(populateMoves(gameCode, window.socket.id));
+                }
+            } else if (gameModes.botBattle) {
+                // It must be your turn, and it must be your color piece
+                if (
+                    item.piece.white === whiteIsNext &&
+                    thisPlayerWhite === item.piece.white
+                ) {
+                    dispatch(populateMoves(gameCode, window.socket.id));
+                }
             }
-            // const [fromPosition] = item.piece.id.split("_");
-            // props.onMove(boardConfig, item.id, fromPosition, chessCoordsConcat);
         },
     });
 

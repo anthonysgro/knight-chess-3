@@ -12,11 +12,15 @@ import {
     ACCEPT_REMATCH,
     REMATCH_PROPOSED,
     REMATCH_ACCEPTED,
+    FORCE_ROTATION,
+    START_LOCAL_GAME,
+    SET_AUTO_ROTATE,
 } from "../../actions";
 
 import { renderCards, removeCards } from "../../../card";
 
 const initialState = {
+    autoRotate: false,
     sidebarOpen: false,
     rotated: false,
     cardsFalling: false,
@@ -43,6 +47,11 @@ export default (state = initialState, action) => {
             return (state = {
                 ...state,
                 rotated: false,
+            });
+        case FORCE_ROTATION:
+            return (state = {
+                ...state,
+                rotated: true,
             });
         case RENDER_CARD_BACKGROUND:
             renderCards();
@@ -95,6 +104,16 @@ export default (state = initialState, action) => {
                 ...state,
                 pendingRematch: false,
                 playerProposedRematch: false,
+            });
+        case START_LOCAL_GAME:
+            return (state = {
+                ...state,
+                autoRotate: true,
+            });
+        case SET_AUTO_ROTATE:
+            return (state = {
+                ...state,
+                autoRotate: !state.autoRotate,
             });
         default:
             return state;

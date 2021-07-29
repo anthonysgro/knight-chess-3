@@ -47,6 +47,7 @@ const clientRooms = {};
 
 // Handle socket connection request from a web client
 socketServer.on("connection", (socket) => {
+    // Match Creation
     socket.on("newGame", () => handleNewGame(socket, clientRooms, roomStates));
 
     socket.on("createInitGameState", (gameCode, initState) =>
@@ -57,10 +58,12 @@ socketServer.on("connection", (socket) => {
         handleJoinGame(gameCode, socket, socketServer, clientRooms, roomStates),
     );
 
+    // Simple Moving
     socket.on("movePiece", (newState, gameCode, playerId) =>
         handleMove(newState, gameCode, playerId, roomStates, socketServer),
     );
 
+    // New Match
     socket.on("proposeRematch", (gameCode) => {
         socketServer.to(gameCode).emit("rematchProposed");
     });
@@ -68,5 +71,23 @@ socketServer.on("connection", (socket) => {
     socket.on("acceptRematch", (gameCode, initState) => {
         roomStates[gameCode] = initState;
         socketServer.to(gameCode).emit("rematchAccepted", roomStates[gameCode]);
+    });
+
+    // Resigning
+    socket.on("resign", (gameCode) => {
+        socketServer.to(gameCode).emit("opponentResigns");
+    });
+
+    // Drawing
+    socket.on("offerDraw", (gameCode) => {
+        socketServer.to(gameCode).emit("opponentOffersDraw");
+    });
+
+    socket.on("acceptDraw", (gameCode) => {
+        socketServer.to(gameCode).emit("opponentAcceptsDraw");
+    });
+
+    socket.on("declinesDraw", (gameCode) => {
+        socketServer.to(gameCode).emit("opponentDeclinesDraw");
     });
 });

@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
 
+import { useSelector, useDispatch } from "react-redux";
+
 // React Router Links
 import { Link, NavLink } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import {
+    startLocalMultiplayer,
+    startBotBattle,
+    startSandbox,
+} from "../../store/actions";
 
 const Header = () => {
     const { pathname } = useLocation();
+    const dispatch = useDispatch();
 
     return (
         <header
@@ -38,16 +46,31 @@ const Header = () => {
             <section className="drawer-list">
                 <ul>
                     <li>
-                        <a href="/#/game">local multiplayer</a>
+                        <a
+                            href="/#/game"
+                            onClick={() => dispatch(startLocalMultiplayer())}
+                        >
+                            local multiplayer
+                        </a>
                     </li>
                     <li>
                         <a href="/#/lobby">online multiplayer</a>
                     </li>
                     <li>
-                        <a href="/#/bot">play my bot</a>
+                        <a
+                            href="/#/bot"
+                            onClick={() => dispatch(startBotBattle())}
+                        >
+                            play my bot
+                        </a>
                     </li>
                     <li>
-                        <a href="#">sandbox</a>
+                        <a
+                            href="/#/sandbox"
+                            onClick={() => dispatch(startSandbox())}
+                        >
+                            sandbox
+                        </a>
                     </li>
                     <li>
                         <a href="/#/about">about</a>

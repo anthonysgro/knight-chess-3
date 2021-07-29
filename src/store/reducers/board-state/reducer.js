@@ -1,6 +1,9 @@
+import store from "../../index";
+
 // Import action types
 import {
     START_GAME,
+    START_LOCAL_GAME,
     DROP_PIECE,
     PICK_UP_PIECE,
     POPULATE_MOVES,
@@ -9,6 +12,8 @@ import {
     PLAYER_2_JOINED,
     ACCEPT_REMATCH,
     REMATCH_ACCEPTED,
+    forceRotation,
+    resetRotation,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -74,6 +79,12 @@ export default (state = initialState, action) => {
                 whiteHasPlayer: action.playerIsWhite,
                 blackHasPlayer: !action.playerIsWhite,
             });
+        case START_LOCAL_GAME:
+            return (state = {
+                ...action.payload,
+                whiteHasPlayer: true,
+                blackHasPlayer: true,
+            });
         case JOIN_GAME:
             return (state = {
                 ...action.payload,
@@ -95,38 +106,46 @@ export default (state = initialState, action) => {
         case OPPONENT_MOVED:
             return (state = action.newState);
         case DROP_PIECE: {
-            const { to, from, rotated, thisPlayerWhite } = action;
+            const { to, from, rotated, thisPlayerWhite, gameModes } = action;
+            const { onlineMultiplayer, localMultiplayer, sandbox, botBattle } =
+                gameModes;
             let piece = action.piece;
             let { id, validMoves } = piece;
 
-            // If it isn't your turn, dont do anything. Not even a sound.
-            if (piece.white !== state.whiteIsNext) {
-                return (state = {
-                    ...state,
-                    selectedPiece: null,
-                    isDragging: false,
-                    selectedPieceMoves: [],
-                });
+            if (!sandbox) {
+                // If it isn't your turn, dont do anything. Not even a sound.
+                if (piece.white !== state.whiteIsNext) {
+                    return (state = {
+                        ...state,
+                        selectedPiece: null,
+                        isDragging: false,
+                        selectedPieceMoves: [],
+                    });
+                }
             }
 
-            // If both players aren't in the lobby, don't do anything
-            if (!state.whiteHasPlayer || !state.blackHasPlayer) {
-                return (state = {
-                    ...state,
-                    selectedPiece: null,
-                    isDragging: false,
-                    selectedPieceMoves: [],
-                });
+            if (onlineMultiplayer) {
+                // If both players aren't in the lobby, don't do anything
+                if (!state.whiteHasPlayer || !state.blackHasPlayer) {
+                    return (state = {
+                        ...state,
+                        selectedPiece: null,
+                        isDragging: false,
+                        selectedPieceMoves: [],
+                    });
+                }
             }
 
-            // If you grab a piece that isn't your color, don't do anything either
-            if (piece.white !== thisPlayerWhite) {
-                return (state = {
-                    ...state,
-                    selectedPiece: piece,
-                    selectedPieceMoves: [],
-                    isDragging: true,
-                });
+            if (onlineMultiplayer || botBattle) {
+                // If you grab a piece that isn't your color, don't do anything either
+                if (piece.white !== thisPlayerWhite) {
+                    return (state = {
+                        ...state,
+                        selectedPiece: piece,
+                        selectedPieceMoves: [],
+                        isDragging: true,
+                    });
+                }
             }
 
             const previousBoard = state.boardConfig;
@@ -429,37 +448,46 @@ export default (state = initialState, action) => {
         }
 
         case PICK_UP_PIECE: {
-            const { piece, thisPlayerWhite } = action;
+            const { piece, thisPlayerWhite, gameModes } = action;
+            const { onlineMultiplayer, localMultiplayer, botBattle, sandbox } =
+                gameModes;
             const selectedPieceMoves = [];
 
-            // If it isn't a full lobby, picking up a piece does nothing
-            if (!state.whiteHasPlayer || !state.blackHasPlayer) {
-                return (state = {
-                    ...state,
-                    selectedPiece: piece,
-                    selectedPieceMoves,
-                    isDragging: true,
-                });
+            // Online multiplayer or bot battle will restrict
+            // your computer from touching the other pieces
+            if (onlineMultiplayer || botBattle) {
+                // If it isn't a full lobby, picking up a piece does nothing
+                if (!state.whiteHasPlayer || !state.blackHasPlayer) {
+                    return (state = {
+                        ...state,
+                        selectedPiece: piece,
+                        selectedPieceMoves,
+                        isDragging: true,
+                    });
+                }
+
+                // If you grab a piece that isn't your color, don't do anything either
+                if (piece.white !== thisPlayerWhite) {
+                    return (state = {
+                        ...state,
+                        selectedPiece: piece,
+                        selectedPieceMoves,
+                        isDragging: true,
+                    });
+                }
             }
 
-            // If you grab a piece that isn't your color, don't do anything either
-            if (piece.white !== thisPlayerWhite) {
-                return (state = {
-                    ...state,
-                    selectedPiece: piece,
-                    selectedPieceMoves,
-                    isDragging: true,
-                });
-            }
-
-            // if it isn't your turn, don't populate the valid moves
-            if (piece.white !== state.whiteIsNext) {
-                return (state = {
-                    ...state,
-                    selectedPiece: piece,
-                    selectedPieceMoves,
-                    isDragging: true,
-                });
+            // You can't ever move out of turn (unless sandbox mode)
+            if (localMultiplayer || onlineMultiplayer || botBattle) {
+                if (piece.white !== state.whiteIsNext) {
+                    // if it isn't your turn, don't populate the valid moves
+                    return (state = {
+                        ...state,
+                        selectedPiece: piece,
+                        selectedPieceMoves,
+                        isDragging: true,
+                    });
+                }
             }
 
             for (let i = 0; i < piece.validMoves.length; i++) {

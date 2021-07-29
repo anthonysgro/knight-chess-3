@@ -5,6 +5,7 @@ import {
     joinGame,
     setLobbyLoading,
     stopLobbyLoading,
+    startOnlineMultiplayer,
 } from "../store/actions";
 import { useHistory } from "react-router-dom";
 import Loading from "./Loading.jsx";
@@ -33,8 +34,8 @@ const LobbyPage = () => {
         const randomVal = Math.floor(Math.random() * 2);
         const playerIsWhite = !!randomVal;
 
-        console.log(playerIsWhite, randomVal);
         window.socket.emit("newGame");
+        dispatch(startOnlineMultiplayer());
         dispatch(startGame(playerIsWhite));
     };
 
@@ -50,7 +51,7 @@ const LobbyPage = () => {
                 <Loading />
             ) : (
                 <React.Fragment>
-                    <h2 className="create-join-title">Create/Join Game</h2>
+                    <h2 className="create-join-title">Online Multiplayer</h2>
                     <a href="/#/game" id="new-game" onClick={newGame}>
                         Start New Game
                     </a>

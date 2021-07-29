@@ -14,7 +14,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
-        default:
         case START_ONLINE_MULTIPLAYER:
             return (state = {
                 onlineMultiplayer: true,
@@ -43,6 +42,7 @@ export default (state = initialState, action) => {
                 botBattle: false,
                 sandbox: true,
             });
+        default:
             return state;
     }
 };

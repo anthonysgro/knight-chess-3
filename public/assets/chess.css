@@ -396,8 +396,17 @@ main {
     background-color: #f1f1f1;
 }
 
+#underpromotion:hover {
+    cursor: pointer;
+}
+
 #submit-resign {
     margin-left: 0.5rem;
+}
+
+#auto-rotate:hover,
+#autorotate-label:hover {
+    cursor: pointer;
 }
 
 /* Header */
