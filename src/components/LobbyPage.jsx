@@ -31,6 +31,7 @@ const LobbyPage = () => {
     };
 
     const newGame = () => {
+        dispatch(setLobbyLoading());
         const randomVal = Math.floor(Math.random() * 2);
         const playerIsWhite = !!randomVal;
 
