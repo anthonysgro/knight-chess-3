@@ -42,7 +42,7 @@ const LobbyPage = () => {
 
     const joinGame = () => {
         // Ask the server join the game, and start loading. Wait for server response
-        window.socket.emit("joinGame", gamecode);
+        window.socket.emit("joinGame", gamecode.toUpperCase());
         dispatch(setLobbyLoading());
     };
 
@@ -66,7 +66,7 @@ const LobbyPage = () => {
                                 className="game-code"
                                 name="game-code"
                                 maxLength="7"
-                                value={gamecode}
+                                value={gamecode.toUpperCase()}
                                 onChange={editGamecode}
                             />
                         </div>
