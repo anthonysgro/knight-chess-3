@@ -17,6 +17,7 @@ export const REMATCH_PROPOSED = "REMATCH_PROPOSED";
 export const ACCEPT_REMATCH = "ACCEPT_REMATCH";
 export const REMATCH_ACCEPTED = "REMATCH_ACCEPTED";
 export const START_LOCAL_GAME = "START_LOCAL_GAME";
+export const EDIT_UNDERPROMOTION = "EDIT_UNDERPROMOTION";
 export const RESIGN = "RESIGN";
 export const OPPONENT_RESIGNS = "OPPONENT_RESIGNS";
 export const OFFER_DRAW = "OFFER_DRAW";
@@ -78,6 +79,7 @@ export const dropPiece = (
     gameCode,
     playerId,
     thisPlayerWhite,
+    underpromotion,
     gameModes,
 ) => {
     return {
@@ -88,6 +90,7 @@ export const dropPiece = (
         gameCode,
         playerId,
         thisPlayerWhite,
+        underpromotion,
         gameModes,
     };
 };
@@ -178,6 +181,13 @@ export const rematchAccepted = (gameState) => {
     return {
         type: REMATCH_ACCEPTED,
         payload: gameState,
+    };
+};
+
+export const editUnderpromotion = ({ target }) => {
+    return {
+        type: EDIT_UNDERPROMOTION,
+        value: target.value,
     };
 };
 

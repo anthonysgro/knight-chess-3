@@ -330,14 +330,36 @@ export default (state = initialState, action) => {
                         newWhitePieces = newWhitePieces.filter(
                             (p) => p.id !== piece.id,
                         );
-                        const Q2 = new Queen("Q", idnTO);
-                        newWhitePieces = [...newWhitePieces, Q2];
+
+                        let newPiece = null;
+                        if (action.underpromotion === "Q") {
+                            newPiece = new Queen("Q", idnTO);
+                        } else if (action.underpromotion === "R") {
+                            newPiece = new Rook("R", idnTO);
+                        } else if (action.underpromotion === "B") {
+                            newPiece = new Bishop("B", idnTO);
+                        } else if (action.underpromotion === "N") {
+                            newPiece = new Knight("N", idnTO);
+                        }
+
+                        newWhitePieces = [...newWhitePieces, newPiece];
                     } else {
                         newBlackPieces = newBlackPieces.filter(
                             (p) => p.id !== piece.id,
                         );
-                        const q2 = new Queen("q", idnTO);
-                        newBlackPieces = [...newBlackPieces, q2];
+
+                        let newPiece = null;
+                        if (action.underpromotion === "Q") {
+                            newPiece = new Queen("q", idnTO);
+                        } else if (action.underpromotion === "R") {
+                            newPiece = new Rook("r", idnTO);
+                        } else if (action.underpromotion === "B") {
+                            newPiece = new Bishop("b", idnTO);
+                        } else if (action.underpromotion === "N") {
+                            newPiece = new Knight("n", idnTO);
+                        }
+
+                        newBlackPieces = [...newBlackPieces, newPiece];
                     }
                 }
 
@@ -510,9 +532,6 @@ export default (state = initialState, action) => {
                 ? !action.thisPlayerWhite
                 : !state.whiteIsNext;
 
-            console.log(whiteWins);
-            console.log(action.thisPlayerWhite);
-
             return (state = {
                 ...state,
                 endGameInfo: {
@@ -536,6 +555,7 @@ export default (state = initialState, action) => {
                     resigns: true,
                 },
             });
+
         default:
             return state;
     }

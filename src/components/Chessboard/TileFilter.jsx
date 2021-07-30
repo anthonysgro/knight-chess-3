@@ -26,12 +26,13 @@ function TileFilter({ idNum, tileColor }) {
         whiteHasPlayer,
         blackHasPlayer,
     } = useSelector((state) => state.boardState);
-    const { gameCode, thisPlayerWhite } = useSelector(
+    const { gameCode, thisPlayerWhite, underpromotion } = useSelector(
         (state) => state.gameInfo,
     );
     const moveableSquares = useSelector(
         (state) => state.boardState.selectedPieceMoves,
     );
+
     const gameModes = useSelector((state) => state.gameModes);
     const dispatch = useDispatch();
 
@@ -74,6 +75,7 @@ function TileFilter({ idNum, tileColor }) {
                     gameCode,
                     window.socket.id,
                     thisPlayerWhite,
+                    underpromotion,
                     gameModes,
                 ),
             );

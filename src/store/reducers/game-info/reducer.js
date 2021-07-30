@@ -4,6 +4,7 @@ import {
     START_GAME,
     JOIN_GAME,
     PLAYER_2_JOINED,
+    EDIT_UNDERPROMOTION,
 } from "../../actions";
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
     player2: "",
     thisPlayerWhite: false,
     gameCode: "",
+    underpromotion: "Q",
 };
 
 // Reducer
@@ -64,6 +66,12 @@ export default (state = initialState, action) => {
                 });
             }
         }
+
+        case EDIT_UNDERPROMOTION:
+            return (state = {
+                ...state,
+                underpromotion: action.value,
+            });
 
         default: {
             return state;

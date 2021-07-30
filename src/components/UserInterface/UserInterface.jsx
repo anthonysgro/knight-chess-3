@@ -21,10 +21,10 @@ class UserInterface extends Component {
             whiteWins,
             blackWins,
             pieceInCheck,
-            whiteIsNext,
             endGame,
             resigns,
         } = this.props.endGameInfo;
+        const whiteIsNext = this.props.whiteIsNext;
         const { player1, player2, gameCode } = this.props.gameInfo;
         const { pendingRematch, playerProposedRematch } = this.props.ui;
         const { onlineMultiplayer, localMultiplayer, botBattle, sandbox } =
@@ -179,6 +179,7 @@ class UserInterface extends Component {
 function mapStateToProps(state) {
     return {
         endGameInfo: state.boardState.endGameInfo,
+        whiteIsNext: state.boardState.whiteIsNext,
         gameInfo: state.gameInfo,
         ui: state.ui,
         gameModes: state.gameModes,

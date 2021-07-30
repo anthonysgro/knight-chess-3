@@ -2,7 +2,12 @@ import React, { Component } from "react";
 
 // React Redux imports
 import { connect } from "react-redux";
-import { toggleSidebar, setAutoRotate, resign } from "../../store/actions";
+import {
+    toggleSidebar,
+    setAutoRotate,
+    resign,
+    editUnderpromotion,
+} from "../../store/actions";
 
 class Sidebar extends Component {
     constructor(props) {
@@ -15,8 +20,13 @@ class Sidebar extends Component {
     }
 
     render() {
-        const { sidebarOpen, gamecode, toggleSidebar, thisPlayerWhite } =
-            this.props;
+        const {
+            sidebarOpen,
+            gamecode,
+            toggleSidebar,
+            thisPlayerWhite,
+            underpromotion,
+        } = this.props;
         const { onlineMultiplayer, localMultiplayer } = this.props.gameModes;
         const sidebarClassList = sidebarOpen ? "sidebar show" : "sidebar";
 
@@ -91,7 +101,7 @@ class Sidebar extends Component {
                         End Game Options:
                     </label>
                     <div id="btn-container">
-                        {onlineMultiplayer ? (
+                        {/* {onlineMultiplayer ? (
                             <button
                                 className="redbtn"
                                 id="submit-draw"
@@ -101,7 +111,7 @@ class Sidebar extends Component {
                             </button>
                         ) : (
                             ""
-                        )}
+                        )} */}
                         <button
                             className="redbtn"
                             id="submit-resign"
@@ -132,7 +142,8 @@ class Sidebar extends Component {
                     <select
                         name="underpromotion"
                         id="underpromotion"
-                        // onChange={() => changePromotion(event)}
+                        defaultValue={underpromotion}
+                        onChange={this.props.editUnderpromotion}
                     >
                         <option value="Q">Queen</option>
                         <option value="N">Knight</option>
@@ -193,6 +204,7 @@ function mapStateToProps(state) {
         gameModes: state.gameModes,
         autoRotate: state.ui.autoRotate,
         thisPlayerWhite: state.gameInfo.thisPlayerWhite,
+        underpromotion: state.gameInfo.underpromotion,
     };
 }
 
@@ -202,6 +214,8 @@ function mapDispatchToProps(dispatch) {
         setAutoRotate: () => dispatch(setAutoRotate()),
         resign: (gameCode, online, thisPlayerWhite) =>
             dispatch(resign(gameCode, online, thisPlayerWhite)),
+        editUnderpromotion: (ev, underpromotion) =>
+            dispatch(editUnderpromotion(ev, underpromotion)),
     };
 }
 
