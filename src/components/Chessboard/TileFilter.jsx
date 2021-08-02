@@ -32,6 +32,9 @@ function TileFilter({ idNum, tileColor }) {
     const moveableSquares = useSelector(
         (state) => state.boardState.selectedPieceMoves,
     );
+    const endGame = useSelector(
+        (state) => state.boardState.endGameInfo.endGame,
+    );
 
     const gameModes = useSelector((state) => state.gameModes);
     const dispatch = useDispatch();
@@ -80,29 +83,32 @@ function TileFilter({ idNum, tileColor }) {
                 ),
             );
 
-            if (gameModes.onlineMultiplayer) {
-                // In order to move, it must be your turn, both players must be in the lobby, and
-                // it must be your color piece
-                if (
-                    item.piece.white === whiteIsNext &&
-                    thisPlayerWhite === item.piece.white &&
-                    whiteHasPlayer &&
-                    blackHasPlayer
-                ) {
-                    dispatch(populateMoves(gameCode, window.socket.id));
-                }
-            } else if (gameModes.localMultiplayer) {
-                // In order to move, it must the correct turn
-                if (item.piece.white === whiteIsNext) {
-                    dispatch(populateMoves(gameCode, window.socket.id));
-                }
-            } else if (gameModes.botBattle) {
-                // It must be your turn, and it must be your color piece
-                if (
-                    item.piece.white === whiteIsNext &&
-                    thisPlayerWhite === item.piece.white
-                ) {
-                    dispatch(populateMoves(gameCode, window.socket.id));
+            // If the game is still going...
+            if (!endGame) {
+                if (gameModes.onlineMultiplayer) {
+                    // In order to move, it must be your turn, both players must be in the lobby, and
+                    // it must be your color piece
+                    if (
+                        item.piece.white === whiteIsNext &&
+                        thisPlayerWhite === item.piece.white &&
+                        whiteHasPlayer &&
+                        blackHasPlayer
+                    ) {
+                        dispatch(populateMoves(gameCode, window.socket.id));
+                    }
+                } else if (gameModes.localMultiplayer) {
+                    // In order to move, it must the correct turn
+                    if (item.piece.white === whiteIsNext) {
+                        dispatch(populateMoves(gameCode, window.socket.id));
+                    }
+                } else if (gameModes.botBattle) {
+                    // It must be your turn, and it must be your color piece
+                    if (
+                        item.piece.white === whiteIsNext &&
+                        thisPlayerWhite === item.piece.white
+                    ) {
+                        dispatch(populateMoves(gameCode, window.socket.id));
+                    }
                 }
             }
         },

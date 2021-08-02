@@ -107,11 +107,22 @@ export default (state = initialState, action) => {
         case OPPONENT_MOVED:
             return (state = action.newState);
         case DROP_PIECE: {
-            const { to, from, rotated, thisPlayerWhite, gameModes } = action;
+            const { to, from, rotated, thisPlayerWhite, gameModes, endGame } =
+                action;
             const { onlineMultiplayer, localMultiplayer, sandbox, botBattle } =
                 gameModes;
             let piece = action.piece;
             let { id, validMoves } = piece;
+
+            // If it the end of the game, do not do anything.
+            if (state.endGameInfo.endGame) {
+                return (state = {
+                    ...state,
+                    selectedPiece: null,
+                    isDragging: false,
+                    selectedPieceMoves: [],
+                });
+            }
 
             if (!sandbox) {
                 // If it isn't your turn, dont do anything. Not even a sound.
@@ -382,6 +393,10 @@ export default (state = initialState, action) => {
         }
 
         case POPULATE_MOVES: {
+            // If it is the end of the game, don't do anything
+            if (state.endGameInfo.endGame) {
+                return state;
+            }
             // Create deep copy of all pieces with updated moves for new board position
             const { newWhitePieces, newBlackPieces, newBoardConfig } =
                 populateMoves(state.allPieces, state.boardConfig);

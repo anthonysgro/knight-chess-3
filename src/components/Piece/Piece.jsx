@@ -14,6 +14,9 @@ function Piece({ piece }) {
     const { rotated } = useSelector((state) => state.ui);
     const { thisPlayerWhite } = useSelector((state) => state.gameInfo);
     const gameModes = useSelector((state) => state.gameModes);
+    const endGame = useSelector(
+        (state) => state.boardState.endGameInfo.endGame,
+    );
 
     const dispatch = useDispatch();
 
@@ -49,8 +52,18 @@ function Piece({ piece }) {
                 style={{ ...opacityStyle, ...rotateStyle }}
                 ref={drag}
                 src={imageFile}
-                onDragStart={() =>
-                    dispatch(pickUpPiece(piece, thisPlayerWhite, gameModes))
+                onDragStart={
+                    // if it the end of the game, do not illuminate square on the board
+                    endGame
+                        ? () => {}
+                        : () =>
+                              dispatch(
+                                  pickUpPiece(
+                                      piece,
+                                      thisPlayerWhite,
+                                      gameModes,
+                                  ),
+                              )
                 }
                 // onDragEnd={}
             />
