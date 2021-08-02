@@ -456,13 +456,13 @@ export default (state = initialState, action) => {
 
             if (draw || checkmate) playNotifySound();
 
-            const newState = {
+            const newStateNoHistory = {
                 ...state,
                 allPieces: [...newWhitePieces, ...newBlackPieces],
                 whitePieces: newWhitePieces,
                 blackPieces: newBlackPieces,
                 boardConfig: newBoardConfig,
-                history: newHistory,
+                // history: newHistory,
                 pieceInCheck,
                 endGameInfo: {
                     checkmate,
@@ -478,12 +478,12 @@ export default (state = initialState, action) => {
             // Emits successful move to the server to tell opponent
             window.socket.emit(
                 "movePiece",
-                JSON.stringify(newState),
+                JSON.stringify(newStateNoHistory),
                 action.gameCode,
                 action.playerId,
             );
 
-            return (state = newState);
+            return (state = { ...newStateNoHistory, history: newHistory });
         }
 
         case PICK_UP_PIECE: {

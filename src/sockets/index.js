@@ -32,7 +32,9 @@ function enableSocketListeners() {
     window.socket.on("joinGame", (gameState, roomCode, player1) => {
         store.dispatch(startOnlineMultiplayer());
         console.log(gameState);
-        store.dispatch(joinGame(parseState(gameState), roomCode, player1));
+        store.dispatch(
+            joinGame(parseState(gameState, [], false), roomCode, player1),
+        );
     });
 
     window.socket.on("player2Joined", (player2) => {
@@ -40,8 +42,13 @@ function enableSocketListeners() {
     });
 
     window.socket.on("playerMoved", (newState, playerId) => {
+        console.log("OPPONENT MOVED");
+        const gameHistory = store.getState().boardState.history;
+        console.log(gameHistory);
         if (window.socket.id !== playerId) {
-            store.dispatch(opponentMoved(parseState(newState)));
+            store.dispatch(
+                opponentMoved(parseState(newState, gameHistory, true)),
+            );
         }
     });
 

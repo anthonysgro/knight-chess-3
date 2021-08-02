@@ -1,4 +1,6 @@
 import { Piece, Pawn, Rook, Knight, Bishop, Queen, King } from "../pieces";
+import { cloneDeep } from "lodash";
+
 function parsePiece(piece) {
     let newPiece = {};
     if (piece.name === "Pawn") {
@@ -36,19 +38,13 @@ function parsePiece(piece) {
     return newPiece;
 }
 
-function parseState(state) {
+function parseState(state, oldHistory, updateHistory) {
     // Parse Normally
     const newState = JSON.parse(state);
     console.log(newState);
     // Now we need all pieces to have the prototype inheritance for the Piece class
-    const {
-        allPieces,
-        blackPieces,
-        whitePieces,
-        history,
-        pieceInCheck,
-        boardConfig,
-    } = newState;
+    const { allPieces, blackPieces, whitePieces, pieceInCheck, boardConfig } =
+        newState;
 
     const newAllPieces = [];
     for (const piece of allPieces) {
@@ -105,27 +101,43 @@ function parseState(state) {
     }
     newState.boardConfig = newBoardConfig;
 
-    const newHistory = [];
-    for (const step of history) {
-        const newHistoryItem = [];
-        for (let i = 0; i < step.boardConfig.length; i++) {
-            const row = [];
-            for (let j = 0; j < step.boardConfig[i].length; j++) {
-                if (
-                    step.boardConfig[i][j] &&
-                    step.boardConfig[i][j].hasOwnProperty("char")
-                ) {
-                    row.push(parsePiece(step.boardConfig[i][j]));
-                } else {
-                    row.push(null);
-                }
-            }
-            newHistoryItem.push(row);
-        }
-        newHistory.push({ boardConfig: newHistoryItem });
-    }
+    // const newHistory = [];
+    // for (const step of history) {
+    //     const newHistoryItem = [];
+    //     for (let i = 0; i < step.boardConfig.length; i++) {
+    //         const row = [];
+    //         for (let j = 0; j < step.boardConfig[i].length; j++) {
+    //             if (
+    //                 step.boardConfig[i][j] &&
+    //                 step.boardConfig[i][j].hasOwnProperty("char")
+    //             ) {
+    //                 row.push(parsePiece(step.boardConfig[i][j]));
+    //             } else {
+    //                 row.push(null);
+    //             }
+    //         }
+    //         newHistoryItem.push(row);
+    //     }
+    //     newHistory.push({ boardConfig: newHistoryItem });
+    // }
 
-    newState.history = newHistory;
+    // newState.history = newHistory;
+
+    // Update history immutably with up-to-date pieces
+
+    if (updateHistory) {
+        const newHistory =
+            oldHistory.length > 0
+                ? [
+                      ...cloneDeep(oldHistory).slice(0, oldHistory.length - 1),
+                      { boardConfig: newBoardConfig },
+                  ]
+                : [{ boardConfig: newBoardConfig }];
+
+        newState.history = newHistory;
+    } else {
+        newState.history = [];
+    }
 
     if (pieceInCheck) {
         newState.pieceInCheck = parsePiece(pieceInCheck);
