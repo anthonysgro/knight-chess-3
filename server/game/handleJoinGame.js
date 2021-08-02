@@ -21,7 +21,7 @@ function handleJoinGame(code, client, server, clientRooms, roomStates) {
 
     console.log("***************");
     console.log(code);
-    console.log(JSON.stringify(roomStates[code]));
+    console.log(JSON.stringify(roomStates[code]).substring(0, 50));
 
     if (!roomStates[code]) {
         console.log("NO STATE FOR SOME REASON");

@@ -46,11 +46,14 @@ class ChessApp extends Component {
             if (!thisPlayerWhite) {
                 this.props.rotateBoard();
             }
+
+            // End the lobby loading screen
+            this.props.stopLobbyLoading();
         }
 
+        // Local multiplayer setup
         if (localMultiplayer) {
             this.props.startLocalGame();
-            this.props.stopLobbyLoading();
         }
     }
 
