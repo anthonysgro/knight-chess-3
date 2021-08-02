@@ -19,7 +19,6 @@ function handleJoinGame(code, client, server, clientRooms, roomStates) {
     client.join(code);
     client.playerNumber = 2;
 
-    console.log("***************");
     console.log("**********");
     console.log("Handle Join Game");
 
@@ -28,7 +27,6 @@ function handleJoinGame(code, client, server, clientRooms, roomStates) {
     } else {
         console.log(JSON.stringify(roomStates[code]).substring(0, 50));
     }
-    console.log("**********");
     console.log("**********");
 
     client.emit("joinGame", JSON.stringify(roomStates[code]), code, player1);

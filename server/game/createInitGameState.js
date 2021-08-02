@@ -1,7 +1,5 @@
-const parseState = require("./parseState");
 function createInitGameState(gameCode, initState, roomStates) {
     roomStates[gameCode] = JSON.parse(initState);
-    console.log("**********");
     console.log("**********");
     console.log("CreateInitGameState");
     if (roomStates[gameCode]) {
@@ -9,7 +7,6 @@ function createInitGameState(gameCode, initState, roomStates) {
     } else {
         console.log("Did not create the game state in the room...");
     }
-    console.log("**********");
     console.log("**********");
 }
 
