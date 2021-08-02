@@ -18,8 +18,8 @@ import {
 } from "../store/actions";
 import { parseState } from "../scripts";
 
-function enableSocketListeners() {
-    window.socket = io();
+function enableSocketListeners(io) {
+    window.socket = io({ transports: ["websocket", "polling"] });
 
     // Dispatches the game code
     window.socket.on("gameCode", (gameCode) => {

@@ -16,8 +16,9 @@ import store from "./store";
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 // Instantiate Socket Listeners
+import { io } from "socket.io-client";
 import enableSocketListeners from "./sockets";
-enableSocketListeners();
+enableSocketListeners(io);
 
 ReactDom.render(
     <Provider store={store}>

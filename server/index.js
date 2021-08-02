@@ -45,11 +45,16 @@ const server = app.listen(PORT, () =>
 const socketServer = new Server(server, {
     cors: {
         methods: ["GET", "POST"],
-        transports: ["websocket", "polling"],
+        transports: ["websocket"],
         credentials: true,
     },
-    transports: ["websocket", "polling"],
+    transports: ["websocket"],
     allowEIO3: true,
+    reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionDelayMax: 5000,
+    reconnectionAttempts: Infinity,
+    rememberUpgrade: true,
 });
 
 const roomStates = {};
@@ -106,7 +111,15 @@ socketServer.on("connection", (socket) => {
         socketServer.to(gameCode).emit("opponentDeclinesDraw");
     });
 
-    socket.on("disconnect", () => {
-        handleDisconnect(socket, socketServer, clientRooms);
+    socket.on("disconnect", (reason) => {
+        console.log("Socket disconnected because of " + reason);
+        if (reason === "io server disconnect") {
+            // the disconnection was initiated by the server, you need to reconnect manually
+            socket.connect();
+        } else if (reason === "transport close" || reason === "ping timeout") {
+            handleDisconnect(socket, socketServer, clientRooms);
+        } else {
+            console.log("SECOND: Socket disconnected because of " + reason);
+        }
     });
 });

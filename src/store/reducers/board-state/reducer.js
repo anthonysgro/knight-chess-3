@@ -480,7 +480,7 @@ export default (state = initialState, action) => {
                 whitePieces: newWhitePieces,
                 blackPieces: newBlackPieces,
                 boardConfig: newBoardConfig,
-                // history: newHistory,
+                history: [],
                 pieceInCheck,
                 endGameInfo: {
                     checkmate,
