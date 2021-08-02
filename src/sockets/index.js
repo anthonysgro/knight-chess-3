@@ -31,6 +31,7 @@ function enableSocketListeners() {
 
     window.socket.on("joinGame", (gameState, roomCode, player1) => {
         store.dispatch(startOnlineMultiplayer());
+        console.log(gameState);
         store.dispatch(joinGame(parseState(gameState), roomCode, player1));
     });
 

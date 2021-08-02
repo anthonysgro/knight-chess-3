@@ -13,6 +13,7 @@ import {
     rotateBoard,
     resetRotation,
     forceRotation,
+    stopLobbyLoading,
 } from "../../store/actions";
 
 class ChessApp extends Component {
@@ -49,6 +50,7 @@ class ChessApp extends Component {
 
         if (localMultiplayer) {
             this.props.startLocalGame();
+            this.props.stopLobbyLoading();
         }
     }
 
@@ -98,6 +100,7 @@ function mapDispatchToProps(dispatch) {
         rotateBoard: () => dispatch(rotateBoard()),
         resetRotation: () => dispatch(resetRotation()),
         forceRotation: () => dispatch(forceRotation()),
+        stopLobbyLoading: () => dispatch(stopLobbyLoading()),
     };
 }
 

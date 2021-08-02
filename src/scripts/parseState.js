@@ -39,7 +39,7 @@ function parsePiece(piece) {
 function parseState(state) {
     // Parse Normally
     const newState = JSON.parse(state);
-
+    console.log(newState);
     // Now we need all pieces to have the prototype inheritance for the Piece class
     const {
         allPieces,
