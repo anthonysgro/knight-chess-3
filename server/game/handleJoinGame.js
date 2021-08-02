@@ -20,12 +20,16 @@ function handleJoinGame(code, client, server, clientRooms, roomStates) {
     client.playerNumber = 2;
 
     console.log("***************");
-    console.log(code);
-    console.log(JSON.stringify(roomStates[code]).substring(0, 50));
+    console.log("**********");
+    console.log("Handle Join Game");
 
     if (!roomStates[code]) {
         console.log("NO STATE FOR SOME REASON");
+    } else {
+        console.log(JSON.stringify(roomStates[code]).substring(0, 50));
     }
+    console.log("**********");
+    console.log("**********");
 
     client.emit("joinGame", JSON.stringify(roomStates[code]), code, player1);
     server.to(code).emit("player2Joined", client.id);
