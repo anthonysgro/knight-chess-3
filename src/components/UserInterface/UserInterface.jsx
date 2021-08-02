@@ -166,7 +166,7 @@ class UserInterface extends Component {
                                               )
                                     : localMultiplayer
                                     ? () => this.props.newLocalGame()
-                                    : ""
+                                    : () => {}
                             }
                         >
                             {onlineMultiplayer

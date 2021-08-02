@@ -3,7 +3,7 @@ const path = require("path");
 const PORT = process.env.PORT || 9000;
 const morgan = require("morgan");
 const app = express();
-const io = require("socket.io");
+const { Server } = require("socket.io");
 const {
     handleNewGame,
     handleJoinGame,
@@ -42,7 +42,16 @@ const server = app.listen(PORT, () =>
 `),
 );
 
-const socketServer = new io.Server(server);
+const socketServer = new Server(server, {
+    cors: {
+        methods: ["GET", "POST"],
+        transports: ["websocket", "polling"],
+        credentials: true,
+    },
+    transports: ["websocket", "polling"],
+    allowEIO3: true,
+});
+
 const roomStates = {};
 const clientRooms = {};
 

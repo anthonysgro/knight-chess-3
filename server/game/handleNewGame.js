@@ -5,6 +5,7 @@ function handleNewGame(client, clientRooms, roomStates) {
 
     clientRooms[client.id] = roomName;
 
+    console.log(roomName);
     client.emit("gameCode", roomName);
 
     client.playerNumber = 1;
