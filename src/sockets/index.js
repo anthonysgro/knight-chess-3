@@ -4,6 +4,7 @@ import {
     addUserToGame,
     stopLobbyLoading,
     joinGame,
+    rejoinGame,
     player2Joined,
     opponentMoved,
     rematchProposed,
@@ -34,6 +35,14 @@ function enableSocketListeners() {
         store.dispatch(startOnlineMultiplayer());
         store.dispatch(
             joinGame(parseState(gameState, [], false), roomCode, player1),
+        );
+    });
+
+    window.socket.on("rejoinGame", (gameState, roomCode) => {
+        store.dispatch(startOnlineMultiplayer());
+        const gameHistory = store.getState().boardState.history;
+        store.dispatch(
+            rejoinGame(parseState(gameState, gameHistory, true), roomCode),
         );
     });
 

@@ -3,6 +3,7 @@ import {
     START_LOCAL_MULTIPLAYER,
     START_BOT_BATTLE,
     START_SANDBOX,
+    RESET_INIT,
 } from "../../actions";
 
 const initialState = {
@@ -42,6 +43,9 @@ export default (state = initialState, action) => {
                 botBattle: false,
                 sandbox: true,
             });
+        case RESET_INIT: {
+            return (state = initialState);
+        }
         default:
             return state;
     }

@@ -15,6 +15,7 @@ import {
     FORCE_ROTATION,
     START_LOCAL_GAME,
     SET_AUTO_ROTATE,
+    RESET_INIT,
 } from "../../actions";
 
 import { renderCards, removeCards } from "../../../card";
@@ -117,6 +118,9 @@ export default (state = initialState, action) => {
                 ...state,
                 autoRotate: !state.autoRotate,
             });
+        case RESET_INIT: {
+            return (state = initialState);
+        }
         default:
             return state;
     }

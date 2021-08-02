@@ -3,6 +3,7 @@ import store from "../../index";
 // Import action types
 import {
     START_GAME,
+    RESET_INIT,
     START_LOCAL_GAME,
     DROP_PIECE,
     PICK_UP_PIECE,
@@ -15,6 +16,7 @@ import {
     RESIGN,
     OPPONENT_RESIGNS,
     OPPONENT_LEFT,
+    REJOIN_GAME,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -83,6 +85,8 @@ export default (state = initialState, action) => {
                 whiteHasPlayer: action.playerIsWhite,
                 blackHasPlayer: !action.playerIsWhite,
             });
+        case RESET_INIT:
+            return (state = initialState);
         case START_LOCAL_GAME:
             return (state = {
                 ...action.payload,
@@ -94,6 +98,10 @@ export default (state = initialState, action) => {
                 ...action.payload,
                 whiteHasPlayer: true,
                 blackHasPlayer: true,
+            });
+        case REJOIN_GAME:
+            return (state = {
+                ...action.payload,
             });
         case PLAYER_2_JOINED:
             // Play sound when the 2nd player has joined

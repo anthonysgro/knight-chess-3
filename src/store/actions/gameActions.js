@@ -1,6 +1,8 @@
 // Action Types
 export const START_GAME = "START_GAME";
+export const RESET_INIT = "RESET_INIT";
 export const JOIN_GAME = "JOIN_GAME";
+export const REJOIN_GAME = "REJOIN_GAME";
 export const PICK_UP_PIECE = "PICK_UP_PIECE";
 export const DROP_PIECE = "DROP_PIECE";
 export const POPULATE_MOVES = "POPULATE_MOVES";
@@ -41,6 +43,12 @@ export const startGame = (playerIsWhite) => {
     };
 };
 
+export const resetInit = () => {
+    return {
+        type: RESET_INIT,
+    };
+};
+
 export const startLocalGame = () => {
     const payload = init();
     return {
@@ -55,6 +63,14 @@ export const joinGame = (gameState, roomCode, player1) => {
         payload: gameState,
         gameCode: roomCode,
         player1,
+    };
+};
+
+export const rejoinGame = (gameState, roomCode) => {
+    return {
+        type: REJOIN_GAME,
+        payload: gameState,
+        gameCode: roomCode,
     };
 };
 

@@ -1,10 +1,12 @@
 import {
     CREATE_GAME_CODE,
+    RESET_INIT,
     ADD_USER_TO_GAME,
     START_GAME,
     JOIN_GAME,
     PLAYER_2_JOINED,
     EDIT_UNDERPROMOTION,
+    REJOIN_GAME,
 } from "../../actions";
 
 const initialState = {
@@ -19,6 +21,10 @@ const initialState = {
 // Reducer
 export default (state = initialState, action) => {
     switch (action.type) {
+        case RESET_INIT: {
+            return (state = initialState);
+        }
+
         case CREATE_GAME_CODE: {
             return (state = {
                 ...state,
@@ -43,6 +49,13 @@ export default (state = initialState, action) => {
                 player2: window.socket.id,
                 gameCode: action.gameCode,
                 thisPlayerWhite: !otherPlayerWhite,
+            });
+        }
+
+        case REJOIN_GAME: {
+            return (state = {
+                ...state,
+                gameCode: action.gameCode,
             });
         }
 

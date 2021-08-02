@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { renderCardBackground } from "../../store/actions";
+import { renderCardBackground, resetInit } from "../../store/actions";
 
 const Homepage = () => {
     const dispatch = useDispatch();
@@ -9,9 +9,15 @@ const Homepage = () => {
         (state) => state.ui.cardsFalling,
     );
 
+    const { endGame } = useSelector((state) => state.boardState.endGameInfo);
+
     useEffect(() => {
         if (!cardBackgroundRendered) {
             dispatch(renderCardBackground());
+        }
+        // If you load the homepage and your game is over, reset everything.
+        if (endGame) {
+            dispatch(resetInit());
         }
     });
 
