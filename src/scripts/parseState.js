@@ -133,7 +133,7 @@ function parseState(state, oldHistory, updateHistory) {
 
         newState.history = newHistory;
     } else {
-        newState.history = [];
+        newState.history = [{ boardConfig: newBoardConfig }];
     }
 
     if (pieceInCheck) {

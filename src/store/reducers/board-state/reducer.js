@@ -411,7 +411,7 @@ export default (state = initialState, action) => {
 
             // Update history immutably with up-to-date pieces
             const newHistory = [
-                ...cloneDeep(state.history).slice(0),
+                ...cloneDeep(state.history).slice(0, state.history.length - 1),
                 { boardConfig: newBoardConfig },
             ];
 
