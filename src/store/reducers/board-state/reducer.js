@@ -59,6 +59,7 @@ const initialState = {
     pieceInCheck: null,
     whiteHasPlayer: false,
     blackHasPlayer: false,
+    lastMoveValid: true,
     endGameInfo: {
         checkmate: false,
         stalemate: false,
@@ -187,6 +188,7 @@ export default (state = initialState, action) => {
                     selectedPiece: null,
                     isDragging: false,
                     selectedPieceMoves: [],
+                    lastMoveValid: false,
                 });
                 // If valid move
             } else {
@@ -384,6 +386,7 @@ export default (state = initialState, action) => {
                     blackPieces: newBlackPieces,
                     boardConfig: newBoard,
                     selectedPiece: null,
+                    lastMoveValid: true,
                     isDragging: false,
                     selectedPieceMoves: [],
                 };
@@ -397,13 +400,18 @@ export default (state = initialState, action) => {
             if (state.endGameInfo.endGame) {
                 return state;
             }
+
+            if (!state.lastMoveValid) {
+                return state;
+            }
+
             // Create deep copy of all pieces with updated moves for new board position
             const { newWhitePieces, newBlackPieces, newBoardConfig } =
                 populateMoves(state.allPieces, state.boardConfig);
 
             // Update history immutably with up-to-date pieces
             const newHistory = [
-                ...cloneDeep(state.history).slice(0, state.history.length - 1),
+                ...cloneDeep(state.history).slice(0),
                 { boardConfig: newBoardConfig },
             ];
 

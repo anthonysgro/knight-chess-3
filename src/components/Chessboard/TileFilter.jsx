@@ -83,7 +83,7 @@ function TileFilter({ idNum, tileColor }) {
                 ),
             );
 
-            // If the game is still going...
+            // If the game is still going and it was a valid move
             if (!endGame) {
                 if (gameModes.onlineMultiplayer) {
                     // In order to move, it must be your turn, both players must be in the lobby, and

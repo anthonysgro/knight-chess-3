@@ -41,7 +41,7 @@ function parsePiece(piece) {
 function parseState(state, oldHistory, updateHistory) {
     // Parse Normally
     const newState = JSON.parse(state);
-    console.log(newState);
+
     // Now we need all pieces to have the prototype inheritance for the Piece class
     const { allPieces, blackPieces, whitePieces, pieceInCheck, boardConfig } =
         newState;
@@ -128,10 +128,7 @@ function parseState(state, oldHistory, updateHistory) {
     if (updateHistory) {
         const newHistory =
             oldHistory.length > 0
-                ? [
-                      ...cloneDeep(oldHistory).slice(0, oldHistory.length - 1),
-                      { boardConfig: newBoardConfig },
-                  ]
+                ? [...cloneDeep(oldHistory), { boardConfig: newBoardConfig }]
                 : [{ boardConfig: newBoardConfig }];
 
         newState.history = newHistory;

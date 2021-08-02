@@ -58,6 +58,7 @@ export default (state = initialState, action) => {
             return (state = {
                 ...state,
                 cardsFalling: true,
+                lobbyMsg: "",
             });
         case REMOVE_CARD_BACKGROUND:
             removeCards();
@@ -82,6 +83,7 @@ export default (state = initialState, action) => {
                 ...state,
                 joinSuccessful: true,
                 lobbyLoading: false,
+                lobbyMsg: "",
             });
         case PROPOSE_REMATCH:
             return (state = {
