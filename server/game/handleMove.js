@@ -1,5 +1,3 @@
-const parseState = require("./parseState");
-
 function handleMove(newState, gameCode, playerId, roomStates, server) {
     roomStates[gameCode] = newState;
     console.log("*******");
