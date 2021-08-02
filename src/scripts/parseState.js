@@ -101,30 +101,7 @@ function parseState(state, oldHistory, updateHistory) {
     }
     newState.boardConfig = newBoardConfig;
 
-    // const newHistory = [];
-    // for (const step of history) {
-    //     const newHistoryItem = [];
-    //     for (let i = 0; i < step.boardConfig.length; i++) {
-    //         const row = [];
-    //         for (let j = 0; j < step.boardConfig[i].length; j++) {
-    //             if (
-    //                 step.boardConfig[i][j] &&
-    //                 step.boardConfig[i][j].hasOwnProperty("char")
-    //             ) {
-    //                 row.push(parsePiece(step.boardConfig[i][j]));
-    //             } else {
-    //                 row.push(null);
-    //             }
-    //         }
-    //         newHistoryItem.push(row);
-    //     }
-    //     newHistory.push({ boardConfig: newHistoryItem });
-    // }
-
-    // newState.history = newHistory;
-
     // Update history immutably with up-to-date pieces
-
     if (updateHistory) {
         const newHistory =
             oldHistory.length > 0
