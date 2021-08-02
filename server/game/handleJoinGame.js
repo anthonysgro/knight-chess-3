@@ -19,6 +19,9 @@ function handleJoinGame(code, client, server, clientRooms, roomStates) {
     client.join(code);
     client.playerNumber = 2;
 
+    console.log("***************");
+    console.log(code);
+    console.log(JSON.stringify(roomStates[code]));
     client.emit("joinGame", JSON.stringify(roomStates[code]), code, player1);
     server.to(code).emit("player2Joined", client.id);
 }
