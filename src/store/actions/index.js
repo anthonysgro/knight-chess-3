@@ -26,6 +26,7 @@ import {
     OPPONENT_OFFERS_DRAW,
     OPPONENT_ACCEPTS_DRAW,
     OPPONENT_DECLINES_DRAW,
+    OPPONENT_LEFT,
     startGame,
     startLocalGame,
     joinGame,
@@ -53,6 +54,7 @@ import {
     opponentOffersDraw,
     opponentAcceptsDraw,
     opponentDeclinesDraw,
+    opponentLeft,
 } from "./gameActions";
 
 import {
@@ -116,6 +118,7 @@ export {
     OPPONENT_OFFERS_DRAW,
     OPPONENT_ACCEPTS_DRAW,
     OPPONENT_DECLINES_DRAW,
+    OPPONENT_LEFT,
     startGame,
     startLocalGame,
     joinGame,
@@ -152,4 +155,5 @@ export {
     opponentOffersDraw,
     opponentAcceptsDraw,
     opponentDeclinesDraw,
+    opponentLeft,
 };

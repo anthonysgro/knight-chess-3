@@ -14,6 +14,7 @@ import {
     REMATCH_ACCEPTED,
     RESIGN,
     OPPONENT_RESIGNS,
+    OPPONENT_LEFT,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -69,6 +70,7 @@ const initialState = {
         insufficientMaterial: false,
         endGame: false,
         resigns: false,
+        someoneLeft: false,
     },
 };
 
@@ -549,7 +551,7 @@ export default (state = initialState, action) => {
             });
         }
 
-        case RESIGN:
+        case RESIGN: {
             playNotifySound();
             const whiteWins = action.online
                 ? !action.thisPlayerWhite
@@ -565,6 +567,26 @@ export default (state = initialState, action) => {
                     resigns: true,
                 },
             });
+        }
+
+        case OPPONENT_LEFT: {
+            playNotifySound();
+            playNotifySound();
+            const whiteWins = action.online
+                ? !action.thisPlayerWhite
+                : !state.whiteIsNext;
+
+            return (state = {
+                ...state,
+                endGameInfo: {
+                    ...state.endGameInfo,
+                    whiteWins: whiteWins,
+                    blackWins: !whiteWins,
+                    endGame: true,
+                    someoneLeft: true,
+                },
+            });
+        }
 
         case OPPONENT_RESIGNS:
             playNotifySound();

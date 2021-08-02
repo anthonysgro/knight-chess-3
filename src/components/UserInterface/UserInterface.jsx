@@ -23,6 +23,7 @@ class UserInterface extends Component {
             pieceInCheck,
             endGame,
             resigns,
+            someoneLeft,
         } = this.props.endGameInfo;
         const whiteIsNext = this.props.whiteIsNext;
         const { player1, player2, gameCode } = this.props.gameInfo;
@@ -44,6 +45,10 @@ class UserInterface extends Component {
                 } else if (resigns) {
                     mainMsg = `${whiteWins ? "Black" : "White"} resigned! ${
                         whiteWins ? "White" : "Black"
+                    } wins.`;
+                } else if (someoneLeft) {
+                    mainMsg = `${!whiteWins ? "Black" : "White"} left! ${
+                        !whiteWins ? "White" : "Black"
                     } wins.`;
                 } else if (endGame) {
                     mainMsg = `Draw by --insert draw reason--!`;

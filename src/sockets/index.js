@@ -13,6 +13,7 @@ import {
     opponentAcceptsDraw,
     opponentDeclinesDraw,
     opponentResigns,
+    opponentLeft,
 } from "../store/actions";
 import { parseState } from "../scripts";
 
@@ -88,6 +89,11 @@ function enableSocketListeners() {
 
     window.socket.on("opponentDeclinesDraw", () => {
         store.dispatch(opponentDeclinesDraw());
+    });
+
+    window.socket.on("opponentLeft", () => {
+        const thisPlayerWhite = store.getState().gameInfo.thisPlayerWhite;
+        store.dispatch(opponentLeft(thisPlayerWhite));
     });
 }
 

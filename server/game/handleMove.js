@@ -3,7 +3,7 @@ function handleMove(newState, gameCode, playerId, roomStates, server) {
     console.log("**********");
     console.log("PLAYER MOVED");
     if (roomStates[gameCode]) {
-        console.log(JSON.stringify(newState).substring(0, 50));
+        console.log(newState.substring(0, 50));
     } else {
         console.log("No state sent on move somehow...");
     }

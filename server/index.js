@@ -9,6 +9,7 @@ const {
     handleJoinGame,
     createInitGameState,
     handleMove,
+    handleDisconnect,
 } = require("./game");
 
 // Logging middleware
@@ -94,5 +95,9 @@ socketServer.on("connection", (socket) => {
 
     socket.on("declinesDraw", (gameCode) => {
         socketServer.to(gameCode).emit("opponentDeclinesDraw");
+    });
+
+    socket.on("disconnect", () => {
+        handleDisconnect(socket, socketServer, clientRooms);
     });
 });
