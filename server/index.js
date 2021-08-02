@@ -47,6 +47,11 @@ const clientRooms = {};
 
 // Handle socket connection request from a web client
 socketServer.on("connection", (socket) => {
+    socket.on("error", function (err) {
+        console.log("Socket.IO Error");
+        console.log(err.stack); // this is changed from your code in last comment
+    });
+
     // Match Creation
     socket.on("newGame", () => handleNewGame(socket, clientRooms, roomStates));
 
