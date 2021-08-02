@@ -12,7 +12,7 @@ const {
 } = require("./game");
 
 // Logging middleware
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 
 // Body parsing middleware
 app.use(express.json());
