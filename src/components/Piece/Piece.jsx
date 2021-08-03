@@ -17,6 +17,7 @@ function Piece({ piece }) {
     const endGame = useSelector(
         (state) => state.boardState.endGameInfo.endGame,
     );
+    const { onMostRecentBoard } = useSelector((state) => state.boardState);
 
     const dispatch = useDispatch();
 
@@ -53,8 +54,9 @@ function Piece({ piece }) {
                 ref={drag}
                 src={imageFile}
                 onDragStart={
-                    // if it the end of the game, do not illuminate square on the board
-                    endGame
+                    // if it the end of the game or you aren't on the most
+                    // recent board, do not illuminate square on the board
+                    endGame || !onMostRecentBoard
                         ? () => {}
                         : () =>
                               dispatch(

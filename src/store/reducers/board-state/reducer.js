@@ -17,6 +17,8 @@ import {
     OPPONENT_RESIGNS,
     OPPONENT_LEFT,
     REJOIN_GAME,
+    MOVE_FORWARD,
+    MOVE_BACKWARD,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -54,6 +56,7 @@ const initialState = {
     blackPieces: [],
     history: [],
     stepNumber: 0,
+    onMostRecentBoard: true,
     whiteIsNext: true,
     rotation: 0,
     selectedPiece: null,
@@ -166,9 +169,18 @@ export default (state = initialState, action) => {
                         ...state,
                         selectedPiece: piece,
                         selectedPieceMoves: [],
-                        isDragging: true,
+                        isDragging: false,
                     });
                 }
+            }
+
+            if (!state.onMostRecentBoard) {
+                return (state = {
+                    ...state,
+                    selectedPiece: null,
+                    isDragging: false,
+                    selectedPieceMoves: [],
+                });
             }
 
             const previousBoard = state.boardConfig;
@@ -388,7 +400,7 @@ export default (state = initialState, action) => {
 
                 const newState = {
                     ...state,
-                    stepNumber: state.stepNumber++,
+                    stepNumber: state.history.length,
                     whiteIsNext: !state.whiteIsNext,
                     history: [...state.history, { boardConfig: newBoard }],
                     allPieces: [...newWhitePieces, ...newBlackPieces],
@@ -557,6 +569,32 @@ export default (state = initialState, action) => {
                 selectedPieceMoves,
                 isDragging: true,
             });
+        }
+
+        case MOVE_FORWARD: {
+            const numberOfMoves = state.history.length - 1;
+
+            if (state.stepNumber === numberOfMoves) {
+                return (state = { ...state, onMostRecentBoard: true });
+            } else {
+                return (state = {
+                    ...state,
+                    stepNumber: state.stepNumber + 1,
+                    onMostRecentBoard: state.stepNumber + 1 === numberOfMoves,
+                });
+            }
+        }
+
+        case MOVE_BACKWARD: {
+            if (state.stepNumber === 0) {
+                return state;
+            } else {
+                return (state = {
+                    ...state,
+                    stepNumber: state.stepNumber - 1,
+                    onMostRecentBoard: false,
+                });
+            }
         }
 
         case RESIGN: {

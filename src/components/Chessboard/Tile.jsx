@@ -12,15 +12,16 @@ import { convertNotation, convertBoardState } from "../../scripts";
 function Tile({ id, color }) {
     const tileColor = color ? "light-square" : "dark-square";
     const [classList, setClassList] = useState(`tile ${tileColor}`);
-    const boardConfig = useSelector((state) => state.boardState.boardConfig);
-    const moveableSquares = useSelector(
-        (state) => state.boardState.selectedPieceMoves,
-    );
+    const { history, stepNumber, selectedPieceMoves, boardConfig } =
+        useSelector((state) => state.boardState);
 
     useEffect(() => {
         const idBS = convertBoardState(convertNotation(id));
-        const piece = boardConfig[idBS[0]][idBS[1]];
-        if (moveableSquares.includes(id) && piece) {
+        const piece = history.length
+            ? history[stepNumber].boardConfig[idBS[0]][idBS[1]]
+            : boardConfig;
+
+        if (selectedPieceMoves.includes(id) && piece) {
             setClassList(
                 `tile ${tileColor} moveable-capturable-parent-${tileColor}`,
             );

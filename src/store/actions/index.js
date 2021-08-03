@@ -29,6 +29,8 @@ import {
     OPPONENT_ACCEPTS_DRAW,
     OPPONENT_DECLINES_DRAW,
     OPPONENT_LEFT,
+    MOVE_FORWARD,
+    MOVE_BACKWARD,
     startGame,
     resetInit,
     startLocalGame,
@@ -59,6 +61,8 @@ import {
     opponentAcceptsDraw,
     opponentDeclinesDraw,
     opponentLeft,
+    moveForward,
+    moveBackward,
 } from "./gameActions";
 
 import {
@@ -125,6 +129,8 @@ export {
     OPPONENT_ACCEPTS_DRAW,
     OPPONENT_DECLINES_DRAW,
     OPPONENT_LEFT,
+    MOVE_FORWARD,
+    MOVE_BACKWARD,
     startGame,
     resetInit,
     startLocalGame,
@@ -164,4 +170,6 @@ export {
     opponentAcceptsDraw,
     opponentDeclinesDraw,
     opponentLeft,
+    moveForward,
+    moveBackward,
 };

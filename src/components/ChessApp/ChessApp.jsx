@@ -64,7 +64,8 @@ class ChessApp extends Component {
             localMultiplayer &&
             prevProps.history &&
             prevProps.history.length < this.props.history.length &&
-            this.props.autoRotate
+            this.props.autoRotate &&
+            this.props.onMostRecentBoard
         ) {
             if (this.props.whiteIsNext) {
                 this.props.resetRotation();
@@ -94,6 +95,7 @@ function mapStateToProps(state) {
         history: state.boardState.history,
         whiteIsNext: state.boardState.whiteIsNext,
         autoRotate: state.ui.autoRotate,
+        onMostRecentBoard: state.boardState.onMostRecentBoard,
     };
 }
 function mapDispatchToProps(dispatch) {

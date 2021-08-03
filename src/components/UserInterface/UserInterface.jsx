@@ -8,6 +8,8 @@ import {
     toggleSidebar,
     rotateBoard,
     startLocalGame,
+    moveForward,
+    moveBackward,
 } from "../../store/actions";
 
 class UserInterface extends Component {
@@ -111,14 +113,14 @@ class UserInterface extends Component {
                         <button
                             className="redbtn history-btn"
                             id="back"
-                            // onClick={() => this.props.moveBack(event)}
+                            onClick={() => this.props.moveBackward()}
                         >
                             &lt;
                         </button>
                         <button
                             className="redbtn history-btn"
                             id="forward"
-                            // onClick={() => this.props.moveForward(event)}
+                            onClick={() => this.props.moveForward()}
                         >
                             &gt;
                         </button>
@@ -185,6 +187,7 @@ function mapStateToProps(state) {
     return {
         endGameInfo: state.boardState.endGameInfo,
         whiteIsNext: state.boardState.whiteIsNext,
+        stepNumber: state.boardState.stepNumber,
         gameInfo: state.gameInfo,
         ui: state.ui,
         gameModes: state.gameModes,
@@ -198,6 +201,8 @@ function mapDispatchToProps(dispatch) {
         proposeRematch: (gameCode) => dispatch(proposeRematch(gameCode)),
         rotateBoard: () => dispatch(rotateBoard()),
         newLocalGame: () => dispatch(startLocalGame()),
+        moveForward: () => dispatch(moveForward()),
+        moveBackward: () => dispatch(moveBackward()),
     };
 }
 

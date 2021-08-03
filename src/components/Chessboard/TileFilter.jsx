@@ -25,13 +25,16 @@ function TileFilter({ idNum, tileColor }) {
         boardConfig,
         whiteHasPlayer,
         blackHasPlayer,
+        history,
+        stepNumber,
+        selectedPieceMoves,
+        onMostRecentBoard,
     } = useSelector((state) => state.boardState);
+
     const { gameCode, thisPlayerWhite, underpromotion } = useSelector(
         (state) => state.gameInfo,
     );
-    const moveableSquares = useSelector(
-        (state) => state.boardState.selectedPieceMoves,
-    );
+
     const endGame = useSelector(
         (state) => state.boardState.endGameInfo.endGame,
     );
@@ -42,21 +45,26 @@ function TileFilter({ idNum, tileColor }) {
     useEffect(() => {
         // For setting pieces if they come to the square
         const idBS = convertBoardState(convertNotation(idNum));
-        if (boardConfig) {
-            const newPiece = boardConfig[idBS[0]][idBS[1]];
-            if (piece !== newPiece) {
-                setPiece(newPiece);
-            }
-        }
+        // if (boardConfig) {
+        //     const newPiece = boardConfig[idBS[0]][idBS[1]];
+        //     if (piece !== newPiece) {
+        //         setPiece(newPiece);
+        //     }
+        // }
+        const newPiece = history.length
+            ? history[stepNumber].boardConfig[idBS[0]][idBS[1]]
+            : boardConfig;
+
+        if (piece !== newPiece) setPiece(newPiece);
 
         // Recolors square if the piece we picked up can move to it
-        if (moveableSquares.includes(idNum)) {
+        if (selectedPieceMoves.includes(idNum) && onMostRecentBoard) {
             if (piece) {
                 setClassList(`tile-filter moveable-capturable-${tileColor}`);
             } else {
                 setClassList("tile-filter moveable");
             }
-        } else if (pieceInCheck) {
+        } else if (pieceInCheck && onMostRecentBoard) {
             if (pieceInCheck.strChessCoords === idNum) {
                 setClassList(`tile-filter ${tileColor}-check`);
             } else {
@@ -83,8 +91,8 @@ function TileFilter({ idNum, tileColor }) {
                 ),
             );
 
-            // If the game is still going and it was a valid move
-            if (!endGame) {
+            // If the game is still going and if you are on the up-to-date board in history
+            if (!endGame && onMostRecentBoard) {
                 if (gameModes.onlineMultiplayer) {
                     // In order to move, it must be your turn, both players must be in the lobby, and
                     // it must be your color piece

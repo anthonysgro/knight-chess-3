@@ -29,6 +29,8 @@ export const OPPONENT_ACCEPTS_DRAW = "OPPONENT_ACCEPTS_DRAW";
 export const DECLINE_DRAW = "DECLINE_DRAW";
 export const ACCEPT_DRAW = "ACCEPT_DRAW";
 export const OPPONENT_LEFT = "OPPONENT_LEFT";
+export const MOVE_FORWARD = "MOVE_FORWARD";
+export const MOVE_BACKWARD = "MOVE_BACKWARD";
 
 // Import Game Initializer
 import { init } from "../../gameLogic";
@@ -272,5 +274,17 @@ export const opponentLeft = (thisPlayerWhite) => {
         type: OPPONENT_LEFT,
         online: true,
         thisPlayerWhite,
+    };
+};
+
+export const moveForward = () => {
+    return {
+        type: MOVE_FORWARD,
+    };
+};
+
+export const moveBackward = () => {
+    return {
+        type: MOVE_BACKWARD,
     };
 };

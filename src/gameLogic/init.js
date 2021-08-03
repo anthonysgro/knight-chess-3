@@ -96,6 +96,7 @@ function init() {
         blackPieces: newBlackPieces,
         history,
         stepNumber: 0,
+        onMostRecentBoard: true,
         whiteIsNext: true,
         whiteHasPlayer: false,
         blackHasPlayer: false,
