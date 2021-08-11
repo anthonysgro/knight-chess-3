@@ -2,6 +2,11 @@ function handleJoinGame(code, client, server, clientRooms, roomStates) {
     const room = server.sockets.adapter.rooms.get(code);
     const numClients = room ? room.size : 0;
 
+    if (!room) {
+        client.emit("unknownGame");
+        return;
+    }
+
     if (!room.has(client.id)) {
         if (numClients === 0) {
             client.emit("unknownGame");
