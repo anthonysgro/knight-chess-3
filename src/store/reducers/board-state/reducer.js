@@ -8,6 +8,7 @@ import {
     DROP_PIECE,
     PICK_UP_PIECE,
     POPULATE_MOVES,
+    CLICK_BOARD,
     JOIN_GAME,
     OPPONENT_MOVED,
     PLAYER_2_JOINED,
@@ -523,6 +524,66 @@ export default (state = initialState, action) => {
             );
 
             return (state = { ...newStateNoHistory, history: newHistory });
+        }
+
+        case CLICK_BOARD: {
+            const { piece, thisPlayerWhite, gameModes } = action;
+            const { onlineMultiplayer, localMultiplayer, botBattle, sandbox } =
+                gameModes;
+
+            // If there is a selected piece already, we are gonna run the move in the tile logic
+            if (state.selectedPiece) return;
+
+            const selectedPieceMoves = [];
+
+            // Online multiplayer or bot battle will restrict
+            // your computer from touching the other pieces
+            if (onlineMultiplayer || botBattle) {
+                // If it isn't a full lobby, clicking a piece does nothing
+                if (!state.whiteHasPlayer || !state.blackHasPlayer) {
+                    return (state = {
+                        ...state,
+                        selectedPiece: piece,
+                        selectedPieceMoves,
+                        isDragging: false,
+                    });
+                }
+
+                // If you grab a piece that isn't your color, don't do anything either
+                if (piece.white !== thisPlayerWhite) {
+                    return (state = {
+                        ...state,
+                        selectedPiece: piece,
+                        selectedPieceMoves,
+                        isDragging: false,
+                    });
+                }
+            }
+
+            // You can't ever move out of turn (unless sandbox mode)
+            if (localMultiplayer || onlineMultiplayer || botBattle) {
+                if (piece.white !== state.whiteIsNext) {
+                    // if it isn't your turn, don't populate the valid moves
+                    return (state = {
+                        ...state,
+                        selectedPiece: piece,
+                        selectedPieceMoves,
+                        isDragging: false,
+                    });
+                }
+            }
+
+            // If there is no selected piece, make it one!
+            for (let i = 0; i < piece.validMoves.length; i++) {
+                selectedPieceMoves.push(piece.validMoves[i].to);
+            }
+
+            return (state = {
+                ...state,
+                selectedPiece: piece,
+                selectedPieceMoves,
+                isDragging: false,
+            });
         }
 
         case PICK_UP_PIECE: {

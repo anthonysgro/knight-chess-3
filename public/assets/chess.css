@@ -148,6 +148,14 @@ main {
     );
 }
 
+.moveable-hover-light-square {
+    background-color: rgba(5, 177, 131, 0.45);
+}
+
+.moveable-hover-dark-square {
+    background-color: rgba(5, 177, 131, 0.45);
+}
+
 .moveable-capturable-light-square {
     border-radius: 3vmin;
     background-color: #fffff0;

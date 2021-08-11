@@ -4,6 +4,7 @@ export const RESET_INIT = "RESET_INIT";
 export const JOIN_GAME = "JOIN_GAME";
 export const REJOIN_GAME = "REJOIN_GAME";
 export const PICK_UP_PIECE = "PICK_UP_PIECE";
+export const CLICK_BOARD = "CLICK_BOARD";
 export const DROP_PIECE = "DROP_PIECE";
 export const POPULATE_MOVES = "POPULATE_MOVES";
 export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
@@ -80,6 +81,15 @@ export const player2Joined = (player2) => {
     return {
         type: PLAYER_2_JOINED,
         player2,
+    };
+};
+
+export const clickBoard = (piece, thisPlayerWhite, gameModes) => {
+    return {
+        type: CLICK_BOARD,
+        piece,
+        thisPlayerWhite,
+        gameModes,
     };
 };
 
