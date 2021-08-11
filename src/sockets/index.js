@@ -15,6 +15,7 @@ import {
     opponentDeclinesDraw,
     opponentResigns,
     opponentLeft,
+    receiveChat,
 } from "../store/actions";
 import { parseState } from "../scripts";
 
@@ -105,6 +106,12 @@ function enableSocketListeners(io) {
     window.socket.on("opponentLeft", () => {
         const thisPlayerWhite = store.getState().gameInfo.thisPlayerWhite;
         store.dispatch(opponentLeft(thisPlayerWhite));
+    });
+
+    window.socket.on("receiveChat", (playerId, msg) => {
+        if (playerId !== window.socket.id) {
+            store.dispatch(receiveChat(msg, playerId));
+        }
     });
 }
 

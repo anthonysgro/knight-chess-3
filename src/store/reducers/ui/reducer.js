@@ -16,6 +16,8 @@ import {
     START_LOCAL_GAME,
     SET_AUTO_ROTATE,
     RESET_INIT,
+    SEND_CHAT,
+    RECEIVE_CHAT,
 } from "../../actions";
 
 import { renderCards, removeCards } from "../../../card";
@@ -30,7 +32,11 @@ const initialState = {
     joinSuccessful: false,
     pendingRematch: false,
     playerProposedRematch: false,
+    messages: [],
 };
+
+// Import Sounds
+import { playChatSound } from "../../../sounds";
 
 export default (state = initialState, action) => {
     switch (action.type) {
@@ -58,6 +64,7 @@ export default (state = initialState, action) => {
             renderCards();
             return (state = {
                 ...state,
+                messages: [],
                 cardsFalling: true,
                 lobbyMsg: "",
             });
@@ -70,18 +77,21 @@ export default (state = initialState, action) => {
         case SET_LOBBY_LOADING:
             return (state = {
                 ...state,
+                messages: [],
                 lobbyLoading: true,
                 lobbyMsg: "",
             });
         case STOP_LOBBY_LOADING:
             return (state = {
                 ...state,
+                messages: [],
                 lobbyLoading: false,
                 lobbyMsg: action.msg || "",
             });
         case JOIN_GAME:
             return (state = {
                 ...state,
+                messages: [],
                 joinSuccessful: true,
                 lobbyLoading: false,
                 lobbyMsg: "",
@@ -120,6 +130,26 @@ export default (state = initialState, action) => {
             });
         case RESET_INIT: {
             return (state = initialState);
+        }
+        case SEND_CHAT: {
+            window.socket.emit("sendChat", action.gamecode, action.msg);
+            return (state = {
+                ...state,
+                messages: [
+                    { msg: action.msg, sender: window.socket.id },
+                    ...state.messages,
+                ],
+            });
+        }
+        case RECEIVE_CHAT: {
+            playChatSound();
+            return (state = {
+                ...state,
+                messages: [
+                    { msg: action.msg, sender: action.sender },
+                    ...state.messages,
+                ],
+            });
         }
         default:
             return state;

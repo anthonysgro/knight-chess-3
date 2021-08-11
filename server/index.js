@@ -118,6 +118,10 @@ socketServer.on("connection", (socket) => {
         socketServer.to(gameCode).emit("opponentDeclinesDraw");
     });
 
+    socket.on("sendChat", (gameCode, msg) => {
+        socketServer.to(gameCode).emit("receiveChat", socket.id, msg);
+    });
+
     socket.on("disconnect", (reason) => {
         console.log("Socket disconnected because of " + reason);
         if (reason === "io server disconnect") {

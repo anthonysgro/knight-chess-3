@@ -98,7 +98,7 @@ class UserInterface extends Component {
                             id="player-username"
                             className="single-line-important-text"
                         >
-                            Your Username
+                            {onlineMultiplayer ? "Online" : "Local"}
                         </div>
                     </div>
                     <div className="row-1-element">

@@ -7,16 +7,40 @@ import {
     setAutoRotate,
     resign,
     editUnderpromotion,
+    sendChat,
 } from "../../store/actions";
 
 class Sidebar extends Component {
     constructor(props) {
         super(props);
-        this.sendChat = this.sendChat.bind(this);
+        this.state = {
+            chatbox: "",
+            messages: [],
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    sendChat(ev) {
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.messages.length !== this.props.messages.length) {
+            this.setState({
+                messages: this.props.messages,
+            });
+        }
+    }
+
+    handleChange(ev) {
+        this.setState({ chatbox: ev.target.value });
+    }
+
+    handleSubmit(ev) {
         ev.preventDefault();
+        const msg = this.state.chatbox.trim();
+        if (msg.length > 0) {
+            this.props.sendChat(this.props.gamecode, this.state.chatbox);
+            this.setState({ chatbox: "" });
+        }
     }
 
     render() {
@@ -54,7 +78,33 @@ class Sidebar extends Component {
                             Chat
                         </label>
                         <div className="chat-element" id="chat-history">
-                            <div className="message">
+                            {this.state.messages.map(({ msg, sender }, i) => (
+                                <div className="message" key={i}>
+                                    <p className="internal-msg">
+                                        <span className="chat-name">
+                                            {sender === window.socket.id
+                                                ? "You"
+                                                : "Them"}
+                                            :{" "}
+                                        </span>
+                                        <span className="chat-msg">{msg}</span>
+                                    </p>
+
+                                    {/* <p
+                                            className="internal-msg"
+                                            style={{ textAlign: "right" }}
+                                        >
+                                            <span className="chat-msg">
+                                                {msg}
+                                            </span>
+                                            {/* <span className="chat-name">
+                                                {" "}
+                                                :Them
+                                            </span>
+                                            </p> */}
+                                </div>
+                            ))}
+                            {/* <div className="message">
                                 <p className="internal-msg">
                                     <span className="chat-name">
                                         Username:{" "}
@@ -63,7 +113,7 @@ class Sidebar extends Component {
                                         Text goes here!
                                     </span>
                                 </p>
-                            </div>
+                            </div> */}
                         </div>
                         <form
                             action="#"
@@ -77,11 +127,13 @@ class Sidebar extends Component {
                                     cols="60"
                                     rows="1"
                                     placeholder="Type message..."
+                                    value={this.state.chatbox}
+                                    onChange={this.handleChange}
                                 ></textarea>
                                 <button
                                     className="redbtn"
                                     id="submit-msg"
-                                    onClick={this.sendChat}
+                                    onClick={this.handleSubmit}
                                 >
                                     Send
                                 </button>
@@ -205,6 +257,7 @@ function mapStateToProps(state) {
         autoRotate: state.ui.autoRotate,
         thisPlayerWhite: state.gameInfo.thisPlayerWhite,
         underpromotion: state.gameInfo.underpromotion,
+        messages: state.ui.messages,
     };
 }
 
@@ -216,6 +269,7 @@ function mapDispatchToProps(dispatch) {
             dispatch(resign(gameCode, online, thisPlayerWhite)),
         editUnderpromotion: (ev, underpromotion) =>
             dispatch(editUnderpromotion(ev, underpromotion)),
+        sendChat: (gamecode, msg) => dispatch(sendChat(gamecode, msg)),
     };
 }
 

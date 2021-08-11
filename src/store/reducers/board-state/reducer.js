@@ -361,12 +361,12 @@ export default (state = initialState, action) => {
 
                 // Creates promoted piece
                 if (promotionEvent) {
+                    let newPiece = null;
                     if (piece.white) {
                         newWhitePieces = newWhitePieces.filter(
                             (p) => p.id !== piece.id,
                         );
 
-                        let newPiece = null;
                         if (action.underpromotion === "Q") {
                             newPiece = new Queen("Q", idnTO);
                         } else if (action.underpromotion === "R") {
@@ -383,7 +383,6 @@ export default (state = initialState, action) => {
                             (p) => p.id !== piece.id,
                         );
 
-                        let newPiece = null;
                         if (action.underpromotion === "Q") {
                             newPiece = new Queen("q", idnTO);
                         } else if (action.underpromotion === "R") {
@@ -396,6 +395,7 @@ export default (state = initialState, action) => {
 
                         newBlackPieces = [...newBlackPieces, newPiece];
                     }
+                    newBoard[idxTO[0]][idxTO[1]] = newPiece;
                 }
 
                 const newState = {

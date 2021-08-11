@@ -207,7 +207,8 @@ main {
 }
 
 .single-line-important-text {
-    box-shadow: 0 7px 10px -9px rgba(0, 0, 0, 0.62);
+    width: 60px;
+    box-shadow: 0 6px 7px -9px rgba(0, 0, 0, 0.62);
     background-color: #f1faee;
     border: 1px solid transparent;
     border-radius: 12px;
@@ -220,7 +221,7 @@ main {
 }
 
 .multi-line-important-text {
-    box-shadow: 0 7px 10px -9px rgba(0, 0, 0, 0.62);
+    box-shadow: 0 6px 7px -9px rgba(0, 0, 0, 0.62);
     background-color: #f1faee;
     border: 1px solid transparent;
     border-radius: 12px;
@@ -243,7 +244,7 @@ main {
 }
 
 .redbtn {
-    box-shadow: 0 7px 10px -9px rgba(0, 0, 0, 0.62);
+    box-shadow: 0 6px 7px -9px rgba(0, 0, 0, 0.62);
     background-color: #ef476f;
     border: 1px solid transparent;
     border-radius: 50px;
@@ -255,7 +256,7 @@ main {
 }
 
 .redbtn:hover {
-    transition: background-color 200ms ease-in-out;
+    transition: background-color 50ms ease-in-out;
     background-color: #cc3b5d;
     cursor: pointer;
 }
@@ -268,7 +269,7 @@ main {
 }
 
 .greenbtn {
-    box-shadow: 0 7px 10px -9px rgba(0, 0, 0, 0.62);
+    box-shadow: 0 6px 7px -9px rgba(0, 0, 0, 0.62);
     background-color: #06d6a0;
     border: 1px solid transparent;
     border-radius: 5em;
@@ -278,7 +279,7 @@ main {
 }
 
 .greenbtn:hover {
-    transition: background-color 200ms ease-in-out;
+    transition: background-color 50ms ease-in-out;
     background-color: #05a77c;
     cursor: pointer;
 }
@@ -291,7 +292,7 @@ main {
 }
 
 .history-btn {
-    width: 47%;
+    width: 38%;
 }
 .history-btn:nth-child(2) {
     margin-left: 0.2rem;
@@ -303,7 +304,7 @@ main {
     position: absolute;
     top: 15vh;
     left: 0px;
-    background: #047758;
+    background: #047758fb;
     min-height: 70vmin;
     width: 40vmin;
     padding: 3vmin;
@@ -311,6 +312,7 @@ main {
     transform: translateX(-46vmin);
     transition: transform 0.3s ease-in-out;
     z-index: 1;
+    box-shadow: 0 6px 10px -7px rgba(0, 0, 0, 0.62);
 }
 
 .sidebar.show {
@@ -321,11 +323,13 @@ main {
     color: black;
     background-color: #f1f1f1;
     height: 200px;
-    border-radius: 1rem;
+    border-radius: 1rem !important;
     overflow: auto;
     transform: rotate(180deg);
     direction: rtl;
     margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 3;
 }
 
 .message {
@@ -333,10 +337,15 @@ main {
     transform: rotate(180deg);
     direction: ltr;
     border-radius: inherit;
+    background-color: #00000000;
 }
 
 .internal-msg {
+    z-index: 2;
+    transform: translate3d(0, 0, 0);
+    border-radius: inherit;
     padding: 0rem 1rem;
+    background-color: #00000000;
 }
 
 .chat-name {
@@ -526,4 +535,8 @@ header {
 
 .involved-in-last-move-tile-dark-square {
     background-color: #bdaa86;
+}
+
+.row-1-element {
+    width: 88px;
 }

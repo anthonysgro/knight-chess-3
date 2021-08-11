@@ -2,7 +2,7 @@
 import { chessMove } from "./index";
 
 // Script Imports
-import { clone, cloneDeep } from "lodash";
+import { cloneDeep } from "lodash";
 import { convertNotation, convertBoardState } from "../scripts";
 
 function populateMoves(allPieces, boardConfig) {
@@ -22,6 +22,7 @@ function populateMoves(allPieces, boardConfig) {
                     piece,
                     boardConfig,
                 );
+
                 if (moveData.validMove) {
                     piece.validMoves = [
                         ...piece.validMoves,
@@ -59,8 +60,6 @@ function populateMoves(allPieces, boardConfig) {
             }
         }
     }
-
-    // console.log(newBoardConfig);
 
     return { newWhitePieces, newBlackPieces, newBoardConfig };
 }

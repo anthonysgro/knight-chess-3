@@ -71,11 +71,15 @@ import {
     SET_LOBBY_LOADING,
     STOP_LOBBY_LOADING,
     SET_AUTO_ROTATE,
+    SEND_CHAT,
+    RECEIVE_CHAT,
     renderCardBackground,
     removeCardBackground,
     setLobbyLoading,
     stopLobbyLoading,
     setAutoRotate,
+    sendChat,
+    receiveChat,
 } from "./ui.js";
 
 import {
@@ -131,6 +135,8 @@ export {
     OPPONENT_LEFT,
     MOVE_FORWARD,
     MOVE_BACKWARD,
+    SEND_CHAT,
+    RECEIVE_CHAT,
     startGame,
     resetInit,
     startLocalGame,
@@ -172,4 +178,6 @@ export {
     opponentLeft,
     moveForward,
     moveBackward,
+    sendChat,
+    receiveChat,
 };
