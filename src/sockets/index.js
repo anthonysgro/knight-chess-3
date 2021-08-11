@@ -50,11 +50,13 @@ function enableSocketListeners(io) {
         store.dispatch(player2Joined(player2));
     });
 
-    window.socket.on("playerMoved", (newState, playerId) => {
+    window.socket.on("playerMoved", (newState, toFromData, playerId) => {
         const gameHistory = store.getState().boardState.history;
         if (window.socket.id !== playerId) {
             store.dispatch(
-                opponentMoved(parseState(newState, gameHistory, true)),
+                opponentMoved(
+                    parseState(newState, gameHistory, true, toFromData),
+                ),
             );
         }
     });

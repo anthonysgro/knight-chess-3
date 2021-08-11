@@ -421,6 +421,8 @@ export default (state = initialState, action) => {
         }
 
         case POPULATE_MOVES: {
+            const { to, from } = state.history[state.history.length - 1];
+
             // If it is the end of the game, don't do anything
             if (state.endGameInfo.endGame) {
                 return state;
@@ -515,6 +517,7 @@ export default (state = initialState, action) => {
             window.socket.emit(
                 "movePiece",
                 JSON.stringify(newStateNoHistory),
+                { to, from },
                 action.gameCode,
                 action.playerId,
             );

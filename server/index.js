@@ -79,8 +79,15 @@ socketServer.on("connection", (socket) => {
     );
 
     // Simple Moving
-    socket.on("movePiece", (newState, gameCode, playerId) =>
-        handleMove(newState, gameCode, playerId, roomStates, socketServer),
+    socket.on("movePiece", (newState, toFromData, gameCode, playerId) =>
+        handleMove(
+            newState,
+            toFromData,
+            gameCode,
+            playerId,
+            roomStates,
+            socketServer,
+        ),
     );
 
     // New Match

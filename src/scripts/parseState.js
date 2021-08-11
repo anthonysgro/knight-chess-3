@@ -38,7 +38,7 @@ function parsePiece(piece) {
     return newPiece;
 }
 
-function parseState(state, oldHistory, updateHistory) {
+function parseState(state, oldHistory, updateHistory, toFromData) {
     // Parse Normally
     const newState = JSON.parse(state);
 
@@ -105,7 +105,10 @@ function parseState(state, oldHistory, updateHistory) {
     if (updateHistory) {
         const newHistory =
             oldHistory.length > 0
-                ? [...cloneDeep(oldHistory), { boardConfig: newBoardConfig }]
+                ? [
+                      ...cloneDeep(oldHistory),
+                      { boardConfig: newBoardConfig, ...toFromData },
+                  ]
                 : [{ boardConfig: newBoardConfig }];
 
         newState.history = newHistory;
