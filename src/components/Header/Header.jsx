@@ -56,7 +56,7 @@ const Header = () => {
                     <li>
                         <a href="/#/lobby">online multiplayer</a>
                     </li>
-                    <li>
+                    {/* <li>
                         <a
                             href="/#/bot"
                             onClick={() => dispatch(startBotBattle())}
@@ -71,7 +71,7 @@ const Header = () => {
                         >
                             sandbox
                         </a>
-                    </li>
+                    </li> */}
                     <li>
                         <a href="/#/about">about</a>
                     </li>

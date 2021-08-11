@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactDom from "react-dom";
 
 // Component Imports
-import { Gamepage, Homepage, Header, Lobby } from "./components";
+import { Gamepage, Homepage, Header, Lobby, About } from "./components";
 
 // Drag 'n Drop
 import { DndProvider } from "react-dnd";
@@ -35,6 +35,7 @@ ReactDom.render(
                         <Route exact path="/" component={Homepage} />
                         <Route exact path="/lobby" component={Lobby} />
                         <Route path="/game" component={Gamepage} />
+                        <Route path="/about" component={About} />
                     </Switch>
                 </main>
             </Router>

@@ -483,7 +483,8 @@ header {
         box-shadow 0.3s, padding 0.3s ease;
 }
 
-#lobby-greeting {
+#lobby-greeting,
+#about-page {
     margin-top: 7rem;
     padding: 1rem 2rem;
     border-radius: 1rem;
@@ -494,6 +495,7 @@ header {
     align-items: center;
     border: 4px solid #05050ae5;
     box-shadow: 0px 0px 23px -14px #ffffff;
+    max-width: 330px;
 }
 
 #start-new-game {
@@ -502,4 +504,14 @@ header {
     padding: 3px 6px;
     background-color: #19bc9c;
     border-radius: 0.5rem;
+}
+
+.about-us-link {
+    font-weight: 500;
+    text-decoration: none;
+    color: #151930;
+}
+
+.about-us-link:hover {
+    text-decoration: underline;
 }
