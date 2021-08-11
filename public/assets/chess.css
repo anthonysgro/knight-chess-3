@@ -515,3 +515,15 @@ header {
 .about-us-link:hover {
     text-decoration: underline;
 }
+
+.involved-in-last-move-filter {
+    background-color: #dfbd6f;
+}
+
+.involved-in-last-move-tile-light-square {
+    background-color: #e6dac1;
+}
+
+.involved-in-last-move-tile-dark-square {
+    background-color: #bdaa86;
+}

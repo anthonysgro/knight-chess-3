@@ -86,6 +86,8 @@ function init() {
         {
             // This is our board representation
             boardConfig: newBoardConfig,
+            from: "",
+            to: "",
         },
     ];
 

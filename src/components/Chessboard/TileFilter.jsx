@@ -55,24 +55,34 @@ function TileFilter({ idNum, tileColor }) {
             ? history[stepNumber].boardConfig[idBS[0]][idBS[1]]
             : boardConfig;
 
+        const involvedInLastMove = history.length
+            ? history[stepNumber].to === idNum ||
+              history[stepNumber].from === idNum
+            : false;
+
         if (piece !== newPiece) setPiece(newPiece);
+
+        let classListBuilder = "tile-filter";
+
+        // Highlights the last move that happened
+        if (involvedInLastMove) {
+            classListBuilder += ` involved-in-last-move-tile-${tileColor}`;
+        }
 
         // Recolors square if the piece we picked up can move to it
         if (selectedPieceMoves.includes(idNum) && onMostRecentBoard) {
             if (piece) {
-                setClassList(`tile-filter moveable-capturable-${tileColor}`);
+                classListBuilder += ` moveable-capturable-${tileColor}`;
             } else {
-                setClassList("tile-filter moveable");
+                classListBuilder += " moveable";
             }
         } else if (pieceInCheck && onMostRecentBoard) {
             if (pieceInCheck.strChessCoords === idNum) {
-                setClassList(`tile-filter ${tileColor}-check`);
-            } else {
-                setClassList("tile-filter");
+                classListBuilder += ` ${tileColor}-check`;
             }
-        } else {
-            setClassList("tile-filter");
         }
+
+        setClassList(classListBuilder);
     });
 
     // //drag and drop configuration

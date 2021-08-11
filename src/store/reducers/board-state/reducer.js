@@ -402,7 +402,10 @@ export default (state = initialState, action) => {
                     ...state,
                     stepNumber: state.history.length,
                     whiteIsNext: !state.whiteIsNext,
-                    history: [...state.history, { boardConfig: newBoard }],
+                    history: [
+                        ...state.history,
+                        { boardConfig: newBoard, from, to },
+                    ],
                     allPieces: [...newWhitePieces, ...newBlackPieces],
                     whitePieces: newWhitePieces,
                     blackPieces: newBlackPieces,
@@ -434,7 +437,10 @@ export default (state = initialState, action) => {
             // Update history immutably with up-to-date pieces
             const newHistory = [
                 ...cloneDeep(state.history).slice(0, state.history.length - 1),
-                { boardConfig: newBoardConfig },
+                {
+                    ...state.history[state.history.length - 1],
+                    boardConfig: newBoardConfig,
+                },
             ];
 
             // Detect check
