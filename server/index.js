@@ -64,11 +64,13 @@ const clientRooms = {};
 socketServer.on("connection", (socket) => {
     socket.on("error", function (err) {
         console.log("Socket.IO Error");
-        console.log(err.stack); // this is changed from your code in last comment
+        console.log(err.stack);
     });
 
     // Match Creation
-    socket.on("newGame", () => handleNewGame(socket, clientRooms, roomStates));
+    socket.on("newGame", (gamecode) =>
+        handleNewGame(socket, clientRooms, roomStates, gamecode),
+    );
 
     socket.on("createInitGameState", (gameCode, initState) =>
         createInitGameState(gameCode, initState, roomStates),

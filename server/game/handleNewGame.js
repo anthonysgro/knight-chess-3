@@ -1,14 +1,11 @@
 const generateGameCode = require("./generateGameCode");
 
-function handleNewGame(client, clientRooms, roomStates) {
-    const roomName = generateGameCode(7);
-
-    clientRooms[client.id] = roomName;
-
-    client.emit("gameCode", roomName);
+function handleNewGame(client, clientRooms, roomStates, gamecode) {
+    clientRooms[client.id] = gamecode;
+    // client.emit("gameCode", roomName);
 
     client.playerNumber = 1;
-    client.join(roomName);
+    client.join(gamecode);
 }
 
 module.exports = handleNewGame;

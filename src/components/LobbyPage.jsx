@@ -6,9 +6,11 @@ import {
     setLobbyLoading,
     stopLobbyLoading,
     startOnlineMultiplayer,
+    createGameCode,
 } from "../store/actions";
 import { useHistory } from "react-router-dom";
 import Loading from "./Loading.jsx";
+import { generateGameCode } from "../scripts";
 
 const LobbyPage = () => {
     const history = useHistory();
@@ -34,10 +36,12 @@ const LobbyPage = () => {
         dispatch(setLobbyLoading());
         const randomVal = Math.floor(Math.random() * 2);
         const playerIsWhite = !!randomVal;
+        const gamecode = generateGameCode(7);
 
-        window.socket.emit("newGame");
+        window.socket.emit("newGame", gamecode);
         dispatch(startOnlineMultiplayer());
         dispatch(startGame(playerIsWhite));
+        dispatch(createGameCode(gamecode));
     };
 
     const joinGame = () => {
