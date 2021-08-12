@@ -33,13 +33,17 @@ function TileFilter({ idNum, tileColor }) {
         onMostRecentBoard,
         isDragging,
     } = useSelector((state) => state.boardState);
+
     const { gameCode, thisPlayerWhite, underpromotion } = useSelector(
         (state) => state.gameInfo,
     );
+
     const endGame = useSelector(
         (state) => state.boardState.endGameInfo.endGame,
     );
+
     const gameModes = useSelector((state) => state.gameModes);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -77,6 +81,13 @@ function TileFilter({ idNum, tileColor }) {
             if (pieceInCheck.strChessCoords === idNum) {
                 classListBuilder += ` ${tileColor}-check`;
             }
+        } else if (
+            selectedPiece &&
+            selectedPiece.strChessCoords === idNum &&
+            !isDragging &&
+            onMostRecentBoard
+        ) {
+            classListBuilder = `tile-filter click-origin-${tileColor}`;
         }
 
         setClassList(classListBuilder);

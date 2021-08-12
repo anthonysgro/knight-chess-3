@@ -173,6 +173,14 @@ main {
     background-color: rgb(32, 183, 185);
 }
 
+.click-origin-light-square {
+    background-color: rgba(7, 99, 74, 0.644);
+}
+
+.click-origin-dark-square {
+    background-color: rgba(7, 99, 74, 0.644);
+}
+
 .light-square-check {
     background: radial-gradient(
         35px circle at 30px 30px,
@@ -386,6 +394,7 @@ main {
     background: #f1f1f1;
     resize: none;
     min-height: 1px;
+    outline: none;
 }
 
 .settings-container:not(:first-child) {

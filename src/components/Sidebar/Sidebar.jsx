@@ -121,7 +121,7 @@ class Sidebar extends Component {
                             id="chat-form"
                         >
                             <div className="chat-element" id="msg-container">
-                                <textarea
+                                <input
                                     name="msg"
                                     id="msg"
                                     cols="60"
@@ -129,7 +129,11 @@ class Sidebar extends Component {
                                     placeholder="Type message..."
                                     value={this.state.chatbox}
                                     onChange={this.handleChange}
-                                ></textarea>
+                                />
+                                {/* <input
+                                    type="submit"
+                                    style={{ display: "none" }}
+                                /> */}
                                 <button
                                     className="redbtn"
                                     id="submit-msg"

@@ -533,8 +533,7 @@ export default (state = initialState, action) => {
             const { onlineMultiplayer, localMultiplayer, botBattle, sandbox } =
                 gameModes;
 
-            // If there is a selected piece already, we are gonna run the move in the tile logic
-            if (state.selectedPiece) return;
+            if (!piece) return state;
 
             const selectedPieceMoves = [];
 
@@ -545,7 +544,7 @@ export default (state = initialState, action) => {
                 if (!state.whiteHasPlayer || !state.blackHasPlayer) {
                     return (state = {
                         ...state,
-                        selectedPiece: piece,
+                        selectedPiece: null,
                         selectedPieceMoves,
                         isDragging: false,
                     });
@@ -555,7 +554,7 @@ export default (state = initialState, action) => {
                 if (piece.white !== thisPlayerWhite) {
                     return (state = {
                         ...state,
-                        selectedPiece: piece,
+                        selectedPiece: null,
                         selectedPieceMoves,
                         isDragging: false,
                     });
@@ -568,7 +567,7 @@ export default (state = initialState, action) => {
                     // if it isn't your turn, don't populate the valid moves
                     return (state = {
                         ...state,
-                        selectedPiece: piece,
+                        selectedPiece: false,
                         selectedPieceMoves,
                         isDragging: false,
                     });
@@ -579,6 +578,19 @@ export default (state = initialState, action) => {
             for (let i = 0; i < piece.validMoves.length; i++) {
                 selectedPieceMoves.push(piece.validMoves[i].to);
             }
+
+            // If there is a selected piece already and it is the same that you clicked, turn off board assist
+            // if (
+            //     state.selectedPiece &&
+            //     state.selectedPiece.strChessCoords === piece.strChessCoords
+            // ) {
+            //     return (state = {
+            //         ...state,
+            //         selectedPiece: null,
+            //         selectedPieceMoves: [],
+            //         isDragging: false,
+            //     });
+            // }
 
             return (state = {
                 ...state,
