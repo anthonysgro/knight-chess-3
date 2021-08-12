@@ -26,6 +26,7 @@ class UserInterface extends Component {
             endGame,
             resigns,
             someoneLeft,
+            serverError,
         } = this.props.endGameInfo;
         const whiteIsNext = this.props.whiteIsNext;
         const { player1, player2, gameCode } = this.props.gameInfo;
@@ -52,6 +53,8 @@ class UserInterface extends Component {
                     mainMsg = `${!whiteWins ? "Black" : "White"} left! ${
                         !whiteWins ? "White" : "Black"
                     } wins.`;
+                } else if (serverError) {
+                    mainMsg = `There was a server error, please try creating a new game.`;
                 } else if (endGame) {
                     mainMsg = `Draw by --insert draw reason--!`;
                 } else if (pieceInCheck) {

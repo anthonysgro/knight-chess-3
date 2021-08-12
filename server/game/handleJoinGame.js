@@ -25,12 +25,11 @@ function handleJoinGame(code, client, server, clientRooms, roomStates) {
         client.join(code);
         client.playerNumber = 2;
 
-        client.emit(
-            "joinGame",
-            JSON.stringify(roomStates[code]),
-            code,
-            player1,
-        );
+        if (!roomStates[code]) {
+            server.to(code).emit("communicationError", client.id);
+        }
+
+        client.emit("joinGame", roomStates[code], code, player1);
         server.to(code).emit("player2Joined", client.id);
     } else {
         client.emit("rejoinGame", roomStates[code], code);

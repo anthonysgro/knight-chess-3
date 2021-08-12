@@ -20,6 +20,7 @@ import {
     REJOIN_GAME,
     MOVE_FORWARD,
     MOVE_BACKWARD,
+    SERVER_ERROR,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -77,6 +78,7 @@ const initialState = {
         endGame: false,
         resigns: false,
         someoneLeft: false,
+        serverError: false,
     },
 };
 
@@ -685,9 +687,24 @@ export default (state = initialState, action) => {
             });
         }
 
+        case SERVER_ERROR: {
+            playNotifySound();
+
+            return (state = {
+                ...state,
+                endGameInfo: {
+                    ...state.endGameInfo,
+                    whiteWins: false,
+                    blackWins: false,
+                    endGame: true,
+                    serverError: true,
+                },
+            });
+        }
+
         case OPPONENT_LEFT: {
             playNotifySound();
-            playNotifySound();
+
             const whiteWins = action.online
                 ? !action.thisPlayerWhite
                 : !state.whiteIsNext;

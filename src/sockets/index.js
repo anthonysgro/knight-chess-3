@@ -16,6 +16,7 @@ import {
     opponentResigns,
     opponentLeft,
     receiveChat,
+    communicationError,
 } from "../store/actions";
 import { parseState } from "../scripts";
 
@@ -111,6 +112,14 @@ function enableSocketListeners(io) {
     window.socket.on("receiveChat", (playerId, msg) => {
         if (playerId !== window.socket.id) {
             store.dispatch(receiveChat(msg, playerId));
+        }
+    });
+
+    window.socket.on("communicationError", (playerId) => {
+        if (playerId === window.socket.id) {
+            store.dispatch(stopLobbyLoading("Server error, try new room."));
+        } else {
+            store.dispatch(communicationError());
         }
     });
 }

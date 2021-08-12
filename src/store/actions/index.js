@@ -32,6 +32,7 @@ import {
     OPPONENT_LEFT,
     MOVE_FORWARD,
     MOVE_BACKWARD,
+    SERVER_ERROR,
     startGame,
     resetInit,
     startLocalGame,
@@ -65,6 +66,7 @@ import {
     opponentLeft,
     moveForward,
     moveBackward,
+    communicationError,
 } from "./gameActions";
 
 import {
@@ -140,6 +142,7 @@ export {
     MOVE_BACKWARD,
     SEND_CHAT,
     RECEIVE_CHAT,
+    SERVER_ERROR,
     startGame,
     resetInit,
     startLocalGame,
@@ -184,4 +187,5 @@ export {
     moveBackward,
     sendChat,
     receiveChat,
+    communicationError,
 };

@@ -32,6 +32,7 @@ export const ACCEPT_DRAW = "ACCEPT_DRAW";
 export const OPPONENT_LEFT = "OPPONENT_LEFT";
 export const MOVE_FORWARD = "MOVE_FORWARD";
 export const MOVE_BACKWARD = "MOVE_BACKWARD";
+export const SERVER_ERROR = "SERVER_ERROR";
 
 // Import Game Initializer
 import { init } from "../../gameLogic";
@@ -296,5 +297,11 @@ export const moveForward = () => {
 export const moveBackward = () => {
     return {
         type: MOVE_BACKWARD,
+    };
+};
+
+export const communicationError = () => {
+    return {
+        type: SERVER_ERROR,
     };
 };

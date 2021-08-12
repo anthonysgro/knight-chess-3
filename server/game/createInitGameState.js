@@ -1,5 +1,5 @@
 function createInitGameState(gameCode, initState, roomStates) {
-    roomStates[gameCode] = JSON.parse(initState);
+    roomStates[gameCode] = initState;
 }
 
 module.exports = createInitGameState;
