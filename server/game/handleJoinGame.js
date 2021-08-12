@@ -33,6 +33,7 @@ function handleJoinGame(code, client, server, clientRooms, roomStates) {
             console.log("JOIN GAME", roomStates[code].substring(0, 100));
         } else {
             console.log("JOIN GAME:", "NO ROOM STATE CODE!");
+            console.log(roomStates);
         }
 
         client.emit("joinGame", roomStates[code], code, player1);
