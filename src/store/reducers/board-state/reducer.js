@@ -514,6 +514,7 @@ export default (state = initialState, action) => {
                     draw,
                     insufficientMaterial,
                     endGame: draw || checkmate,
+                    someoneLeft: false,
                 },
             };
 

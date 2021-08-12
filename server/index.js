@@ -124,6 +124,12 @@ socketServer.on("connection", (socket) => {
         socketServer.to(gameCode).emit("receiveChat", socket.id, msg);
     });
 
+    socket.on("leaveGame", () => {
+        const gameCode = clientRooms[socket.id];
+        socket.disconnect();
+        socketServer.to(gameCode).emit("opponentLeft");
+    });
+
     socket.on("disconnect", (reason) => {
         console.log("Socket disconnected because of " + reason);
         if (reason === "io server disconnect") {

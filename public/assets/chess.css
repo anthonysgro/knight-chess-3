@@ -533,9 +533,9 @@ header {
 }
 
 .about-us-link {
-    font-weight: 500;
+    font-weight: 700;
     text-decoration: none;
-    color: #151930;
+    color: #00a4ff;
 }
 
 .about-us-link:hover {
@@ -558,6 +558,125 @@ header {
     width: 88px;
 }
 
-.are-you-sure-modal {
-    max-width: 200px;
+.customModal {
+    max-width: 400px !important;
+    color: #151930;
+    position: relative;
+    top: 20vh;
+    border-radius: 0.2rem;
+}
+
+#modal-btn-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+}
+
+.modal-btn {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    width: 160px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.modal-btn,
+.modal-btn > span {
+    transition: 200ms;
+}
+
+#stay-btn {
+    background: #15a4d2;
+}
+
+#stay-btn .icon {
+    border-left: 1px solid #118db6;
+}
+
+#leave-btn {
+    background: #d24315;
+}
+
+#leave-btn .icon {
+    border-left: 1px solid #b83b11;
+}
+
+.modal-btn .text {
+    transform: translateX(35px);
+    color: white;
+    font-weight: bold;
+}
+
+.modal-btn .icon {
+    position: absolute;
+    transform: translateX(110px);
+    height: 30px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-btn svg {
+    width: 15px;
+    fill: #eee;
+}
+
+.modal-btn img {
+    width: 25px;
+    height: auto;
+    fill: #eee;
+    filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(255deg)
+        brightness(103%) contrast(106%);
+}
+
+.modal-btn:hover {
+    background: #ff3636;
+}
+
+.modal-btn:hover .text {
+    color: transparent;
+}
+
+.modal-btn:hover .icon {
+    width: 150px;
+    /* border-left: none; */
+    transform: translateX(0);
+}
+
+#leave-btn:hover .icon,
+#stay-btn:hover .icon {
+    border-left: none;
+}
+
+#leave-btn:hover {
+    background: #e7592a;
+}
+
+#stay-btn:hover {
+    background: #22bbee;
+}
+
+.modal-btn:focus {
+    outline: none;
+}
+
+.about-us-text {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    position: relative;
+    top: -6px;
 }

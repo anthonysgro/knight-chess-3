@@ -116,6 +116,7 @@ function init() {
             insufficientMaterial: false,
             endGame: false,
             resigns: false,
+            someoneLeft: false,
         },
     };
 }

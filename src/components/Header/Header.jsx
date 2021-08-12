@@ -9,6 +9,8 @@ import {
     startLocalMultiplayer,
     startBotBattle,
     startSandbox,
+    resetInit,
+    startLocalGame,
 } from "../../store/actions";
 
 import AreYouSure from "../AreYouSure.jsx";
@@ -19,6 +21,7 @@ const Header = () => {
     const { onlineMultiplayer, localMultiplayer } = useSelector(
         (state) => state.gameModes,
     );
+    const { gameCode } = useSelector((state) => state.gameInfo);
     const [open, setOpen] = useState(false);
 
     const onOpenModal = () => {
@@ -27,6 +30,14 @@ const Header = () => {
 
     const onCloseModal = () => {
         setOpen(false);
+    };
+
+    const leaveOnlineGame = () => {
+        dispatch(resetInit());
+        window.socket.emit("leaveGame");
+        dispatch(startLocalMultiplayer());
+        dispatch(startLocalGame());
+        onCloseModal();
     };
 
     return (
@@ -72,7 +83,9 @@ const Header = () => {
                         </a>
                     </li>
                     <li>
-                        <a href="/#/lobby">online multiplayer</a>
+                        <a href={onlineMultiplayer ? "/#/game" : "/#/lobby"}>
+                            online multiplayer
+                        </a>
                     </li>
                     {/* <li>
                         <a
@@ -95,7 +108,15 @@ const Header = () => {
                     </li>
                 </ul>
             </section>
-            <AreYouSure open={open} onClose={onCloseModal} />
+            <AreYouSure
+                open={open}
+                onClose={onCloseModal}
+                msg={
+                    "You have an online game in progress. If you start a local multiplayer game, you will leave this one. Are you sure you want to leave?"
+                }
+                fn1={onCloseModal}
+                fn2={leaveOnlineGame}
+            />
         </header>
     );
 };

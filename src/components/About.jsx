@@ -4,7 +4,7 @@ const AboutPage = () => {
     return (
         <div id="about-page">
             <h2 className="create-join-title">About the Developer</h2>
-            <p style={{ color: "#151930" }}>
+            <p className="about-us-text" style={{ color: "#151930" }}>
                 Hi! It's Anthony. I made KnightChess as a way to easily play
                 chess online with a sleek design. If you have any questions or
                 bug reports, you can find my email on{" "}
@@ -12,7 +12,7 @@ const AboutPage = () => {
                     <a
                         href="https://anthony-sgro.com"
                         target="_blank"
-                        class="about-us-link"
+                        className="about-us-link"
                     >
                         my website
                     </a>

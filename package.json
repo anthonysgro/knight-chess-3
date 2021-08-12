@@ -23,6 +23,7 @@
         "babel-loader": "^8.2.2",
         "css-loader": "^6.2.0",
         "express": "^4.17.1",
+        "file-loader": "^6.2.0",
         "lodash": "^4.17.21",
         "lodash.clonedeep": "^4.5.0",
         "lzutf8": "^0.6.0",

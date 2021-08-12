@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 // React-Redux Imports
 import { connect } from "react-redux";
@@ -10,13 +11,36 @@ import {
     startLocalGame,
     moveForward,
     moveBackward,
+    resetInit,
 } from "../../store/actions";
+
+import AreYouSure from "../AreYouSure.jsx";
 
 class UserInterface extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            open: false,
+        };
+        this.onOpenModal = this.onOpenModal.bind(this);
+        this.onCloseModal = this.onCloseModal.bind(this);
+        this.leaveOnlineGame = this.leaveOnlineGame.bind(this);
     }
+
+    onOpenModal() {
+        this.setState({ open: true });
+    }
+
+    onCloseModal() {
+        this.setState({ open: false });
+    }
+
+    leaveOnlineGame() {
+        this.props.resetInit();
+        window.socket.emit("leaveGame");
+        this.props.history.push("/");
+    }
+
     render() {
         const {
             checkmate,
@@ -151,37 +175,65 @@ class UserInterface extends Component {
                         </div>
                     </div>
                     <div className="row-2-element">
-                        <button
-                            id="newGame-btn"
-                            className="btn greenBtn second-row-fdbck"
-                            disabled={playerProposedRematch}
-                            style={
-                                !endGame
-                                    ? { visibility: "hidden" }
-                                    : { visibility: "visible" }
-                            }
-                            onClick={
-                                onlineMultiplayer
-                                    ? pendingRematch
-                                        ? () =>
-                                              this.props.acceptRematch(gameCode)
-                                        : () =>
-                                              this.props.proposeRematch(
-                                                  gameCode,
-                                              )
-                                    : localMultiplayer
-                                    ? () => this.props.newLocalGame()
-                                    : () => {}
-                            }
-                        >
-                            {onlineMultiplayer
-                                ? playerProposedRematch
-                                    ? "Wait"
-                                    : "New Game"
-                                : "New Game"}
-                        </button>
+                        {endGame && !someoneLeft ? (
+                            <button
+                                id="newGame-btn"
+                                className="btn greenBtn second-row-fdbck"
+                                disabled={playerProposedRematch}
+                                style={
+                                    !endGame
+                                        ? { visibility: "hidden" }
+                                        : { visibility: "visible" }
+                                }
+                                onClick={
+                                    onlineMultiplayer
+                                        ? pendingRematch
+                                            ? () =>
+                                                  this.props.acceptRematch(
+                                                      gameCode,
+                                                  )
+                                            : () =>
+                                                  this.props.proposeRematch(
+                                                      gameCode,
+                                                  )
+                                        : localMultiplayer
+                                        ? () => this.props.newLocalGame()
+                                        : () => {}
+                                }
+                            >
+                                {onlineMultiplayer
+                                    ? playerProposedRematch
+                                        ? "Wait"
+                                        : "New Game"
+                                    : "New Game"}
+                            </button>
+                        ) : (
+                            <button
+                                id="newGame-btn"
+                                className="btn greenBtn second-row-fdbck"
+                                style={{ margin: "0px 15px" }}
+                                onClick={
+                                    someoneLeft
+                                        ? this.leaveOnlineGame
+                                        : this.onOpenModal
+                                }
+                            >
+                                Leave
+                            </button>
+                        )}
                     </div>
                 </div>
+                <AreYouSure
+                    open={this.state.open}
+                    onClose={this.onCloseModal}
+                    msg={
+                        onlineMultiplayer
+                            ? "You have an online game in progress. If you leave, you will forfeit the match. Are you sure you want to leave?"
+                            : "You will lose all game progress. Are you sure you want to leave? "
+                    }
+                    fn1={this.onCloseModal}
+                    fn2={this.leaveOnlineGame}
+                />
             </div>
         );
     }
@@ -206,7 +258,10 @@ function mapDispatchToProps(dispatch) {
         newLocalGame: () => dispatch(startLocalGame()),
         moveForward: () => dispatch(moveForward()),
         moveBackward: () => dispatch(moveBackward()),
+        resetInit: () => dispatch(resetInit()),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserInterface);
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(UserInterface),
+);
