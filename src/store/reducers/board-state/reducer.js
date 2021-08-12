@@ -21,6 +21,7 @@ import {
     MOVE_FORWARD,
     MOVE_BACKWARD,
     SERVER_ERROR,
+    RENDER_CARD_BACKGROUND,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -746,6 +747,9 @@ export default (state = initialState, action) => {
                 },
             });
 
+        case RENDER_CARD_BACKGROUND: {
+            return (state = initialState);
+        }
         default:
             return state;
     }

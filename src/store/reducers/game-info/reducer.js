@@ -7,6 +7,7 @@ import {
     PLAYER_2_JOINED,
     EDIT_UNDERPROMOTION,
     REJOIN_GAME,
+    RENDER_CARD_BACKGROUND,
 } from "../../actions";
 
 const initialState = {
@@ -85,6 +86,10 @@ export default (state = initialState, action) => {
                 ...state,
                 underpromotion: action.value,
             });
+
+        case RENDER_CARD_BACKGROUND: {
+            return (state = initialState);
+        }
 
         default: {
             return state;
