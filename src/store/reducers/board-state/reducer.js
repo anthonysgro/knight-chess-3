@@ -747,9 +747,9 @@ export default (state = initialState, action) => {
                 },
             });
 
-        case RENDER_CARD_BACKGROUND: {
-            return (state = initialState);
-        }
+        // case RENDER_CARD_BACKGROUND: {
+        //     return (state = initialState);
+        // }
 
         default:
             return state;

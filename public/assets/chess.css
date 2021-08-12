@@ -557,3 +557,7 @@ header {
 .row-1-element {
     width: 88px;
 }
+
+.are-you-sure-modal {
+    max-width: 200px;
+}

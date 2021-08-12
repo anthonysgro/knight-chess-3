@@ -5,5 +5,15 @@ import Homepage from "./Homepage/Homepage.jsx";
 import Header from "./Header/Header.jsx";
 import Lobby from "./LobbyPage.jsx";
 import About from "./About.jsx";
+import AreYouSure from "./AreYouSure.jsx";
 
-export { ChessApp, Sidebar, Gamepage, Homepage, Header, Lobby, About };
+export {
+    ChessApp,
+    Sidebar,
+    Gamepage,
+    Homepage,
+    Header,
+    Lobby,
+    About,
+    AreYouSure,
+};

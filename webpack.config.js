@@ -19,6 +19,10 @@ const webpackConfig = {
                 exclude: /(node_modules|bower_components)/,
                 use: "babel-loader",
             },
+            {
+                test: /\.css$/i,
+                use: ["style-loader", "css-loader"],
+            },
         ],
     },
 };

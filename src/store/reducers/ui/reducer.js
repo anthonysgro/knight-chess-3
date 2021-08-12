@@ -128,9 +128,11 @@ export default (state = initialState, action) => {
                 ...state,
                 autoRotate: !state.autoRotate,
             });
+
         case RESET_INIT: {
             return (state = initialState);
         }
+
         case SEND_CHAT: {
             window.socket.emit("sendChat", action.gamecode, action.msg);
             return (state = {
@@ -141,6 +143,7 @@ export default (state = initialState, action) => {
                 ],
             });
         }
+
         case RECEIVE_CHAT: {
             playChatSound();
             return (state = {
@@ -151,9 +154,11 @@ export default (state = initialState, action) => {
                 ],
             });
         }
-        case RENDER_CARD_BACKGROUND: {
-            return (state = initialState);
-        }
+
+        // case RENDER_CARD_BACKGROUND: {
+        //     return (state = initialState);
+        // }
+
         default:
             return state;
     }

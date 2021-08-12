@@ -9,6 +9,10 @@ const Homepage = () => {
         (state) => state.ui.cardsFalling,
     );
 
+    const { onlineMultiplayer, localMultiplayer } = useSelector(
+        (state) => state.gameModes,
+    );
+
     const { endGame } = useSelector((state) => state.boardState.endGameInfo);
 
     useEffect(() => {
@@ -27,9 +31,17 @@ const Homepage = () => {
                 <h1>
                     Play chess against friends from the comfort of your own home
                 </h1>
-                <a id="opening-button" href="/#/lobby">
-                    play
-                </a>
+                {onlineMultiplayer || localMultiplayer ? (
+                    <React.Fragment>
+                        <a id="opening-button" href="/#/game">
+                            rejoin
+                        </a>
+                    </React.Fragment>
+                ) : (
+                    <a id="opening-button" href="/#/lobby">
+                        play
+                    </a>
+                )}
             </div>
         </React.Fragment>
     );

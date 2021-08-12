@@ -53,8 +53,10 @@ class ChessApp extends Component {
 
         // Local multiplayer setup
         if (localMultiplayer) {
-            this.props.resetRotation();
-            this.props.startLocalGame();
+            if (!this.props.history.length) {
+                this.props.resetRotation();
+                this.props.startLocalGame();
+            }
         }
     }
 

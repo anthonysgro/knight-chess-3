@@ -11,9 +11,23 @@ import {
     startSandbox,
 } from "../../store/actions";
 
+import AreYouSure from "../AreYouSure.jsx";
+
 const Header = () => {
     const { pathname } = useLocation();
     const dispatch = useDispatch();
+    const { onlineMultiplayer, localMultiplayer } = useSelector(
+        (state) => state.gameModes,
+    );
+    const [open, setOpen] = useState(false);
+
+    const onOpenModal = () => {
+        setOpen(true);
+    };
+
+    const onCloseModal = () => {
+        setOpen(false);
+    };
 
     return (
         <header
@@ -48,7 +62,11 @@ const Header = () => {
                     <li>
                         <a
                             href="/#/game"
-                            onClick={() => dispatch(startLocalMultiplayer())}
+                            onClick={
+                                onlineMultiplayer
+                                    ? setOpen
+                                    : () => dispatch(startLocalMultiplayer())
+                            }
                         >
                             local multiplayer
                         </a>
@@ -77,6 +95,7 @@ const Header = () => {
                     </li>
                 </ul>
             </section>
+            <AreYouSure open={open} onClose={onCloseModal} />
         </header>
     );
 };
