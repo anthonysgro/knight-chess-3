@@ -29,8 +29,16 @@ function handleJoinGame(code, client, server, clientRooms, roomStates) {
             server.to(code).emit("communicationError", client.id);
         }
 
+        if (roomStates[code]) {
+            console.log("JOIN GAME", roomStates[code].substring(0, 100));
+        } else {
+            console.log("JOIN GAME:", "NO ROOM STATE CODE!");
+        }
+
         client.emit("joinGame", roomStates[code], code, player1);
         server.to(code).emit("player2Joined", client.id);
+
+        roomStates[code] = "";
     } else {
         client.emit("rejoinGame", roomStates[code], code);
     }

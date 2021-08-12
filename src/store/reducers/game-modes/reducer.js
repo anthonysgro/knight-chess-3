@@ -1,3 +1,4 @@
+import { init } from "../../../gameLogic";
 import {
     START_ONLINE_MULTIPLAYER,
     START_LOCAL_MULTIPLAYER,
@@ -49,7 +50,7 @@ export default (state = initialState, action) => {
         }
 
         case RENDER_CARD_BACKGROUND: {
-            return (state = RENDER_CARD_BACKGROUND);
+            return (state = initialState);
         }
 
         default:

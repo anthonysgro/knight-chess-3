@@ -6,7 +6,7 @@ function handleMove(
     roomStates,
     server,
 ) {
-    roomStates[gameCode] = newState;
+    // roomStates[gameCode] = newState;
     server.to(gameCode).emit("playerMoved", newState, toFromData, playerId); // broadcast new state
 }
 
