@@ -75,7 +75,7 @@ const Header = () => {
                             href="/#/game"
                             onClick={
                                 onlineMultiplayer
-                                    ? setOpen
+                                    ? onOpenModal
                                     : () => dispatch(startLocalMultiplayer())
                             }
                         >

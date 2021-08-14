@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 
-const AreYouSure = ({ open, onClose, msg, fn1, fn2 }) => {
+const AreYouSure = ({ open, onClose, msg, fn1, fn2, label1, label2 }) => {
     return (
         <Modal
             open={open}
@@ -16,7 +16,7 @@ const AreYouSure = ({ open, onClose, msg, fn1, fn2 }) => {
             <p>{msg}</p>
             <div id="modal-btn-container">
                 <button className="modal-btn" id="stay-btn" onClick={fn1}>
-                    <span className="text">Stay</span>
+                    <span className="text">{label1 || "Stay"}</span>
                     <span className="icon">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -29,7 +29,7 @@ const AreYouSure = ({ open, onClose, msg, fn1, fn2 }) => {
                     </span>
                 </button>
                 <button className="modal-btn" id="leave-btn" onClick={fn2}>
-                    <span className="text">Leave</span>
+                    <span className="text">{label2 || "Leave"}</span>
                     <span className="icon">
                         <img src="/images/exit-icon.jpg" alt="" />
                     </span>

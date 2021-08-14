@@ -229,7 +229,7 @@ class UserInterface extends Component {
                     msg={
                         onlineMultiplayer
                             ? "You have an online game in progress. If you leave, you will forfeit the match. Are you sure you want to leave?"
-                            : "You will lose all game progress. Are you sure you want to leave? "
+                            : "You will lose all game progress. Are you sure you want to leave?"
                     }
                     fn1={this.onCloseModal}
                     fn2={this.leaveOnlineGame}

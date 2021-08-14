@@ -7,20 +7,27 @@ import {
     stopLobbyLoading,
     startOnlineMultiplayer,
     createGameCode,
+    resetInit,
 } from "../store/actions";
 import { useHistory } from "react-router-dom";
 import Loading from "./Loading.jsx";
 import { generateGameCode } from "../scripts";
+import AreYouSure from "./AreYouSure.jsx";
 
 const LobbyPage = () => {
     const history = useHistory();
     const dispatch = useDispatch();
 
     const [gamecode, setGamecode] = useState(() => "");
+    const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
     const [hoverSubmitCode, setHoverSubmitCode] = useState(() => false);
     const loading = useSelector((state) => state.ui.lobbyLoading);
     const lobbyMsg = useSelector((state) => state.ui.lobbyMsg);
     const joinSuccessful = useSelector((state) => state.ui.joinSuccessful);
+    const { onlineMultiplayer, localMultiplayer } = useSelector(
+        (state) => state.gameModes,
+    );
 
     useEffect(() => {
         if (joinSuccessful) {
@@ -33,7 +40,10 @@ const LobbyPage = () => {
     };
 
     const newGame = () => {
+        history.push("/game");
+        dispatch(resetInit());
         dispatch(setLobbyLoading());
+        onCloseModal1();
         const randomVal = Math.floor(Math.random() * 2);
         const playerIsWhite = !!randomVal;
         const gamecode = generateGameCode(7);
@@ -48,7 +58,25 @@ const LobbyPage = () => {
         // Ask the server join the game, and start loading. Wait for server response
         window.socket.emit("joinGame", gamecode.toUpperCase());
         dispatch(setLobbyLoading());
+        onCloseModal2();
     };
+
+    const onOpenModal1 = () => {
+        setOpen1(true);
+    };
+
+    const onCloseModal1 = () => {
+        setOpen1(false);
+    };
+
+    const onOpenModal2 = () => {
+        setOpen2(true);
+    };
+
+    const onCloseModal2 = () => {
+        setOpen2(false);
+    };
+    console.log(open1);
 
     return (
         <div id="lobby-greeting">
@@ -57,9 +85,22 @@ const LobbyPage = () => {
             ) : (
                 <React.Fragment>
                     <h2 className="create-join-title">Online Multiplayer</h2>
-                    <a href="/#/game" id="new-game" onClick={newGame}>
+                    {!localMultiplayer ? (
+                        <a href="/#/game" id="new-game" onClick={newGame}>
+                            Start New Game
+                        </a>
+                    ) : (
+                        <a href="/#/lobby" id="new-game" onClick={onOpenModal1}>
+                            Start New Game
+                        </a>
+                    )}
+                    {/* <a
+                        href="/#/game"
+                        id="new-game"
+                        onClick={!localMultiplayer ? newGame : onOpenModal1}
+                    >
                         Start New Game
-                    </a>
+                    </a> */}
                     <p style={{ color: "#151930" }}>-OR-</p>
                     <label htmlFor="game-code" className="enter-game-label">
                         Enter Game Code
@@ -91,7 +132,9 @@ const LobbyPage = () => {
                                       }
                                     : { backgroundColor: "#ffabb5" }
                             }
-                            onClick={joinGame}
+                            onClick={
+                                !localMultiplayer ? joinGame : onOpenModal2
+                            }
                         >
                             Go
                         </button>
@@ -108,6 +151,26 @@ const LobbyPage = () => {
                     </small>
                 </React.Fragment>
             )}
+            <AreYouSure
+                open={open1}
+                onClose={onCloseModal1}
+                msg={
+                    "You will lose all local game progress. Are you sure you want to start an online game?"
+                }
+                fn1={onCloseModal1}
+                fn2={newGame}
+                label2="Start"
+            />
+            <AreYouSure
+                open={open2}
+                onClose={onCloseModal2}
+                msg={
+                    "You will lose all local game progress. Are you sure you want to join an online game?"
+                }
+                fn1={onCloseModal2}
+                fn2={joinGame}
+                label2="Join"
+            />
         </div>
     );
 };
