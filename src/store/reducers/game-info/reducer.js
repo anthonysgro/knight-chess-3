@@ -7,6 +7,7 @@ import {
     PLAYER_2_JOINED,
     EDIT_UNDERPROMOTION,
     REJOIN_GAME,
+    START_BOT_BATTLE,
     RENDER_CARD_BACKGROUND,
 } from "../../actions";
 
@@ -91,6 +92,11 @@ export default (state = initialState, action) => {
         //     return (state = initialState);
         // }
 
+        case START_BOT_BATTLE:
+            return (state = {
+                ...state,
+                thisPlayerWhite: true,
+            });
         default: {
             return state;
         }

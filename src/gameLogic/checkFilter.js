@@ -94,9 +94,6 @@ function checkFilter(target, origin, piece, boardConfig, basicMoveObj) {
             }
         }
     }
-    if (piece.char === "k" && target === "f8") {
-        console.log(validMove, boardConfig);
-    }
 
     return {
         validMove: validMove,

@@ -33,6 +33,7 @@ export const OPPONENT_LEFT = "OPPONENT_LEFT";
 export const MOVE_FORWARD = "MOVE_FORWARD";
 export const MOVE_BACKWARD = "MOVE_BACKWARD";
 export const SERVER_ERROR = "SERVER_ERROR";
+export const MAKE_BOT_MOVE = "MAKE_BOT_MOVE";
 
 // Import Game Initializer
 import { init } from "../../gameLogic";
@@ -303,5 +304,11 @@ export const moveBackward = () => {
 export const communicationError = () => {
     return {
         type: SERVER_ERROR,
+    };
+};
+
+export const makeBotMove = () => {
+    return {
+        type: MAKE_BOT_MOVE,
     };
 };

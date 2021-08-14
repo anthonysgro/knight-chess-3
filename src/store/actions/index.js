@@ -33,6 +33,7 @@ import {
     MOVE_FORWARD,
     MOVE_BACKWARD,
     SERVER_ERROR,
+    MAKE_BOT_MOVE,
     startGame,
     resetInit,
     startLocalGame,
@@ -67,6 +68,7 @@ import {
     moveForward,
     moveBackward,
     communicationError,
+    makeBotMove,
 } from "./gameActions";
 
 import {
@@ -143,6 +145,7 @@ export {
     SEND_CHAT,
     RECEIVE_CHAT,
     SERVER_ERROR,
+    MAKE_BOT_MOVE,
     startGame,
     resetInit,
     startLocalGame,
@@ -188,4 +191,5 @@ export {
     sendChat,
     receiveChat,
     communicationError,
+    makeBotMove,
 };

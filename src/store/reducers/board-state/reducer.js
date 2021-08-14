@@ -22,6 +22,8 @@ import {
     MOVE_BACKWARD,
     SERVER_ERROR,
     RENDER_CARD_BACKGROUND,
+    START_BOT_BATTLE,
+    MAKE_BOT_MOVE,
 } from "../../actions";
 
 // Import Pieces (for promotion)
@@ -95,6 +97,12 @@ export default (state = initialState, action) => {
         case RESET_INIT:
             return (state = initialState);
         case START_LOCAL_GAME:
+            return (state = {
+                ...action.payload,
+                whiteHasPlayer: true,
+                blackHasPlayer: true,
+            });
+        case START_BOT_BATTLE:
             return (state = {
                 ...action.payload,
                 whiteHasPlayer: true,
@@ -529,6 +537,17 @@ export default (state = initialState, action) => {
 
             return (state = { ...newStateNoHistory, history: newHistory });
         }
+
+        // case MAKE_BOT_MOVE: {
+        //     const botPieces = state.whiteIsNext
+        //         ? state.whitePieces
+        //         : state.blackPieces;
+
+        //     for (const piece of botPieces) {
+
+        //     }
+        //     return (state = state);
+        // }
 
         case CLICK_BOARD: {
             const { piece, thisPlayerWhite, gameModes } = action;

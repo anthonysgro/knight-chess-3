@@ -6,6 +6,7 @@ import basicMove from "./basicMove";
 import chessMove from "./chessMove";
 import populateMoves from "./populateMoves";
 import checkFilter from "./checkFilter";
+import makeBotMovePiece from "./botMove";
 
 export {
     init,
@@ -16,4 +17,5 @@ export {
     basicMove,
     populateMoves,
     checkFilter,
+    makeBotMovePiece,
 };

@@ -7,13 +7,20 @@ import Piece from "../Piece/Piece.jsx";
 import { connect, useSelector, useDispatch } from "react-redux";
 
 // Redux
-import { dropPiece, populateMoves, clickBoard } from "../../store/actions";
+import {
+    dropPiece,
+    populateMoves,
+    clickBoard,
+    makeBotMove,
+} from "../../store/actions";
 
 // Script Imports
 import { convertNotation, convertBoardState } from "../../scripts";
+import { makeBotMovePiece } from "../../gameLogic";
 
 // React DnD Imports
 import { useDrop } from "react-dnd";
+import store from "../../store";
 
 function TileFilter({ idNum, tileColor }) {
     const [piece, setPiece] = useState(null);
@@ -32,6 +39,8 @@ function TileFilter({ idNum, tileColor }) {
         selectedPieceMoves,
         onMostRecentBoard,
         isDragging,
+        whitePieces,
+        blackPieces,
     } = useSelector((state) => state.boardState);
 
     const { gameCode, thisPlayerWhite, underpromotion } = useSelector(
@@ -133,6 +142,20 @@ function TileFilter({ idNum, tileColor }) {
                     thisPlayerWhite === piece.white
                 ) {
                     dispatch(populateMoves(gameCode, window.socket.id));
+                    const whiteNext = store.getState().boardState.whiteIsNext;
+                    if (!whiteNext) {
+                        setTimeout(
+                            () =>
+                                makeBotMovePiece(
+                                    store,
+                                    gameCode,
+                                    thisPlayerWhite,
+                                    underpromotion,
+                                    gameModes,
+                                ),
+                            1000,
+                        );
+                    }
                 }
             }
         }

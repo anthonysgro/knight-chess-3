@@ -18,26 +18,44 @@ import AreYouSure from "../AreYouSure.jsx";
 const Header = () => {
     const { pathname } = useLocation();
     const dispatch = useDispatch();
-    const { onlineMultiplayer, localMultiplayer } = useSelector(
+    const { onlineMultiplayer, localMultiplayer, botBattle } = useSelector(
         (state) => state.gameModes,
     );
     const { gameCode } = useSelector((state) => state.gameInfo);
-    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
 
-    const onOpenModal = () => {
-        setOpen(true);
-    };
+    const onOpenModal1 = () => setOpen1(true);
+    const onCloseModal1 = () => setOpen1(false);
+    const onOpenModal2 = () => setOpen2(true);
+    const onCloseModal2 = () => setOpen2(false);
 
-    const onCloseModal = () => {
-        setOpen(false);
-    };
-
-    const leaveOnlineGame = () => {
+    const leaveOnlineToLocal = () => {
         dispatch(resetInit());
         window.socket.emit("leaveGame");
         dispatch(startLocalMultiplayer());
         dispatch(startLocalGame());
-        onCloseModal();
+        onCloseModal1();
+    };
+
+    const leaveBotToLocal = () => {
+        dispatch(resetInit());
+        dispatch(startLocalMultiplayer());
+        dispatch(startLocalGame());
+        onCloseModal1();
+    };
+
+    const leaveOnlineToBot = () => {
+        dispatch(resetInit());
+        window.socket.emit("leaveGame");
+        dispatch(startBotBattle());
+        onCloseModal2();
+    };
+
+    const leaveLocalToBot = () => {
+        dispatch(resetInit());
+        dispatch(startBotBattle());
+        onCloseModal2();
     };
 
     return (
@@ -75,7 +93,9 @@ const Header = () => {
                             href="/#/game"
                             onClick={
                                 onlineMultiplayer
-                                    ? onOpenModal
+                                    ? onOpenModal1
+                                    : botBattle
+                                    ? onOpenModal1
                                     : () => dispatch(startLocalMultiplayer())
                             }
                         >
@@ -87,15 +107,21 @@ const Header = () => {
                             online multiplayer
                         </a>
                     </li>
-                    {/* <li>
+                    <li>
                         <a
-                            href="/#/bot"
-                            onClick={() => dispatch(startBotBattle())}
+                            href="/#/game"
+                            onClick={
+                                onlineMultiplayer
+                                    ? onOpenModal2
+                                    : localMultiplayer
+                                    ? onOpenModal2
+                                    : () => dispatch(startBotBattle())
+                            }
                         >
                             play my bot
                         </a>
                     </li>
-                    <li>
+                    {/*<li>
                         <a
                             href="/#/sandbox"
                             onClick={() => dispatch(startSandbox())}
@@ -109,13 +135,22 @@ const Header = () => {
                 </ul>
             </section>
             <AreYouSure
-                open={open}
-                onClose={onCloseModal}
+                open={open1}
+                onClose={onCloseModal1}
                 msg={
-                    "You have an online game in progress. If you start a local multiplayer game, you will leave this one. Are you sure you want to leave?"
+                    "You have a game in progress. If you start a new local game, you will leave this one. Are you sure you want to leave?"
                 }
-                fn1={onCloseModal}
-                fn2={leaveOnlineGame}
+                fn1={onCloseModal1}
+                fn2={onlineMultiplayer ? leaveOnlineToLocal : leaveBotToLocal}
+            />
+            <AreYouSure
+                open={open2}
+                onClose={onCloseModal2}
+                msg={
+                    "You have a game in progress. If you start a new bot battle, you will leave this one. Are you sure you want to leave?"
+                }
+                fn1={onCloseModal2}
+                fn2={onlineMultiplayer ? leaveOnlineToBot : leaveLocalToBot}
             />
         </header>
     );

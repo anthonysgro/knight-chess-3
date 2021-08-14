@@ -12,6 +12,7 @@ import {
     moveForward,
     moveBackward,
     resetInit,
+    startBotBattle,
 } from "../../store/actions";
 
 import AreYouSure from "../AreYouSure.jsx";
@@ -106,6 +107,8 @@ class UserInterface extends Component {
             } else {
                 mainMsg = "Local Multiplayer Mode";
             }
+        } else if (botBattle) {
+            mainMsg = "New Bot Battle";
         }
 
         return (
@@ -198,6 +201,8 @@ class UserInterface extends Component {
                                                   )
                                         : localMultiplayer
                                         ? () => this.props.newLocalGame()
+                                        : botBattle
+                                        ? () => this.props.newBotBattle()
                                         : () => {}
                                 }
                             >
@@ -259,6 +264,7 @@ function mapDispatchToProps(dispatch) {
         moveForward: () => dispatch(moveForward()),
         moveBackward: () => dispatch(moveBackward()),
         resetInit: () => dispatch(resetInit()),
+        newBotBattle: () => dispatch(startBotBattle()),
     };
 }
 

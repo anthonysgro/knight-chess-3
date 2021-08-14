@@ -76,7 +76,6 @@ const LobbyPage = () => {
     const onCloseModal2 = () => {
         setOpen2(false);
     };
-    console.log(open1);
 
     return (
         <div id="lobby-greeting">
