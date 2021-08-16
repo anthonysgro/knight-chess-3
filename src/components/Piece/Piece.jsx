@@ -3,7 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 // React DnD Imports
-import { useDrag, DragPreviewImage, DragLayer } from "react-dnd";
+import {
+    useDrag,
+    DragPreviewImage,
+    DragLayer,
+    DragDropContext,
+} from "react-dnd";
 
 // Redux Imports
 import { pickUpPiece } from "../../store/actions";
@@ -21,12 +26,18 @@ function Piece({ piece }) {
 
     const dispatch = useDispatch();
 
-    // drag and drop configuration
+    // drag and drop configuration for draggable layer
     const [{ isDragging }, drag, preview] = useDrag({
         type: "piece",
         item: { piece },
         collect: (monitor) => {
-            return { isDragging: !!monitor.isDragging() };
+            return {
+                isDragging: !!monitor.isDragging(),
+                // connectDragPreview: connect.dragPreview(),
+                // clientOffset: monitor.getClientOffset(),
+                // currentOffset: monitor.getSourceClientOffset(),
+                // initialOffset: monitor.getInitialSourceClientOffset(),
+            };
         },
     });
 
