@@ -3,7 +3,7 @@ import { convertNotation, convertBoardState } from "../../scripts";
 import { cloneDeep } from "lodash";
 import { populateMoves } from "..";
 
-function simulateMove(boardState, piece, move) {
+function makeMove(boardState, piece, move) {
     const { allPieces, whitePieces, blackPieces, boardConfig, whiteIsNext } =
         boardState;
 
@@ -194,15 +194,6 @@ function simulateMove(boardState, piece, move) {
         board[idxTO[0]][idxTO[1]] = newPiece;
     }
 
-    // Create deep copy of all pieces with updated moves for new board position
-    const newCollections = populateMoves(
-        [...newWhitePieces, ...newBlackPieces],
-        board,
-    );
-
-    newWhitePieces = newCollections.newWhitePieces;
-    newBlackPieces = newCollections.newBlackPieces;
-
     return {
         whiteIsNext: !whiteIsNext,
         allPieces: [...newWhitePieces, ...newBlackPieces],
@@ -211,6 +202,90 @@ function simulateMove(boardState, piece, move) {
         boardConfig: board,
         lastMoveValid: true,
     };
+}
+
+function prepareBoardState(game, move) {
+    const { to, from } = move;
+
+    // Create deep copy of all pieces with updated moves for new board position
+    const { newWhitePieces, newBlackPieces, newBoardConfig } = populateMoves(
+        game.allPieces,
+        game.boardConfig,
+    );
+
+    // const newWhitePieces = game.whitePieces;
+    // const newBlackPieces = game.blackPieces;
+    // const newBoardConfig = game.boardConfig;
+
+    // Detect check
+    const allPieces = [...newWhitePieces, ...newBlackPieces];
+    const whiteKing = newWhitePieces.filter((p) => p.name === "King")[0];
+    const blackKing = newBlackPieces.filter((p) => p.name === "King")[0];
+
+    console.log(whiteKing, blackKing);
+    let pieceInCheck = null;
+    for (let p of allPieces) {
+        for (let move of p.validMoves) {
+            if (move.to === whiteKing.strChessCoords) {
+                pieceInCheck = whiteKing;
+            } else if (move.to === blackKing.strChessCoords) {
+                pieceInCheck = blackKing;
+            }
+        }
+    }
+
+    // Detect Checkmate && Stalemate
+    let noMoves = true;
+    if (game.whiteIsNext) {
+        for (const piece of newWhitePieces) {
+            if (piece.validMoves.length > 0) {
+                noMoves = false;
+                break;
+            }
+        }
+    } else {
+        for (const piece of newBlackPieces) {
+            if (piece.validMoves.length > 0) {
+                noMoves = false;
+                break;
+            }
+        }
+    }
+
+    const checkmate = noMoves && !!pieceInCheck;
+    const stalemate = noMoves && !pieceInCheck;
+
+    // Detect draw by insufficient material
+    const insufficientMaterial = false;
+    const draw = stalemate || insufficientMaterial;
+
+    const newState = {
+        ...game,
+        allPieces: [...newWhitePieces, ...newBlackPieces],
+        whitePieces: newWhitePieces,
+        blackPieces: newBlackPieces,
+        boardConfig: newBoardConfig,
+        pieceInCheck,
+        endGameInfo: {
+            checkmate,
+            stalemate,
+            whiteWins: checkmate && !game.whiteIsNext,
+            blackWins: checkmate && game.whiteIsNext,
+            draw,
+            insufficientMaterial,
+            endGame: draw || checkmate,
+            someoneLeft: false,
+        },
+    };
+
+    return newState;
+}
+
+function simulateMove(boardState, piece, move) {
+    const game = makeMove(boardState, piece, move);
+    const gameData = prepareBoardState(game, move);
+
+    return gameData;
 }
 
 export default simulateMove;

@@ -144,17 +144,15 @@ function TileFilter({ idNum, tileColor }) {
                     dispatch(populateMoves(gameCode, window.socket.id));
                     const whiteNext = store.getState().boardState.whiteIsNext;
                     if (!whiteNext) {
-                        setTimeout(
-                            () =>
-                                makeBotMovePiece(
-                                    store,
-                                    gameCode,
-                                    thisPlayerWhite,
-                                    underpromotion,
-                                    gameModes,
-                                ),
-                            1000,
-                        );
+                        setTimeout(() => {
+                            makeBotMovePiece(
+                                store,
+                                gameCode,
+                                thisPlayerWhite,
+                                underpromotion,
+                                gameModes,
+                            );
+                        }, 50);
                     }
                 }
             }

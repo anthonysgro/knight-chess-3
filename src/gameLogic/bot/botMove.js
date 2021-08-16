@@ -18,47 +18,18 @@ const makeBotMovePiece = (
 ) => {
     // Get the board state
     const { boardState } = store.getState();
-
-    const {
-        boardConfig,
-        allPieces,
-        whitePieces,
-        blackPieces,
-        history,
-        stepNumber,
-        onMostRecentBoard,
-        whiteIsNext,
-        rotation,
-        selectedPiece,
-        isDragging,
-        selectedPieceMoves,
-        pieceInCheck,
-        whiteHasPlayer,
-        blackHasPlayer,
-        lastMoveValid,
-        endGameInfo,
-    } = boardState;
+    const { endGameInfo } = boardState;
 
     // If it is the end of the game, just return
     if (endGameInfo.endGame) return;
 
-    const bestMove = minimaxRoot(boardState, true);
+    // Find best move
+    const { bestMoveEval, bestMoveFound } = minimaxRoot(boardState, true);
+    const { piece, move } = bestMoveFound;
 
-    // const botPieces = !whiteIsNext ? blackPieces : whitePieces;
+    console.log(bestMoveEval, bestMoveFound);
 
-    // const movePossibilities = [];
-    // for (const piece of botPieces) {
-    //     for (const move of piece.validMoves) {
-    //         const testBoardConfig = simulateMove(boardState, piece, move);
-    //         const evaluation = evaluateBoard(testBoardConfig);
-    //         movePossibilities.push({ piece, move, evaluation });
-    //     }
-    // }
-
-    // movePossibilities.sort((a, b) => a.evaluation - b.evaluation);
-    const [piece, move] = bestMove;
-
-    console.log(bestMove);
+    // Bot makes that move
     store.dispatch(
         dropPiece(
             piece,
@@ -71,6 +42,7 @@ const makeBotMovePiece = (
         ),
     );
 
+    // Populate the moves afterwards like normal
     store.dispatch(populateMoves(gameCode, ""));
 };
 
