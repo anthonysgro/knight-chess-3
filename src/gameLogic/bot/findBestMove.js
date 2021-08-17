@@ -1,12 +1,11 @@
 import evaluateBoard from "./evaluationHeuristic";
 
 function minimax(game, depth, alpha, beta, isMaximizingPlayer, sum, color) {
+    if (game.game_over()) return [null, sum];
     const children = game.ugly_moves({ verbose: true });
 
     // Sort moves randomly, so the same move isn't always picked on ties
-    children.sort(function (a, b) {
-        return 0.5 - Math.random();
-    });
+    children.sort((a, b) => 0.5 - Math.random());
 
     let currMove;
     // Maximum depth exceeded or node is a terminal node (no children)
