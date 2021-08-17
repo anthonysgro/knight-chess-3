@@ -222,7 +222,6 @@ function prepareBoardState(game, move) {
     const whiteKing = newWhitePieces.filter((p) => p.name === "King")[0];
     const blackKing = newBlackPieces.filter((p) => p.name === "King")[0];
 
-    console.log(whiteKing, blackKing);
     let pieceInCheck = null;
     for (let p of allPieces) {
         for (let move of p.validMoves) {

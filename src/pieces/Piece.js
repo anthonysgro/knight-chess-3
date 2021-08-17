@@ -14,6 +14,7 @@ class Piece {
         this.numberCoords = [];
         this.chessCoords = [];
         this.strChessCoords = "";
+        this.originalCoords = convertNotation(coords).join("");
 
         //image info
         this.imageFile = imageSelector(char);

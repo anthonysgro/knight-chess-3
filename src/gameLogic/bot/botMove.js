@@ -7,6 +7,11 @@ import { cloneDeep } from "lodash";
 import evaluateBoard from "./evaluationHeuristic";
 import simulateMove from "./simulateMove";
 import minimaxRoot from "./findBestMove";
+import boardToFen from "../../scripts/boardToFEN";
+
+import Chess from "./chess";
+
+let globalEval = 0;
 
 // Make a bot move
 const makeBotMovePiece = (
@@ -18,22 +23,44 @@ const makeBotMovePiece = (
 ) => {
     // Get the board state
     const { boardState } = store.getState();
-    const { endGameInfo } = boardState;
+    const { endGameInfo, boardConfig } = boardState;
 
     // If it is the end of the game, just return
     if (endGameInfo.endGame) return;
 
-    // Find best move
-    const { bestMoveEval, bestMoveFound } = minimaxRoot(boardState, true);
-    const { piece, move } = bestMoveFound;
+    // Turn our board into FEN to efficiently traverse the space
+    const FEN = boardToFen(boardState);
+    const game = new Chess(FEN);
 
-    console.log(bestMoveEval, bestMoveFound);
+    // console.log(game);
+    const depth = 3;
+    const alpha = -Infinity;
+    const beta = Infinity;
+
+    // Find best move
+    const [bestMove, bestMoveValue] = minimaxRoot(
+        game,
+        depth,
+        alpha,
+        beta,
+        true,
+        globalEval,
+        "b",
+    );
+
+    // globalEval = evaluateBoard([bestMove, bestMoveValue], globalEval, "b");
+    globalEval = evaluateBoard(bestMove, globalEval, "b");
+
+    const idnFROM = convertNotation(bestMove.from);
+    const idxFROM = convertBoardState(idnFROM);
+
+    const piece = boardConfig[idxFROM[0]][idxFROM[1]];
 
     // Bot makes that move
     store.dispatch(
         dropPiece(
             piece,
-            move.to,
+            bestMove.to,
             gameCode,
             "",
             !thisPlayerWhite,
