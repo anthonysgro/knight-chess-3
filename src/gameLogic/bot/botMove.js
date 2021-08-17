@@ -47,7 +47,7 @@ const makeBotMovePiece = (
         globalEval,
         "b",
     );
-
+    console.log(bestMoveValue, bestMove);
     // globalEval = evaluateBoard([bestMove, bestMoveValue], globalEval, "b");
     globalEval = evaluateBoard(bestMove, globalEval, "b");
 

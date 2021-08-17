@@ -25,10 +25,10 @@ function minimax(game, depth, alpha, beta, isMaximizingPlayer, sum, color) {
             ? 0
             : // if this player checkmated, they value this at Infinity
             game.in_checkmate() && isMaximizingPlayer
-            ? Infinity
+            ? Number.MAX_SAFE_INTEGER
             : // Same goes if they are getting checkmated
             game.in_checkmate() && !isMaximizingPlayer
-            ? -Infinity
+            ? Number.MIN_SAFE_INTEGER
             : evaluateBoard(currPrettyMove, sum, color);
 
         // const newSum = evaluateBoard(currPrettyMove, sum, color);
