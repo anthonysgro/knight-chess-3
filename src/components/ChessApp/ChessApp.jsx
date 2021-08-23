@@ -14,6 +14,7 @@ import {
     resetRotation,
     forceRotation,
     stopLobbyLoading,
+    removeCardBackground,
 } from "../../store/actions";
 
 class ChessApp extends Component {
@@ -40,6 +41,7 @@ class ChessApp extends Component {
                     gameCode,
                     JSON.stringify(this.props.initBoardState),
                 );
+                this.props.removeCardBackground();
             }
 
             // If you are black, rotate the board
@@ -109,6 +111,7 @@ function mapDispatchToProps(dispatch) {
         resetRotation: () => dispatch(resetRotation()),
         forceRotation: () => dispatch(forceRotation()),
         stopLobbyLoading: () => dispatch(stopLobbyLoading()),
+        removeCardBackground: () => dispatch(removeCardBackground()),
     };
 }
 
