@@ -35,7 +35,7 @@ function minimax(game, depth, alpha, beta, isMaximizingPlayer, sum, color) {
 
         const [childBestMove, childValue] = minimax(
             game,
-            depth - 1,
+            children.length < 3 ? depth : depth - 1,
             alpha,
             beta,
             !isMaximizingPlayer,
