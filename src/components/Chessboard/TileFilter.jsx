@@ -152,7 +152,7 @@ function TileFilter({ idNum, tileColor }) {
                                 underpromotion,
                                 gameModes,
                             );
-                        }, 50);
+                        }, 100);
                     }
                 }
             }
