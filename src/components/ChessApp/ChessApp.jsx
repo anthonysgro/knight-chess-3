@@ -41,7 +41,6 @@ class ChessApp extends Component {
                     gameCode,
                     JSON.stringify(this.props.initBoardState),
                 );
-                this.props.removeCardBackground();
             }
 
             // If you are black, rotate the board
@@ -51,6 +50,7 @@ class ChessApp extends Component {
 
             // End the lobby loading screen
             this.props.stopLobbyLoading();
+            this.props.removeCardBackground();
         }
 
         // Local multiplayer setup

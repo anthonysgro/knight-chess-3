@@ -18,6 +18,7 @@ import {
     RESET_INIT,
     SEND_CHAT,
     RECEIVE_CHAT,
+    START_GAME,
 } from "../../actions";
 
 import { renderCards, removeCards } from "../../../card";
@@ -95,6 +96,11 @@ export default (state = initialState, action) => {
                 joinSuccessful: true,
                 lobbyLoading: false,
                 lobbyMsg: "",
+            });
+        case START_GAME:
+            return (state = {
+                ...state,
+                cardsFalling: false,
             });
         case PROPOSE_REMATCH:
             return (state = {

@@ -8,6 +8,7 @@ import evaluateBoard from "./evaluationHeuristic";
 import simulateMove from "./simulateMove";
 import minimaxRoot from "./findBestMove";
 import boardToFen from "../../scripts/boardToFEN";
+import consultOpeningBook from "./consultOpeningBook";
 
 import Chess from "./chess";
 
@@ -47,8 +48,7 @@ const makeBotMovePiece = (
         globalEval,
         "b",
     );
-    console.log(bestMoveValue, bestMove);
-    // globalEval = evaluateBoard([bestMove, bestMoveValue], globalEval, "b");
+
     globalEval = evaluateBoard(bestMove, globalEval, "b");
 
     const idnFROM = convertNotation(bestMove.from);
@@ -56,18 +56,31 @@ const makeBotMovePiece = (
 
     const piece = boardConfig[idxFROM[0]][idxFROM[1]];
 
-    // Bot makes that move
-    store.dispatch(
-        dropPiece(
-            piece,
-            bestMove.to,
-            gameCode,
-            "",
-            !thisPlayerWhite,
-            underpromotion,
-            gameModes,
-        ),
+    const moveMade = consultOpeningBook(
+        FEN,
+        boardConfig,
+        gameCode,
+        thisPlayerWhite,
+        underpromotion,
+        gameModes,
+        store,
+        dropPiece,
     );
+
+    if (!moveMade) {
+        // Bot makes that move
+        store.dispatch(
+            dropPiece(
+                piece,
+                bestMove.to,
+                gameCode,
+                "",
+                !thisPlayerWhite,
+                underpromotion,
+                gameModes,
+            ),
+        );
+    }
 
     // Populate the moves afterwards like normal
     store.dispatch(populateMoves(gameCode, ""));
