@@ -233,7 +233,7 @@ const consultOpeningBook = (
         const randomChance = Math.floor(Math.random() * 2);
         store.dispatch(
             dropPiece(
-                randomChance === 0 ? boardConfig[2][0] : boardConfig[0][6],
+                randomChance === 0 ? boardConfig[1][1] : boardConfig[0][6],
                 randomChance === 0 ? "b5" : "f6",
                 gameCode,
                 "",
